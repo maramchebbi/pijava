@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="685.0" prefWidth="730.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.edit">
+    <children>
+        <ImageView fx:id="imageView" fitHeight="206.0" fitWidth="407.0" layoutX="193.0" layoutY="50.0" />
+
+        <!-- Field for Nom -->
+        <Label layoutX="197.0" layoutY="293.0" text="Nom:" />
+        <TextField fx:id="nomField" editable="true" layoutX="282.0" layoutY="289.0" prefWidth="200" />
+
+        <!-- Field for Type -->
+        <Label layoutX="197.0" layoutY="332.0" text="Type:" />
+        <TextField fx:id="typeField" editable="true" layoutX="282.0" layoutY="328.0" prefWidth="200" />
+
+        <!-- Field for Description -->
+        <Label layoutX="195.0" layoutY="370.0" text="Description:" />
+        <TextField fx:id="descriptionField" editable="true" layoutX="282.0" layoutY="366.0" prefWidth="200" />
+
+        <!-- Field for Matière -->
+        <Label layoutX="195.0" layoutY="403.0" text="Matière:" />
+        <TextField fx:id="matiereField" editable="true" layoutX="282.0" layoutY="399.0" prefWidth="200" />
+
+        <!-- Field for Couleur -->
+        <Label layoutX="194.0" layoutY="437.0" text="Couleur:" />
+        <TextField fx:id="couleurField" editable="true" layoutX="282.0" layoutY="433.0" prefWidth="200" />
+
+        <!-- Field for Dimensions -->
+        <Label layoutX="194.0" layoutY="473.0" text="Dimension:" />
+        <TextField fx:id="dimensionField" editable="true" layoutX="282.0" layoutY="469.0" prefWidth="200" />
+
+        <!-- Field for User ID (Créateur) -->
+        <Label layoutX="195.0" layoutY="509.0" text="Créateur:" />
+        <TextField fx:id="useridtextfield" editable="true" layoutX="282.0" layoutY="505.0" prefWidth="200" />
+
+        <!-- Field for Categorie -->
+        <Label layoutX="193.0" layoutY="544.0" text="categorie:" />
+        <TextField fx:id="categorieField" editable="true" layoutX="282.0" layoutY="540.0" prefWidth="200" />
+
+        <!-- Save Changes Button -->
+        <Button layoutX="282.0" layoutY="586.0" mnemonicParsing="false" onAction="#saveChanges" style="-fx-background-color: #b29f94;" text="Save Changes" />
+
+        <!-- Cancel Button -->
+        <Button layoutX="396.0" layoutY="586.0" mnemonicParsing="false" onAction="#cancelChanges" style="-fx-background-color: #b29f94;" text="Cancel" />
+      <Button layoutX="41.0" layoutY="127.0" mnemonicParsing="false" onAction="#newimageaction" prefHeight="26.0" prefWidth="110.0" text="choisir image" />
+
+
+    </children>
+</AnchorPane>
