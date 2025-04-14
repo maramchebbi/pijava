@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.awt.Font?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.AfficherPeintureController"
+            style="-fx-background-color: linear-gradient(to bottom, #e0f5e9, #d0efdf);">
+<children>
+    <!-- Titre -->
+    <Text fx:id="titreText"
+          text="🖼️ Affichage des peintures">
+
+        <style>-fx-fill: #2c3e50; -fx-font-weight: bold;</style>
+        <AnchorPane.topAnchor>20.0</AnchorPane.topAnchor>
+        <AnchorPane.leftAnchor>20.0</AnchorPane.leftAnchor>
+    </Text>
+
+    <!-- Bouton Ajouter -->
+    <Button fx:id="ajouterButton"
+            text="Ajouter une peinture"
+            onAction="#handleAjouterButton"
+            prefHeight="35.0" prefWidth="180.0"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8px 20px;">
+
+    <style>
+            :hover {
+            -fx-background-color: #2980b9;
+            -fx-cursor: hand;
+            }
+        </style>
+        <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
+        <AnchorPane.rightAnchor>20.0</AnchorPane.rightAnchor>
+    </Button>
+
+    <!-- ScrollPane contenant la grille -->
+    <ScrollPane fx:id="scrollPane" style="-fx-background-color: transparent; -fx-border-width: 0;">
+        <content>
+            <GridPane fx:id="affichageGrid" hgap="15" vgap="15" maxWidth="Infinity" style="-fx-padding: 10;">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                    <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                </columnConstraints>
+            </GridPane>
+        </content>
+        <AnchorPane.topAnchor>60.0</AnchorPane.topAnchor>
+        <AnchorPane.bottomAnchor>60.0</AnchorPane.bottomAnchor>
+        <AnchorPane.leftAnchor>20.0</AnchorPane.leftAnchor>
+        <AnchorPane.rightAnchor>20.0</AnchorPane.rightAnchor>
+    </ScrollPane>
+</children>
+</AnchorPane>
+

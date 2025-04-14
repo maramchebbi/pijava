@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.AfficherStyleController"
+            prefHeight="600.0" prefWidth="900.0"
+            style="-fx-background-color: linear-gradient(to bottom, #e0f5e9, #d0efdf);">
+
+    <children>
+
+        <!-- En-tête -->
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-padding: 20 30 10 30;">
+            <children>
+                <Text fx:id="titreText"
+                      text="🎨 Liste des styles"
+                      style="-fx-fill: #2f4f4f;">
+                    <font>
+                        <Font size="28.0" />
+                    </font>
+                </Text>
+            </children>
+        </HBox>
+
+        <!-- ScrollPane contenant la grille -->
+        <ScrollPane fx:id="scrollPane1"
+                    fitToWidth="true"
+                    style="-fx-background-color: transparent;"
+                    prefViewportHeight="450.0">
+            <content>
+                <GridPane fx:id="affichageGrid"
+                          hgap="25"
+                          vgap="25"
+                          alignment="TOP_CENTER"
+                          style="-fx-padding: 25;">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                    </columnConstraints>
+                </GridPane>
+            </content>
+            <AnchorPane.topAnchor>70.0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>30.0</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>30.0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>80.0</AnchorPane.bottomAnchor>
+        </ScrollPane>
+
+        <!-- Bouton Ajouter -->
+        <Button fx:id="ajouterStyleButton"
+                text="➕ Ajouter un style"
+                onAction="#handleAjouterStyleButton"
+                style="-fx-background-color: #45a049; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 24;">
+            <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
+            <AnchorPane.rightAnchor>30.0</AnchorPane.rightAnchor>
+        </Button>
+
+    </children>
+</AnchorPane>

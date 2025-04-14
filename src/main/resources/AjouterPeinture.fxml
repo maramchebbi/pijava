@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPeintureController">
+    <children>
+        <!-- Titre de la page -->
+        <Text layoutX="180.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations de la peinture">
+            <font>
+                <Font size="24.0" />
+            </font>
+            <style>-fx-fill: #34495e; -fx-font-weight: bold;</style>
+        </Text>
+
+        <!-- Titre du champ Titre -->
+        <Label layoutX="147.0" layoutY="111.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Titre" />
+        <TextField fx:id="titreTextField" layoutX="239.0" layoutY="107.0" prefWidth="220" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+
+        <!-- Date de création -->
+        <Label layoutX="124.0" layoutY="168.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Date de création" />
+        <DatePicker fx:id="dateDeCreationTextField" layoutX="239.0" layoutY="164.0" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;" />
+
+        <!-- Tableau -->
+        <Label layoutX="126.0" layoutY="226.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Tableau" />
+        <TextField fx:id="tableauTextField" layoutX="239.0" layoutY="222.0" prefWidth="220" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+        <!-- Aperçu de l'image sélectionnée -->
+        <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="480.0" layoutY="100.0" preserveRatio="true" />
+
+
+        <!-- Style -->
+        <Label layoutX="135.0" layoutY="274.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Style" />
+        <ComboBox fx:id="styleComboBox" layoutX="239.0" layoutY="270.0" prefWidth="220" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;" />
+
+        <!-- Bouton Parcourir -->
+        <Button fx:id="parcourirBtn" layoutX="372.0" layoutY="222.0" onAction="#handleParcourirImage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 5px 15px;" text="Parcourir">
+            <style>
+                :hover {
+                -fx-background-color: #2980b9;
+                -fx-cursor: hand;
+                }
+            </style>
+        </Button>
+
+
+
+        <!-- Bouton Valider -->
+        <Button fx:id="validerButton" layoutX="280.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleValider" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 8px; -fx-padding: 10px 20px;" text="Valider">
+            <style>
+                :hover {
+                -fx-background-color: #27ae60;
+                -fx-cursor: hand;
+                }
+            </style>
+        </Button>
+      <Label fx:id="lbTitre" layoutX="239.0" layoutY="142.0" text=" " />
+      <Label fx:id="lbDcr" layoutX="239.0" layoutY="192.0" text=" " />
+      <Label fx:id="lbTab" layoutX="239.0" layoutY="252.0" text=" " />
+      <Label fx:id="lbStyle" layoutX="239.0" layoutY="303.0" text=" " />
+    </children>
+</AnchorPane>
