@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.ModifierSponsor"
+            prefWidth="400" prefHeight="500" style="-fx-background-color: #f4f4f4;">
+
+    <effect>
+        <DropShadow radius="10" color="#a2a2a2"/>
+    </effect>
+
+    <VBox alignment="CENTER" spacing="15.0" layoutX="50.0" layoutY="30.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 20;">
+        <Label text="Modifier un Sponsor" style="-fx-font-size: 22px; -fx-text-fill: #333; -fx-font-family: 'Segoe UI Semibold';" />
+
+        <VBox alignment="CENTER" spacing="15.0" layoutX="50.0" layoutY="30.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 20;">
+
+            <Label text="Nom" style="-fx-font-weight: bold;" />
+            <TextField fx:id="nomField" promptText="Titre" prefWidth="250.0" />
+            <Label fx:id="errorNom" text="" style="-fx-text-fill: red;" />
+
+            <Label text="Type de sponsorisation" style="-fx-font-weight: bold;" />
+            <TextField fx:id="typeField" promptText="Titre" prefWidth="250.0" />
+            <Label fx:id="errorType" text="" style="-fx-text-fill: red;" />
+
+            <Label text="Adresse mail" style="-fx-font-weight: bold;" />
+            <TextField fx:id="emailField" promptText="Titre" prefWidth="250.0" />
+            <Label fx:id="errorEmail" text="" style="-fx-text-fill: red;" />
+
+            <Label text="Numéro de téléphone" style="-fx-font-weight: bold;" />
+            <TextField fx:id="telephoneField" promptText="Titre" prefWidth="250.0" />
+            <Label fx:id="errorTelephone" text="" style="-fx-text-fill: red;" />
+
+
+            <Label text="Site Web" style="-fx-font-weight: bold;" />
+            <TextField fx:id="siteWebField" promptText="Titre" prefWidth="250.0" />
+            <Label fx:id="errorSiteWeb" text="" style="-fx-text-fill: red;" />
+
+            <Label text="Montant Payé" style="-fx-font-weight: bold;" />
+            <TextField fx:id="montantField" promptText="Titre" prefWidth="250.0" />
+            <Label fx:id="errorMontant" text="" style="-fx-text-fill: red;" />
+
+            <Label text="Logo" style="-fx-font-weight: bold;" />
+            <ImageView fx:id="logoImageView" fitWidth="150" fitHeight="100" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Choisir Logo" onAction="#choisirLogo"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8px; -fx-padding: 5 15;" />
+                <Label fx:id="errorLogo" text="" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+                <Button text="Enregistrer" onAction="#modifierSponsor"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8 24;" />
+
+            </HBox>
+        </VBox>
+    </VBox>
+
+</AnchorPane>

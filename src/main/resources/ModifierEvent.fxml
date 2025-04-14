@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.effect.DropShadow?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.ModifierEvent"
+            prefWidth="400" prefHeight="500" style="-fx-background-color: #f4f4f4;">
+
+    <effect>
+        <DropShadow radius="10" color="#a2a2a2"/>
+    </effect>
+
+    <VBox alignment="CENTER" spacing="15.0" layoutX="50.0" layoutY="30.0" prefWidth="300.0" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 20;">
+        <Label text="Modifier un Événement" style="-fx-font-size: 22px; -fx-text-fill: #333; -fx-font-family: 'Segoe UI Semibold';" />
+
+        <Label text="Titre" style="-fx-font-weight: bold;" />
+        <TextField fx:id="titreField" promptText="Titre" prefWidth="250.0" />
+
+        <Label text="Localisation" style="-fx-font-weight: bold;" />
+        <TextField fx:id="localisationField" promptText="Localisation" prefWidth="250.0" />
+
+        <Label text="Date" style="-fx-font-weight: bold;" />
+        <DatePicker fx:id="datePicker" prefWidth="250.0" />
+
+        <Label text="Heure (HH:MM)" style="-fx-font-weight: bold;" />
+        <TextField fx:id="heureField" promptText="Heure (HH:MM)" prefWidth="250.0" />
+
+        <Label text="Nombre de Participants" style="-fx-font-weight: bold;" />
+        <TextField fx:id="nbParticipantsField" promptText="Participants" prefWidth="250.0" />
+
+        <Label text="Image" style="-fx-font-weight: bold;" />
+        <ImageView fx:id="imageView" fitWidth="150" fitHeight="100" />
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Choisir Image" onAction="#choisirImage"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8px; -fx-padding: 5 15;" />
+            <Button text="Enregistrer" onAction="#modifierEvent"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8 24;" />
+        </HBox>
+    </VBox>
+</AnchorPane>

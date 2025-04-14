@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom, #ffecd2, #f7d9cf);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterSponsor">
+    <effect>
+        <DropShadow radius="15" color="#c7b198"/>
+    </effect>
+    <children>
+        <VBox alignment="CENTER" spacing="12.0" layoutX="200.0" layoutY="30.0" prefWidth="400" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 20;">
+            <Label text="✨ Ajouter un Sponsor ✨" style="-fx-font-size: 22px; -fx-text-fill: #333; -fx-font-family: 'Segoe UI Semibold';" />
+
+            <Label text="Nom :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <TextField fx:id="SponsorNom" prefWidth="300.0" />
+            <Label fx:id="errorNom" textFill="red" />
+
+            <Label text="Type :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <TextField fx:id="SponsorType" prefWidth="300.0" />
+            <Label fx:id="errorType" textFill="red" />
+
+            <Label text="Email :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <TextField fx:id="SponsorEmail" prefWidth="300.0" />
+            <Label fx:id="errorEmail" textFill="red" />
+
+            <Label text="Téléphone :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <TextField fx:id="SponsorTelephone" prefWidth="300.0" />
+            <Label fx:id="errorTelephone" textFill="red" />
+
+            <Label text="Site Web :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <TextField fx:id="SponsorSiteWeb" prefWidth="300.0" />
+            <Label fx:id="errorSiteWeb" textFill="red" />
+
+            <Label text="Logo :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="SponsorLogo" prefWidth="200.0" editable="false" />
+                <Button fx:id="parcourirButton" text="Parcourir" onAction="#handleParcourir"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 12px; -fx-font-size: 13px;" />
+            </HBox>
+
+            <Label text="Montant :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <TextField fx:id="SponsorMontant" prefWidth="300.0" />
+            <Label fx:id="errorMontant" textFill="red" />
+
+            <Button text="Valider le Sponsor" onAction="#ajouterSponsor"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 30;" />
+        </VBox>
+    </children>
+</AnchorPane>

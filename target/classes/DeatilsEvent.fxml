@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.DetailsEvent"
+            prefWidth="800" prefHeight="600"
+            style="-fx-background-color: linear-gradient(to bottom, #fdfbfb, #ebedee);">
+
+    <!-- Navbar moderne centrée -->
+    <HBox prefWidth="800" prefHeight="60"
+          alignment="CENTER"
+          spacing="20"
+          style="-fx-background-color: #3E3E3E;">
+        <Button text="➕ Ajouter un Événement" onAction="#handleAjouterEvent"
+                style="-fx-background-color: #ff7f50; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;
+                       -fx-background-radius: 15px; -fx-padding: 8 16; -fx-font-family: 'Roboto', sans-serif;" />
+        <Button text="🤝 Ajouter un Sponsor" onAction="#handleAjouterSponsor"
+                style="-fx-background-color: #00b894; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;
+                       -fx-background-radius: 15px; -fx-padding: 8 16; -fx-font-family: 'Roboto', sans-serif;" />
+        <Button text="📋 Afficher Sponsors" onAction="#handleAfficherSponsors"
+                style="-fx-background-color: #0984e3; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;
+                       -fx-background-radius: 15px; -fx-padding: 8 16; -fx-font-family: 'Roboto', sans-serif;" />
+        <Button text="📋 Afficher Evenements" onAction="#handleAfficherEvenement"
+                style="-fx-background-color: #cfc940; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;
+                       -fx-background-radius: 15px; -fx-padding: 8 16; -fx-font-family: 'Roboto', sans-serif;" />
+
+        <Region fx:id="spacer" HBox.hgrow="ALWAYS"/>
+
+    </HBox>
+
+    <!-- Titre moderne centré -->
+    <Label layoutX="200" layoutY="70" text="🎉 Notre Galerie d'Événements"
+           style="-fx-font-size: 24px; -fx-text-fill: #2d3436; -fx-font-weight: bold; -fx-font-family: 'Roboto', sans-serif;" />
+
+    <!-- FlowPane pour les cartes avec ombre douce -->
+    <FlowPane fx:id="eventFlowPane"
+              layoutX="20" layoutY="120"
+              prefWidth="760" prefHeight="380"
+              vgap="20" hgap="20"
+              alignment="CENTER"
+              style="-fx-padding: 10;">
+        <effect>
+            <DropShadow color="#dfe6e9" radius="15" />
+        </effect>
+    </FlowPane>
+
+
+    <!-- Bouton Retour stylé et centré -->
+    <Button text="Retour" layoutX="325" layoutY="520" onAction="#handleRetour"
+            style="-fx-background-color: #6c5ce7; -fx-text-fill: white; -fx-font-weight: bold;
+                   -fx-background-radius: 25px; -fx-padding: 10 30; -fx-font-size: 14px; -fx-font-family: 'Roboto', sans-serif;" />
+</AnchorPane>
