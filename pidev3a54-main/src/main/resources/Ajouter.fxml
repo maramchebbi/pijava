@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="650.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterTexile">
+   <children>
+      <AnchorPane prefHeight="80.0" prefWidth="700.0" style="-fx-background-color: #b29f94;">
+         <children>
+            <ImageView fx:id="Artisferaimage" fitHeight="80.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <TextField fx:id="nomField" layoutX="238.0" layoutY="156.0" prefHeight="26.0" prefWidth="260.0" promptText="nom" />
+      <Button layoutX="475.0" layoutY="599.0" mnemonicParsing="false" onAction="#ajouterTextile" prefHeight="26.0" prefWidth="97.0" style="-fx-background-color: #b29f94;" text="Confirmer" />
+      <Accordion layoutX="124.0" layoutY="162.0" />
+    <TitledPane animated="false" layoutX="162.0" layoutY="-33.0" text="untitled 3" />
+      <TextField fx:id="typeField" layoutX="238.0" layoutY="195.0" prefHeight="26.0" prefWidth="260.0" promptText="type" />
+      <TextField fx:id="matiereField" layoutX="238.0" layoutY="283.0" prefHeight="26.0" prefWidth="260.0" promptText="matiere" />
+      <TextField fx:id="couleurField" layoutX="238.0" layoutY="319.0" prefHeight="26.0" prefWidth="260.0" promptText="couleur" />
+      <TextField fx:id="dimensionField" layoutX="238.0" layoutY="360.0" prefHeight="26.0" prefWidth="260.0" promptText="dimension" />
+      <TextField fx:id="createurField" layoutX="238.0" layoutY="402.0" prefHeight="26.0" prefWidth="260.0" promptText="createur" />
+      <TextField fx:id="techniquefield" layoutX="238.0" layoutY="490.0" prefHeight="26.0" prefWidth="260.0" promptText="technique" />
+      <Text layoutX="157.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="157.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="type :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="154.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="descrption :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="153.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="collection :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="153.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" text="technique :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="153.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="image :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="153.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="createur :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="153.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dimension :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="154.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="couleur :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="153.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="matiere :">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Text>
+      <Text fill="#603813" layoutX="291.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Textile">
+         <font>
+            <Font name="Arial Italic" size="24.0" />
+         </font>
+      </Text>
+      <TextArea fx:id="descriptionField" layoutX="238.0" layoutY="230.0" prefHeight="44.0" prefWidth="260.0" promptText="Description ...." />
+      <Button layoutX="588.0" layoutY="599.0" mnemonicParsing="false" onAction="#viewtextile" prefHeight="26.0" prefWidth="97.0" style="-fx-background-color: #b29f94;" text="Retour" />
+      <TextField fx:id="iduserfield" layoutX="570.0" layoutY="273.0" prefHeight="26.0" prefWidth="84.0" promptText="userid" />
+      <Button layoutX="238.0" layoutY="444.0" mnemonicParsing="false" onAction="#uploadimage" prefHeight="26.0" prefWidth="260.0" style="-fx-background-color: #DBDBDB;" text="choisir une image" />
+      <ImageView fx:id="textileimage" fitHeight="149.0" fitWidth="160.0" layoutX="515.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
+      <ComboBox fx:id="collectionIdField" layoutX="238.0" layoutY="533.0" prefHeight="26.0" prefWidth="260.0" promptText="collection" />
+   </children>
+</AnchorPane>
