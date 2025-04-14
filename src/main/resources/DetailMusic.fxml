@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DetailMusicController">
+   <children>
+      <TextField fx:id="titreTextField" layoutX="252.0" layoutY="34.0" />
+      <TextField fx:id="photoTextField" layoutX="252.0" layoutY="275.0" />
+      <TextField fx:id="cheminFicherTextField" layoutX="252.0" layoutY="238.0" />
+      <TextField fx:id="descriptionTextField" layoutX="252.0" layoutY="158.0" />
+      <TextField fx:id="genreTextField" layoutX="252.0" layoutY="117.0" />
+      <TextField fx:id="artistNameTextField" layoutX="252.0" layoutY="78.0" />
+      <TextField fx:id="dateTextField" layoutX="252.0" layoutY="200.0" />
+   </children>
+</AnchorPane>

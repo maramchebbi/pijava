@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.AjouterPlaylistController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <VBox layoutX="100.0" layoutY="60.0" spacing="20.0" style="-fx-background-color: #f0f8ff; -fx-padding: 20;">
+
+            <!-- Titre Playlist -->
+            <VBox spacing="5.0">
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Label text="Titre Playlist:" prefWidth="120.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
+                    <TextField fx:id="titreField" prefWidth="250.0"
+                               style="-fx-background-color: #d6ecff; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
+                </HBox>
+                <Label fx:id="titreErrorLabel" textFill="red" visible="false" style="-fx-font-size: 12px;" />
+            </VBox>
+
+            <!-- Description -->
+            <VBox spacing="5.0">
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Label text="Description:" prefWidth="120.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
+                    <TextField fx:id="descriptionField" prefWidth="250.0"
+                               style="-fx-background-color: #d6ecff; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
+                </HBox>
+                <Label fx:id="descriptionErrorLabel" textFill="red" visible="false" style="-fx-font-size: 12px;" />
+            </VBox>
+
+            <!-- Button -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label prefWidth="120.0"/>
+                <Button text="Ajouter Playlist" onAction="#handleAjouterPlaylist"
+                        style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10px; -fx-padding: 8 20;" />
+            </HBox>
+
+        </VBox>
+    </children>
+</AnchorPane>
