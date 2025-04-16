@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Style;
 import Services.StyleService;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -13,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
 import javafx.scene.Parent;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.File;
@@ -34,6 +36,10 @@ public class AjouterStyleController {
 
     @FXML
     private Label lbTex;
+
+    @FXML
+    private Label messageLabel;
+
 
     private StyleService styleService;
     private AfficherStyleController parentController;
@@ -92,19 +98,17 @@ public class AjouterStyleController {
         lbDesc.setText("");
         lbTex.setText("");
 
-        // Contrôle sur le type : minimum 3 caractères, uniquement des lettres
         if (type.isEmpty()) {
             lbT.setText("Type requis.");
             valid = false;
         } else if (type.length() < 3) {
             lbT.setText("Le type doit contenir au moins 3 caractères.");
             valid = false;
-        } else if (!type.matches("[a-zA-Z]+")) { // Vérifier que le type contient uniquement des lettres
+        } else if (!type.matches("[a-zA-Z]+")) {
             lbT.setText("Le type doit contenir uniquement des lettres.");
             valid = false;
         }
 
-        // Contrôle sur la description : minimum 10 caractères
         if (description.isEmpty()) {
             lbDesc.setText("Description requise.");
             valid = false;
@@ -113,13 +117,11 @@ public class AjouterStyleController {
             valid = false;
         }
 
-        // Contrôle sur l'URL de l'image : non vide
         if (imageUrl.isEmpty()) {
             lbTex.setText("Image requise.");
             valid = false;
         }
 
-        // Si une erreur est présente, on arrête l'exécution
         if (!valid) return;
 
         Style newStyle = new Style(type, description, imageUrl);
@@ -128,30 +130,45 @@ public class AjouterStyleController {
             if (styleToEdit != null) {
                 newStyle.setId(styleToEdit.getId());
                 styleService.update(newStyle);
-                System.out.println("Style modifié avec succès.");
+                afficherMessage("✅ Style modifié avec succès !");
             } else {
                 styleService.add(newStyle);
-                System.out.println("Style ajouté avec succès.");
+                afficherMessage("✅ Style ajouté avec succès !");
             }
 
-            // 🔁 Recharge dynamique de la grille
             if (parentController != null) {
                 parentController.loadStyles();
             }
 
-            // Fermer la fenêtre
-            Stage stage = (Stage) typeTextField.getScene().getWindow();
-            stage.close();
+            // Vider le formulaire seulement en cas d'ajout
+            if (styleToEdit == null) {
+                typeTextField.clear();
+                decriptionTextField.clear();
+                tableauexTextField.clear();
+            }
+
+            // Tu peux commenter cette partie si tu veux garder la fenêtre ouverte
+            // sinon elle se ferme immédiatement
+            // Stage stage = (Stage) typeTextField.getScene().getWindow();
+            // stage.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Erreur lors de l'ajout/édition du style.");
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur SQL");
             alert.setHeaderText("Impossible d'ajouter/éditer le style");
             alert.setContentText("Une erreur est survenue. Veuillez réessayer.");
             alert.showAndWait();
         }
+    }
+
+    private void afficherMessage(String message) {
+        messageLabel.setText(message);
+        messageLabel.setVisible(true);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> messageLabel.setVisible(false));
+        pause.play();
     }
 
 

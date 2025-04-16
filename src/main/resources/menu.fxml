@@ -2,27 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/23.0.1"
             fx:controller="Controllers.MenuController"
-            prefWidth="900" prefHeight="600">
+            prefWidth="1200" prefHeight="700">
 
     <!-- Barre latérale -->
     <left>
-        <VBox spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
-            <Label text="🎨 Menu" style="-fx-text-fill: white; -fx-font-size: 20px;"/>
+        <VBox spacing="20" styleClass="sidebar">
+            <Label text="🎨 Artisfera" styleClass="menu-title"/>
             <Button text="➕ Ajouter Peinture" onAction="#goToAjouterPeinture" styleClass="menu-btn"/>
-            <Button text="🖼️ Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn"/>
+            <Button text="🖼 Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn"/>
             <Button text="🎨 Ajouter Style" onAction="#goToAjouterStyle" styleClass="menu-btn"/>
             <Button text="📋 Afficher Styles" onAction="#goToAfficherStyles" styleClass="menu-btn"/>
+            <Button text="🗨 Chatbot" styleClass="menu-btn"/>
         </VBox>
     </left>
 
-
-    <!-- Zone de contenu centrale -->
+    <!-- Contenu principal -->
     <center>
-        <AnchorPane fx:id="contentPane" stylesheets="@ss.css"/>
+        <AnchorPane fx:id="contentPane"/>
     </center>
 </BorderPane>

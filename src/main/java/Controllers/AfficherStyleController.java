@@ -4,72 +4,51 @@ import Models.Style;
 import Services.StyleService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.geometry.Insets;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class AfficherStyleController {
 
+    @FXML private Button ajouterStyleButton;
+    @FXML private ScrollPane scrollPane;
     @FXML private GridPane affichageGrid;
-    @FXML private Button ajouterStyleButton; // Bouton pour ajouter un style
+
     private StyleService styleService;
-    private Style styleToEdit; // Déclarez une variable pour le style à éditer
-    @FXML private TextField typeTextField;
-    @FXML private TextField decriptionTextField;
-    @FXML private TextField tableauexTextField;
-    @FXML private ImageView imageView;
-
-
-
-    public AfficherStyleController() {
-        styleService = new StyleService();
-    }
-
-    public void setStyleToEdit(Style style) {
-        this.styleToEdit = style;
-        // Remplir les champs avec les données du style existant
-        typeTextField.setText(style.getType());
-        decriptionTextField.setText(style.getDescription());
-        tableauexTextField.setText(style.getExtab());
-
-        // Si l'image existe, l'afficher dans l'ImageView
-        if (style.getExtab() != null && !style.getExtab().isEmpty()) {
-            Image image = new Image("file:" + style.getExtab());
-            imageView.setImage(image);
-        }
-    }
-
 
     @FXML
     public void initialize() {
-        loadStyles(); // Charger les styles au démarrage
+        styleService = new StyleService();
+        loadStyles();
     }
 
     public void loadStyles() {
         try {
-            List<Style> styles = styleService.getAll();  // Récupérer tous les styles de la base de données
-            affichageGrid.getChildren().clear();          // Effacer les anciens éléments affichés
+            List<Style> styles = styleService.getAll();
+            affichageGrid.getChildren().clear();
             int column = 0;
             int row = 0;
 
             for (Style style : styles) {
-                VBox card = createStyleCard(style);       // Créer une carte pour chaque style
+                VBox card = createStyleCard(style);
                 affichageGrid.add(card, column, row);
-                GridPane.setMargin(card, new Insets(10)); // Ajouter des marges autour des cartes
+                GridPane.setMargin(card, new Insets(10));
 
                 column++;
-                if (column == 3) {  // Passer à la ligne suivante après 3 colonnes
+                if (column == 3) {
                     column = 0;
                     row++;
                 }
@@ -80,96 +59,81 @@ public class AfficherStyleController {
     }
 
     private VBox createStyleCard(Style style) {
-        // Créer une carte de style avec taille fixe
-        VBox card = new VBox(10);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 12px; -fx-padding: 10;");
-        card.setPrefWidth(280);  // Largeur fixe de la carte
-        card.setPrefHeight(350); // Hauteur fixe de la carte
+        VBox card = new VBox(8);
+        card.setPrefWidth(220);
+        card.setMaxWidth(220);
+        card.setMinWidth(220);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 12px; -fx-padding: 12; -fx-border-color: #ddd; -fx-border-radius: 12px;");
 
-        // Titre du style
-        Text titleText = new Text(style.getType());
-        titleText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
-        // Description du style
-        Text descriptionText = new Text(style.getDescription() != null ? style.getDescription() : "Aucune description disponible.");
-        descriptionText.setStyle("-fx-font-size: 12px; -fx-fill: #7f8c8d;");
-        descriptionText.setWrappingWidth(250);  // Définir la largeur pour le retour à la ligne
-        descriptionText.setStyle("-fx-wrap-text: true;"); // Autoriser le retour à la ligne
-
-        // Image du style
+        // Image
         ImageView imageView = new ImageView();
         if (style.getExtab() != null && !style.getExtab().isEmpty()) {
             Image image = new Image("file:" + style.getExtab());
             imageView.setImage(image);
-            imageView.setFitWidth(250);  // Ajuster la taille de l'image
-            imageView.setFitHeight(200); // Ajuster la hauteur de l'image
-            imageView.setPreserveRatio(true);
         } else {
-            // Si aucune image, afficher un espace réservé
             imageView.setImage(new Image("path/to/placeholder/image.png"));
-            imageView.setFitWidth(250); // Ajuster la taille de l'image
-            imageView.setFitHeight(200); // Ajuster la hauteur de l'image
-            imageView.setPreserveRatio(true);
         }
+        imageView.setFitWidth(180);
+        imageView.setFitHeight(180);
+        imageView.setPreserveRatio(true);
 
-        // Boutons pour modifier et supprimer un style
-        Button deleteButton = new Button("Supprimer");
+        // Type
+        Label typeLabel = new Label(style.getType());
+        typeLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+
+        // Description
+        Label descriptionLabel = new Label(style.getDescription() != null ? style.getDescription() : "Aucune description");
+        descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #7f8c8d;");
+        descriptionLabel.setWrapText(true);
+
+        // Buttons
+        HBox buttonsBox = new HBox(10);
+        buttonsBox.setAlignment(Pos.CENTER);
+
         Button updateButton = new Button("Modifier");
+        updateButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8px; -fx-cursor: hand;");
+        updateButton.setOnAction(event -> openEditWindow(style));
 
-        // Style des boutons
-        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 10px;");
-        updateButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 10px;");
-
-        // Effet au survol des boutons
-        deleteButton.setOnMouseEntered(event -> deleteButton.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 10px;"));
-        deleteButton.setOnMouseExited(event -> deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 10px;"));
-
-        updateButton.setOnMouseEntered(event -> updateButton.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 10px;"));
-        updateButton.setOnMouseExited(event -> updateButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 10px;"));
-
+        Button deleteButton = new Button("Supprimer");
+        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8px; -fx-cursor: hand;");
         deleteButton.setOnAction(event -> {
             try {
                 styleService.delete(style.getId());
-                loadStyles(); // Recharger les styles après suppression
+                loadStyles();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
-        updateButton.setOnAction(event -> {
-            try {
-                // Ouvrir la fenêtre de modification du style
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterStyle.fxml"));
-                Parent root = loader.load();
-                AjouterStyleController controller = loader.getController();
-                controller.setParentController(this);
-                controller.setStyleToEdit(style); // Pré-remplir les champs avec le style sélectionné
+        buttonsBox.getChildren().addAll(updateButton, deleteButton);
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Modifier Style");
-                stage.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        // Ajouter tous les éléments à la carte
-        card.getChildren().addAll(imageView, titleText, descriptionText, updateButton, deleteButton);
+        card.getChildren().addAll(imageView, typeLabel, descriptionLabel, buttonsBox);
         return card;
     }
 
-
+    private void openEditWindow(Style style) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterStyle.fxml"));
+            Parent root = loader.load();
+            AjouterStyleController controller = loader.getController();
+            controller.setParentController(this);
+            controller.setStyleToEdit(style);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Style");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handleAjouterStyleButton() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterStyle.fxml"));
             Parent ajouterRoot = loader.load();
-
             AjouterStyleController ajouterController = loader.getController();
             ajouterController.setParentController(this);
-
             Stage stage = new Stage();
             stage.setTitle("Ajouter un style");
             stage.setScene(new Scene(ajouterRoot));

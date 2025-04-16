@@ -13,67 +13,64 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="550" prefWidth="700" style="-fx-background-color: linear-gradient(to bottom, #eafaf1, #d5f5e3);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPeintureController">
+<AnchorPane prefHeight="600" prefWidth="800" style="-fx-background-color: #f4f6f6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPeintureController">
 
     <children>
-
         <!-- Titre principal -->
-        <Text layoutX="230" layoutY="50" style="-fx-fill: #2c3e50; -fx-font-weight: bold;" text="🖌️ Nouvelle Peinture">
+        <Text layoutX="250" layoutY="50" style="-fx-fill: #34495e; -fx-font-weight: bold;" text="🖌 Ajouter une Peinture">
             <font>
-                <Font size="26" />
+                <Font size="28" />
             </font>
         </Text>
 
         <!-- Zone formulaire -->
-        <GridPane hgap="20" layoutX="100" layoutY="80" style="-fx-padding: 20;" vgap="15">
+        <GridPane hgap="20" layoutX="100" layoutY="100" style="-fx-padding: 20;" vgap="20">
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" />
-                <ColumnConstraints />
-            <ColumnConstraints />
+                <ColumnConstraints maxWidth="245.60001220703126" minWidth="216.00003662109376" prefWidth="222.4" />
+            <ColumnConstraints maxWidth="173.5999633789063" minWidth="143.9999877929688" prefWidth="167.20000000000005" />
             </columnConstraints>
 
             <!-- Titre -->
-            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Titre :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="titreTextField" prefWidth="250" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label fx:id="lbTitre" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Titre :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="titreTextField" prefHeight="27.0" prefWidth="177.0" promptText="Entrez le titre de la peinture" style="-fx-background-color: #ecf0f1; -fx-border-radius: 8px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="lbTitre" style="-fx-text-fill: #e74c3c;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <!-- Date de création -->
-            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Date de création :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <DatePicker fx:id="dateDeCreationTextField" prefWidth="150" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="lbDcr" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Date de création :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dateDeCreationTextField" prefWidth="180" style="-fx-background-color: #ecf0f1; -fx-border-radius: 8px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="lbDcr" style="-fx-text-fill: #e74c3c;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
             <!-- Tableau -->
-            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Tableau :" GridPane.rowIndex="6" />
-            <TextField fx:id="tableauTextField" prefHeight="27.0" prefWidth="209.0" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label fx:id="lbTab" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Tableau :" GridPane.rowIndex="4" />
+            <TextField fx:id="tableauTextField" prefHeight="30.0" prefWidth="185.0" promptText="Chemin de l'image" style="-fx-background-color: #ecf0f1; -fx-border-radius: 8px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="lbTab" style="-fx-text-fill: #e74c3c;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
             <!-- Style -->
-            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Style :" GridPane.rowIndex="8" />
-            <ComboBox fx:id="styleComboBox" prefWidth="250" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label fx:id="lbStyle" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #34495e;" text="Style :" GridPane.rowIndex="6" />
+            <ComboBox fx:id="styleComboBox" prefWidth="250" style="-fx-background-color: #ecf0f1; -fx-border-radius: 8px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="lbStyle" style="-fx-text-fill: #e74c3c;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
             <!-- Bouton Parcourir -->
-            <Button fx:id="parcourirBtn" onAction="#handleParcourirImage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" text="Parcourir une image" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-         <rowConstraints>
+            <Button fx:id="parcourirBtn" onAction="#handleParcourirImage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 8 16;" text="Parcourir une image" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
             <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+            </rowConstraints>
         </GridPane>
 
         <!-- Image Preview -->
-        <ImageView fx:id="imageView" fitHeight="110.0" fitWidth="110.0" layoutX="500.0" layoutY="100.0" preserveRatio="true" style="-fx-border-color: #bdc3c7; -fx-border-radius: 8;" />
+        <ImageView fx:id="imageView" fitHeight="130.0" fitWidth="130.0" layoutX="520.0" layoutY="110.0" preserveRatio="true" style="-fx-border-color: #bdc3c7; -fx-border-radius: 8;" />
 
         <!-- Bouton Valider -->
-        <Button fx:id="validerButton" layoutX="280.0" layoutY="460.0" onAction="#handleValider" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 24;" text="✅ Valider">
+        <Button fx:id="validerButton" layoutX="300.0" layoutY="500.0" onAction="#handleValider" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 12; -fx-padding: 12 28;" text="✅ Valider">
             <style>
                 :hover {
                 -fx-background-color: #27ae60;
@@ -81,6 +78,10 @@
                 }
             </style>
         </Button>
+
+        <Label fx:id="messageLabel" layoutX="30" layoutY="450"
+               textFill="green" style="-fx-font-size: 16px; -fx-font-weight: bold;"
+               visible="false" />
 
     </children>
 </AnchorPane>

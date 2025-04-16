@@ -31,17 +31,6 @@ public class AfficherPeintureController {
 
     @FXML
     private GridPane affichageGrid;
-    @FXML
-    private Label lbDcr;
-
-    @FXML
-    private Label lbStyle;
-
-    @FXML
-    private Label lbTab;
-
-    @FXML
-    private Label lbTitre;
 
     private PeintureService peintureService;
 
@@ -142,7 +131,6 @@ public class AfficherPeintureController {
         card.getChildren().addAll(imageView, titleLabel, dateLabel, styleLabel, buttonsBox);
         return card;
     }
-
 
     @FXML
     private void handleAjouterButton() {

@@ -15,6 +15,7 @@ public class Home extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/menu.fxml"));
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/ss.css").toExternalForm());
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

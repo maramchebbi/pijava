@@ -1,63 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controllers.AfficherStyleController"
-            prefHeight="600.0" prefWidth="900.0"
-            style="-fx-background-color: linear-gradient(to bottom right, #eafaf1, #d5f5e3);">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #e0f5e9, #d0efdf);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherStyleController">
 
     <children>
 
-        <!-- Header avec titre -->
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              layoutX="30.0" layoutY="20.0"
-              style="-fx-padding: 20 30 0 30;">
+        <!-- En-tête alignée et stylée -->
+        <HBox alignment="CENTER_LEFT" layoutX="-9.0" spacing="10" style="-fx-padding: 20 30 10 30;">
             <children>
-                <Text fx:id="titreText"
-                      text="🎨 Liste des styles"
-                      style="-fx-fill: #2c3e50; -fx-font-weight: bold;">
+                <Text fx:id="titreText" style="-fx-fill: #2c3e50; -fx-font-weight: bold;" text="🎨 Liste des styles">
                     <font>
-                        <Font size="30.0" />
+                        <Font size="28.0" />
                     </font>
                 </Text>
             </children>
         </HBox>
 
-        <!-- ScrollPane avec GridPane -->
-        <ScrollPane fx:id="scrollPane1"
-                    fitToWidth="true"
-                    style="-fx-background: transparent;"
-                    layoutX="30.0" layoutY="80.0"
-                    prefHeight="440.0" prefWidth="840.0"
-                    AnchorPane.topAnchor="80.0" AnchorPane.bottomAnchor="80.0"
-                    AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+        <!-- ScrollPane contenant la grille de styles -->
+        <ScrollPane fx:id="scrollPane1" fitToWidth="true" layoutX="31.2" prefHeight="506.0" prefViewportHeight="450.0" prefWidth="853.0"
+                    style="-fx-background-color: transparent;" pannable="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
             <content>
-                <GridPane fx:id="affichageGrid"
-                          hgap="30"
-                          vgap="30"
-                          alignment="TOP_CENTER"
-                          style="-fx-padding: 25;">
+                <GridPane fx:id="affichageGrid" alignment="TOP_CENTER" hgap="25" vgap="25" style="-fx-padding: 25;">
                     <columnConstraints>
-                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
-                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
-                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
                     </columnConstraints>
                 </GridPane>
             </content>
+            <AnchorPane.topAnchor>70.0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>31.0</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>16.0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>24.0</AnchorPane.bottomAnchor>
         </ScrollPane>
-
-        <!-- Bouton Ajouter -->
-        <Button fx:id="ajouterStyleButton"
-                text="➕ Ajouter un style"
-                onAction="#handleAjouterStyleButton"
-                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-padding: 12 26; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.2, 0, 2);"
-                AnchorPane.bottomAnchor="20.0"
-                AnchorPane.rightAnchor="30.0" />
 
     </children>
 </AnchorPane>

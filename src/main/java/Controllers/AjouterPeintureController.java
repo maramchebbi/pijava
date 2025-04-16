@@ -4,12 +4,14 @@ import Models.Peinture;
 import Models.Style;
 import Services.PeintureService;
 import Services.StyleService;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -44,6 +46,8 @@ public class AjouterPeintureController {
     @FXML
     private Label lbTitre;
 
+    @FXML
+    private Label messageLabel;
 
     @FXML
     private Button validerButton;
@@ -129,19 +133,17 @@ public class AjouterPeintureController {
         lbTab.setText("");
         lbStyle.setText("");
 
-        // Validation du titre
         if (titre.isEmpty()) {
             lbTitre.setText("Titre requis.");
             valid = false;
         } else if (titre.trim().length() < 3) {
             lbTitre.setText("Le titre doit avoir au moins 3 caractères.");
             valid = false;
-        } else if (!titre.matches("[a-zA-Z]+")) { // Vérification que le titre contient seulement des lettres
+        } else if (!titre.matches("[a-zA-Z]+")) {
             lbTitre.setText("Le titre doit contenir uniquement des lettres.");
             valid = false;
         }
 
-        // Validation de la date
         if (dateDeCreation == null) {
             lbDcr.setText("Date requise.");
             valid = false;
@@ -150,53 +152,68 @@ public class AjouterPeintureController {
             valid = false;
         }
 
-        // Validation de l'image
         if (tableau.isEmpty()) {
             lbTab.setText("Image requise.");
             valid = false;
         }
 
-        // Validation du style
         if (styleStr == null) {
             lbStyle.setText("Style requis.");
             valid = false;
         }
 
-        if (!valid) return; // Bloquer si une erreur est présente
+        if (!valid) return;
 
         try {
-            // Vérification du style sélectionné
             Style selectedStyle = styleService.getByType(styleStr);
             if (selectedStyle == null) {
                 lbStyle.setText("Style non trouvé.");
                 return;
             }
 
-            // Création de la peinture
             Peinture peinture = new Peinture(titre, dateDeCreation, tableau, selectedStyle, 5);
 
-            // Si c'est un mode édition, mettre à jour la peinture existante
             if (isEditMode && peintureToEdit != null) {
                 peinture.setId(peintureToEdit.getId());
                 peintureService.update(peinture);
+                afficherMessage("✅ Peinture modifiée avec succès !");
             } else {
-                // Sinon, ajouter une nouvelle peinture
                 peintureService.add(peinture);
+                afficherMessage("✅ Peinture ajoutée avec succès !");
             }
 
-            // Fermer la fenêtre
-            Stage stage = (Stage) validerButton.getScene().getWindow();
-            stage.close();
-
-            // Rafraîchir la liste dans le contrôleur parent
             if (parentController != null) {
                 parentController.loadPeintures();
             }
 
+            // Vider les champs après ajout (pas en édition)
+            if (!isEditMode) {
+                titreTextField.clear();
+                tableauTextField.clear();
+                styleComboBox.getSelectionModel().clearSelection();
+                dateDeCreationTextField.setValue(null);
+            }
+
+            // Si tu veux laisser la fenêtre ouverte, garde comme ça.
+            // Sinon, décommente la ligne ci-dessous pour la fermer :
+            // Stage stage = (Stage) validerButton.getScene().getWindow();
+            // stage.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
-            // Gérer l'erreur SQL si nécessaire
+            // Tu peux aussi ici afficher un message d'erreur si besoin
         }
     }
+
+
+    private void afficherMessage(String message) {
+        messageLabel.setText(message);
+        messageLabel.setVisible(true);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(e -> messageLabel.setVisible(false));
+        pause.play();
+    }
+
 
 }
