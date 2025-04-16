@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="Controllers.MenuController"
+            prefWidth="900" prefHeight="600">
+
+    <!-- Barre latérale -->
+    <left>
+        <VBox spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
+            <Label text="🎨 Menu" style="-fx-text-fill: white; -fx-font-size: 20px;"/>
+            <Button text="➕ Ajouter Peinture" onAction="#goToAjouterPeinture" styleClass="menu-btn"/>
+            <Button text="🖼️ Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn"/>
+            <Button text="🎨 Ajouter Style" onAction="#goToAjouterStyle" styleClass="menu-btn"/>
+            <Button text="📋 Afficher Styles" onAction="#goToAfficherStyles" styleClass="menu-btn"/>
+        </VBox>
+    </left>
+
+
+    <!-- Zone de contenu centrale -->
+    <center>
+        <AnchorPane fx:id="contentPane" stylesheets="@ss.css"/>
+    </center>
+</BorderPane>

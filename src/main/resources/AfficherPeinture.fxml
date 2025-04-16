@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import java.awt.Font?>
-<?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.AfficherPeintureController"
+            prefHeight="600.0" prefWidth="900.0"
             style="-fx-background-color: linear-gradient(to bottom, #e0f5e9, #d0efdf);">
-<children>
-    <!-- Titre -->
-    <Text fx:id="titreText"
-          text="🖼️ Affichage des peintures">
 
-        <style>-fx-fill: #2c3e50; -fx-font-weight: bold;</style>
-        <AnchorPane.topAnchor>20.0</AnchorPane.topAnchor>
-        <AnchorPane.leftAnchor>20.0</AnchorPane.leftAnchor>
-    </Text>
+    <children>
 
-    <!-- Bouton Ajouter -->
-    <Button fx:id="ajouterButton"
-            text="Ajouter une peinture"
-            onAction="#handleAjouterButton"
-            prefHeight="35.0" prefWidth="180.0"
-            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8px 20px;">
+        <!-- En-tête -->
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-padding: 20 30 10 30;">
+            <children>
+                <Text fx:id="titreText"
+                      text="🖼️ Liste des peintures"
+                      style="-fx-fill: #2c3e50; -fx-font-weight: bold;">
+                    <font>
+                        <Font size="28.0" />
+                    </font>
+                </Text>
+            </children>
+        </HBox>
 
-    <style>
-            :hover {
-            -fx-background-color: #2980b9;
-            -fx-cursor: hand;
-            }
-        </style>
-        <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
-        <AnchorPane.rightAnchor>20.0</AnchorPane.rightAnchor>
-    </Button>
+        <!-- ScrollPane contenant la grille -->
+        <ScrollPane fx:id="scrollPane"
+                    fitToWidth="true"
+                    style="-fx-background-color: transparent;"
+                    prefViewportHeight="450.0">
+            <content>
+                <GridPane fx:id="affichageGrid"
+                          hgap="25"
+                          vgap="25"
+                          alignment="TOP_CENTER"
+                          style="-fx-padding: 25;">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                        <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
+                    </columnConstraints>
+                </GridPane>
+            </content>
+            <AnchorPane.topAnchor>70.0</AnchorPane.topAnchor>
+            <AnchorPane.leftAnchor>30.0</AnchorPane.leftAnchor>
+            <AnchorPane.rightAnchor>30.0</AnchorPane.rightAnchor>
+            <AnchorPane.bottomAnchor>80.0</AnchorPane.bottomAnchor>
+        </ScrollPane>
 
-    <!-- ScrollPane contenant la grille -->
-    <ScrollPane fx:id="scrollPane" style="-fx-background-color: transparent; -fx-border-width: 0;">
-        <content>
-            <GridPane fx:id="affichageGrid" hgap="15" vgap="15" maxWidth="Infinity" style="-fx-padding: 10;">
-                <columnConstraints>
-                    <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
-                    <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
-                    <ColumnConstraints percentWidth="33.3" hgrow="ALWAYS"/>
-                </columnConstraints>
-            </GridPane>
-        </content>
-        <AnchorPane.topAnchor>60.0</AnchorPane.topAnchor>
-        <AnchorPane.bottomAnchor>60.0</AnchorPane.bottomAnchor>
-        <AnchorPane.leftAnchor>20.0</AnchorPane.leftAnchor>
-        <AnchorPane.rightAnchor>20.0</AnchorPane.rightAnchor>
-    </ScrollPane>
-</children>
+        <!-- Bouton Ajouter -->
+        <Button fx:id="ajouterButton"
+                text="🎨 Ajouter une peinture"
+                onAction="#handleAjouterButton"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 24;">
+            <AnchorPane.bottomAnchor>20.0</AnchorPane.bottomAnchor>
+            <AnchorPane.rightAnchor>30.0</AnchorPane.rightAnchor>
+        </Button>
+
+    </children>
 </AnchorPane>
-

@@ -54,10 +54,11 @@ public class PeintureService {
     }
 
 
-    public List<Peinture> getAll() throws SQLException {
+    public List<Peinture> getAll()throws SQLException {
         List<Peinture> peintures = new ArrayList<>();
         String query = "SELECT * FROM peinture";
-        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Style style = styleService.getById(rs.getInt("type_id"));
                 Peinture peinture = new Peinture(

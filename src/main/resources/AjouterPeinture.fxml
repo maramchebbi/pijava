@@ -7,52 +7,73 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPeintureController">
+<AnchorPane prefHeight="550" prefWidth="700" style="-fx-background-color: linear-gradient(to bottom, #eafaf1, #d5f5e3);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPeintureController">
+
     <children>
-        <!-- Titre de la page -->
-        <Text layoutX="180.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations de la peinture">
+
+        <!-- Titre principal -->
+        <Text layoutX="230" layoutY="50" style="-fx-fill: #2c3e50; -fx-font-weight: bold;" text="🖌️ Nouvelle Peinture">
             <font>
-                <Font size="24.0" />
+                <Font size="26" />
             </font>
-            <style>-fx-fill: #34495e; -fx-font-weight: bold;</style>
         </Text>
 
-        <!-- Titre du champ Titre -->
-        <Label layoutX="147.0" layoutY="111.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Titre" />
-        <TextField fx:id="titreTextField" layoutX="239.0" layoutY="107.0" prefWidth="220" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
+        <!-- Zone formulaire -->
+        <GridPane hgap="20" layoutX="100" layoutY="80" style="-fx-padding: 20;" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" />
+                <ColumnConstraints />
+            <ColumnConstraints />
+            </columnConstraints>
 
-        <!-- Date de création -->
-        <Label layoutX="124.0" layoutY="168.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Date de création" />
-        <DatePicker fx:id="dateDeCreationTextField" layoutX="239.0" layoutY="164.0" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;" />
+            <!-- Titre -->
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Titre :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="titreTextField" prefWidth="250" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="lbTitre" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <!-- Tableau -->
-        <Label layoutX="126.0" layoutY="226.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Tableau" />
-        <TextField fx:id="tableauTextField" layoutX="239.0" layoutY="222.0" prefWidth="220" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px; -fx-padding: 5px;" />
-        <!-- Aperçu de l'image sélectionnée -->
-        <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="480.0" layoutY="100.0" preserveRatio="true" />
+            <!-- Date de création -->
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Date de création :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dateDeCreationTextField" prefWidth="150" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="lbDcr" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
+            <!-- Tableau -->
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Tableau :" GridPane.rowIndex="6" />
+            <TextField fx:id="tableauTextField" prefHeight="27.0" prefWidth="209.0" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="lbTab" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-        <!-- Style -->
-        <Label layoutX="135.0" layoutY="274.0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Style" />
-        <ComboBox fx:id="styleComboBox" layoutX="239.0" layoutY="270.0" prefWidth="220" style="-fx-background-color: #ecf0f1; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;" />
+            <!-- Style -->
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Style :" GridPane.rowIndex="8" />
+            <ComboBox fx:id="styleComboBox" prefWidth="250" style="-fx-background-color: #ecf0f1; -fx-border-radius: 6px; -fx-border-color: #bdc3c7;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label fx:id="lbStyle" style="-fx-text-fill: red;" text=" " GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-        <!-- Bouton Parcourir -->
-        <Button fx:id="parcourirBtn" layoutX="372.0" layoutY="222.0" onAction="#handleParcourirImage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 5px 15px;" text="Parcourir">
-            <style>
-                :hover {
-                -fx-background-color: #2980b9;
-                -fx-cursor: hand;
-                }
-            </style>
-        </Button>
+            <!-- Bouton Parcourir -->
+            <Button fx:id="parcourirBtn" onAction="#handleParcourirImage" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" text="Parcourir une image" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
 
-
+        <!-- Image Preview -->
+        <ImageView fx:id="imageView" fitHeight="110.0" fitWidth="110.0" layoutX="500.0" layoutY="100.0" preserveRatio="true" style="-fx-border-color: #bdc3c7; -fx-border-radius: 8;" />
 
         <!-- Bouton Valider -->
-        <Button fx:id="validerButton" layoutX="280.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleValider" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 8px; -fx-padding: 10px 20px;" text="Valider">
+        <Button fx:id="validerButton" layoutX="280.0" layoutY="460.0" onAction="#handleValider" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 24;" text="✅ Valider">
             <style>
                 :hover {
                 -fx-background-color: #27ae60;
@@ -60,9 +81,6 @@
                 }
             </style>
         </Button>
-      <Label fx:id="lbTitre" layoutX="239.0" layoutY="142.0" text=" " />
-      <Label fx:id="lbDcr" layoutX="239.0" layoutY="192.0" text=" " />
-      <Label fx:id="lbTab" layoutX="239.0" layoutY="252.0" text=" " />
-      <Label fx:id="lbStyle" layoutX="239.0" layoutY="303.0" text=" " />
+
     </children>
 </AnchorPane>
