@@ -72,6 +72,12 @@ public class MenuController {
         setContent("AfficherStyle.fxml");
     }
 
+    @FXML
+    private void goToChatbot() throws IOException {
+        setContent("chatbot.fxml");  // Charger la vue du chatbot
+    }
+
+
     private void setContent(String fxml) throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/" + fxml));
         contentPane.getChildren().setAll(pane);

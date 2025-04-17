@@ -16,7 +16,7 @@
             <Button text="🖼 Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn"/>
             <Button text="🎨 Ajouter Style" onAction="#goToAjouterStyle" styleClass="menu-btn"/>
             <Button text="📋 Afficher Styles" onAction="#goToAfficherStyles" styleClass="menu-btn"/>
-            <Button text="🗨 Chatbot" styleClass="menu-btn"/>
+            <Button text="🗨 Chatbot" onAction="#goToChatbot" styleClass="menu-btn"/>
         </VBox>
     </left>
 
