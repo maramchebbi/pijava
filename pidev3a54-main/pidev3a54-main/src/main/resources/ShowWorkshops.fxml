@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.media.*?>
-<?import javafx.scene.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.Workshops"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="controller.WorkshopsController"
+            prefHeight="700.0" prefWidth="1100.0"
+            style="-fx-background-color: #f8f4e9;">
 
-    <VBox fx:id="videoContainer" layoutX="20.0" layoutY="20.0" spacing="15.0" prefWidth="560.0"/>
-        <!-- Exemple d'une vidéo avec un titre -->
-        <HBox spacing="10.0">
-            <MediaView fx:id="mediaView1" fitWidth="300" fitHeight="200"/>
-            <Label text="Titre de la vidéo 1" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-        </HBox>
+    <ScrollPane fitToWidth="true"
+                hbarPolicy="NEVER"
+                AnchorPane.topAnchor="0"
+                AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.rightAnchor="0"
+                style="-fx-background: transparent;">
 
-        <HBox spacing="10.0">
-            <MediaView fx:id="mediaView2" fitWidth="300" fitHeight="200"/>
-            <Label text="Titre de la vidéo 2" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-        </HBox>
+        <VBox fx:id="workshopsContainer"
+              spacing="20"
+              style="-fx-padding: 40 60 40 60;"
+              alignment="TOP_CENTER"/>
 
-        <!-- Tu peux ajouter dynamiquement plus de vidéos via le contrôleur -->
-    </VBox>
-
+    </ScrollPane>
 </AnchorPane>

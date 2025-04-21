@@ -180,7 +180,7 @@ public class ShowOeuvres {
     @FXML
     private void handleWorkshopRedirect(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Workshop.fxml")); // adapte le chemin
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddWorkshop.fxml")); // adapte le chemin
             Parent workshopRoot = loader.load();
 
             Stage stage = new Stage();

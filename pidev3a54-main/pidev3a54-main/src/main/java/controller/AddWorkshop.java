@@ -3,11 +3,18 @@ package controller;
 import Models.Workshops;
 import Services.WorkshopService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 
 public class AddWorkshop {
 
@@ -17,6 +24,31 @@ public class AddWorkshop {
 
     private File selectedVideoFile;
     private WorkshopService workshopService = new WorkshopService(); // Initialize service
+
+
+
+    @FXML
+    void voiraction(ActionEvent event) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShowWorkshops.fxml"));
+            Parent root = loader.load();
+
+            // Get the current stage - CORRECTED: using 'event' instead of 'actionEvent'
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Create a new scene with the loaded FXML content
+            Scene scene = new Scene(root);
+
+            // Set the new scene and show the stage
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            System.out.println("Error loading the FXML file: " + e.getMessage());
+            e.printStackTrace();  // Added for better debugging
+        }
+    }
 
     @FXML
     private void handleBrowseVideo() {
