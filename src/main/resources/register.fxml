@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="764.0" prefWidth="1167.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+
+    <!-- Background Image with Overlay -->
+    <ImageView fitHeight="764.0" fitWidth="1167.0" preserveRatio="false">
+        <image>
+            <Image url="@image/dd.PNG" />
+        </image>
+        <effect>
+            <ColorAdjust brightness="-0.2" />
+        </effect>
+    </ImageView>
+
+    <!-- Semi-transparent overlay -->
+    <Pane prefHeight="764.0" prefWidth="1167.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
+      <children>
+
+          <!-- Main Container -->
+          <StackPane layoutX="284.0" layoutY="26.0" prefHeight="490.0" prefWidth="600.0">
+              <Pane prefHeight="490.0" prefWidth="600.0" style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 0);" />
+
+                    <VBox alignment="CENTER" spacing="15" style="-fx-padding: 30;">
+                  <!-- Title -->
+                  <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #2193b0;" text="Créer Un Compte" />
+
+                        <!-- Form Grid -->
+                  <GridPane hgap="20" style="-fx-padding: 20;" vgap="15">
+                      <columnConstraints>
+                          <ColumnConstraints halignment="RIGHT" prefWidth="100" />
+                          <ColumnConstraints prefWidth="250" />
+                          <ColumnConstraints halignment="RIGHT" prefWidth="100" />
+                          <ColumnConstraints prefWidth="250" />
+                      </columnConstraints>
+
+                            <!-- Row 1: Nom et Prénom -->
+                      <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                      <TextField fx:id="nomField" promptText="Entrez votre nom" style="-fx-font-size: 14px; -fx-padding: 8px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                      <Label fx:id="nomErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                            <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Prénom :" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                      <TextField fx:id="prenomField" promptText="Entrez votre prénom" style="-fx-font-size: 14px; -fx-padding: 8px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                      <Label fx:id="prenomErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                            <!-- Row 2: Genre -->
+                      <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Genre :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                      <ComboBox fx:id="genreComboBox" promptText="Sélectionner le genre" style="-fx-font-size: 14px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+                      <Label fx:id="genreErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+
+                            <!-- Row 3: Email -->
+                      <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Email :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                      <TextField fx:id="emailField" promptText="exemple@email.com" style="-fx-font-size: 14px; -fx-padding: 8px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                      <Label fx:id="emailErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+
+                            <!-- Row 4: Mot de passe -->
+                      <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                      <HBox spacing="5" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6">
+                          <PasswordField fx:id="passwordField" promptText="Mot de passe" style="-fx-font-size: 14px; -fx-padding: 8px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px; -fx-pref-width: 220;" />
+                          <TextField fx:id="VisiblePasswordField" promptText="Mot de passe" style="-fx-font-size: 14px; -fx-padding: 8px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px; -fx-pref-width: 220;" visible="false" />
+                          <Button fx:id="toggleVisibilityBtn" onAction="#togglePasswordVisibility" style="-fx-background-color: transparent; -fx-font-size: 20px; -fx-cursor: hand; -fx-padding: 5px;" text="👁" />
+                      </HBox>
+                      <Label fx:id="passwordErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+
+                            <!-- Row 5: Rôle -->
+                      <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Rôle :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                      <ComboBox fx:id="roleComboBox" promptText="Sélectionner un rôle" style="-fx-font-size: 14px; -fx-background-color: #ffffff; -fx-border-color: #6dd5ed; -fx-border-radius: 5px;" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="8" />
+                      <Label fx:id="roleErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" text="" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                  </GridPane>
+
+                        <!-- Register Button -->
+                  <Button onAction="#handleRegisterAction" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-background-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-text-fill: white; -fx-padding: 12px 40px; -fx-background-radius: 25; -fx-cursor: hand;" text="✅ S'inscrire">
+                      <effect>
+                          <DropShadow color="rgba(33,147,176,0.5)" offsetX="0" offsetY="4" radius="10" />
+                      </effect>
+                  </Button>
+
+                        <!-- Back Button -->
+                  <Button onAction="#annulerAction" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;">
+                      <graphic>
+                          <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                              <image>
+                                  <Image url="@image/122637.png" />
+                              </image>
+                          </ImageView>
+                      </graphic>
+                  </Button>
+
+                        <!-- Message -->
+                  <Label fx:id="messageLabel" style="-fx-font-size: 14px; -fx-text-fill: #00796B;" text="" visible="false" />
+              </VBox>
+          </StackPane>
+      </children></Pane>
+</AnchorPane>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterUserController"
+            style="-fx-background-color: #f8fafc;">
+
+   <!-- Header avec bouton retour -->
+   <HBox style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);"
+         AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+      <padding>
+         <Insets top="15" right="25" bottom="15" left="25"/>
+      </padding>
+      <Button onAction="#annulerAction" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;">
+         <graphic>
+            <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+               <image>
+                  <Image url="@image/122637.png"/>
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Text text="Nouvel Utilisateur" style="-fx-fill: #1e293b; -fx-font-weight: bold;">
+         <font>
+            <Font name="Segoe UI Semibold" size="20"/>
+         </font>
+      </Text>
+   </HBox>
+
+   <!-- Carte de formulaire -->
+   <VBox layoutY="70" spacing="25" style="-fx-padding: 25;" AnchorPane.leftAnchor="25" AnchorPane.rightAnchor="25">
+      <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 4); -fx-padding: 30;">
+         <VBox spacing="20">
+            <!-- Section Identité -->
+            <VBox spacing="15">
+               <Label text="INFORMATIONS PERSONNELLES" style="-fx-text-fill: #64748b; -fx-font-size: 12; -fx-font-weight: bold;"/>
+               <GridPane hgap="15" vgap="15">
+                  <columnConstraints>
+                     <ColumnConstraints percentWidth="50"/>
+                     <ColumnConstraints percentWidth="50"/>
+                  </columnConstraints>
+
+                  <!-- Nom -->
+                  <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                     <Label text="Nom" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;"/>
+                     <TextField fx:id="NomTextField" promptText="Nom complet" style="-fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14;"/>
+                     <Label fx:id="NomErrorLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 12;"/>
+                  </VBox>
+
+                  <!-- Prénom -->
+                  <VBox GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <Label text="Prénom" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;"/>
+                     <TextField fx:id="PrenomTextField" promptText="Prénom" style="-fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14;"/>
+                     <Label fx:id="PrenomErrorLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 12;"/>
+                  </VBox>
+
+                  <!-- Genre -->
+                  <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                     <Label text="Genre" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;"/>
+                     <ComboBox fx:id="GenreComboBox" style="-fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14;">
+                        <items>
+                           <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="Homme"/>
+                              <String fx:value="Femme"/>
+                           </FXCollections>
+                        </items>
+                     </ComboBox>
+                     <Label fx:id="GenreErrorLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 12;"/>
+                  </VBox>
+
+                  <!-- Rôle -->
+                  <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <Label text="Rôle" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;"/>
+                     <ComboBox fx:id="RoleComboBox" style="-fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14;"/>
+                  </VBox>
+               </GridPane>
+            </VBox>
+
+            <Separator style="-fx-background-color: #f1f5f9;"/>
+
+            <!-- Section Connexion -->
+            <VBox spacing="15">
+               <Label text="INFORMATIONS DE CONNEXION" style="-fx-text-fill: #64748b; -fx-font-size: 12; -fx-font-weight: bold;"/>
+
+               <!-- Email -->
+               <VBox spacing="5">
+                  <Label text="Email" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;"/>
+                  <TextField fx:id="EmailTextField" promptText="email@exemple.com" style="-fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14;"/>
+                  <Label fx:id="EmailErrorLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 12;"/>
+               </VBox>
+
+               <!-- Mot de passe -->
+               <VBox spacing="5">
+                  <Label text="Mot de passe" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;"/>
+                  <HBox spacing="5" alignment="CENTER_LEFT">
+                     <PasswordField fx:id="PasswordField" style="-fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-pref-width: 300;"/>
+                  </HBox>
+                  <Label fx:id="PasswordErrorLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 12;"/>
+               </VBox>
+            </VBox>
+         </VBox>
+      </VBox>
+
+      <!-- Boutons d'action -->
+      <HBox spacing="15" alignment="CENTER_RIGHT">
+         <Button text="Annuler" onAction="#annulerAction"
+                 style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-padding: 10 20; -fx-cursor: hand;"/>
+
+         <Button fx:id="AjouterButton" text="Créer l'utilisateur" onAction="#ajouterAction"
+                 style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 25; -fx-cursor: hand;"/>
+      </HBox>
+
+      <!-- Message de statut -->
+      <Label fx:id="messageLabel" style="-fx-text-fill: #10b981; -fx-font-size: 14; -fx-font-weight: bold;"
+             alignment="CENTER" maxWidth="Infinity"/>
+   </VBox>
+</AnchorPane>

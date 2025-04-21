@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="764.0" prefWidth="1167.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.VerificationController">
+
+    <!-- Background Image with Overlay -->
+    <ImageView fitHeight="764.0" fitWidth="1167.0" preserveRatio="false">
+        <image>
+            <Image url="@image/dd.PNG" />
+        </image>
+        <effect>
+            <ColorAdjust brightness="-0.2" />
+        </effect>
+    </ImageView>
+
+    <!-- Semi-transparent overlay -->
+    <Pane prefHeight="764.0" prefWidth="1167.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
+        <children>
+
+            <!-- Main Container -->
+            <StackPane layoutX="284.0" layoutY="26.0" prefHeight="490.0" prefWidth="600.0">
+                <Pane prefHeight="490.0" prefWidth="600.0" style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 0);" />
+
+                <VBox alignment="CENTER" spacing="25" style="-fx-padding: 40;">
+                    <!-- Title -->
+                    <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #2193b0;" text="Vérification par Email" />
+
+                    <!-- Instruction -->
+                    <Text style="-fx-font-size: 14px; -fx-fill: #555; -fx-text-alignment: center;" text="Un code de vérification a été envoyé à votre adresse email." wrappingWidth="400" />
+
+                    <!-- Code Input -->
+                    <HBox alignment="CENTER" spacing="10">
+                        <Label style="-fx-font-size: 14px; -fx-text-fill: #2193b0;" text="Code:" />
+                        <TextField fx:id="codeField" promptText="Entrez le code à 6 chiffres" style="-fx-font-size: 14px; -fx-padding: 10px; -fx-pref-width: 200px;
+                             -fx-background-color: #ffffff; -fx-border-color: #6dd5ed;
+                             -fx-border-radius: 5px; -fx-focus-color: #2193b0;">
+                            <effect>
+                                <DropShadow color="rgba(33,147,176,0.3)" offsetX="2" offsetY="2" radius="5" />
+                            </effect>
+                        </TextField>
+                    </HBox>
+
+                    <!-- Verify Button -->
+                    <Button onAction="#handleVerify" style="-fx-font-size: 16px; -fx-font-weight: bold;
+                          -fx-background-color: linear-gradient(to right, #2193b0, #6dd5ed);
+                          -fx-text-fill: white; -fx-padding: 12px 40px;
+                          -fx-background-radius: 25; -fx-cursor: hand;" text="Vérifier">
+                        <effect>
+                            <DropShadow color="rgba(33,147,176,0.5)" offsetX="0" offsetY="4" radius="10" />
+                        </effect>
+                    </Button>
+
+                    <!-- Resend Code Button -->
+                    <Button onAction="#handleResendCode" style="-fx-font-size: 14px; -fx-background-color: transparent;
+                          -fx-text-fill: #2193b0; -fx-border-color: #2193b0; -fx-border-radius: 5px;
+                          -fx-padding: 8px 20px; -fx-cursor: hand;" text="Renvoyer le code" />
+
+                    <!-- Status Message -->
+                    <Label fx:id="messageLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" text="" />
+                </VBox>
+            </StackPane>
+        </children>
+    </Pane>
+</AnchorPane>

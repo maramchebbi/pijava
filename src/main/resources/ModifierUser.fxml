@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ModifierUserController"
+      alignment="TOP_CENTER"
+      spacing="20"
+      style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 25 35 30 35;"
+      prefWidth="400">
+
+    <!-- Header with back button -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Button onAction="#annulerAction" style="-fx-background-color: transparent; -fx-cursor: hand;">
+            <graphic>
+                <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                    <image>
+                        <Image url="@image/9068678.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Text text="Modifier l'utilisateur" style="-fx-fill: #1e293b; -fx-font-weight: bold;">
+            <font>
+                <Font name="Segoe UI Semibold" size="20"/>
+            </font>
+        </Text>
+    </HBox>
+
+    <!-- User icon -->
+    <ImageView fitHeight="80" fitWidth="80" style="-fx-background-radius: 40;">
+        <image>
+            <Image url="@image/logo.png"/>
+        </image>
+        <clip>
+            <Circle centerX="40" centerY="40" radius="40"/>
+        </clip>
+    </ImageView>
+
+    <!-- Form fields -->
+    <VBox spacing="15" style="-fx-padding: 10 0 20 0;">
+        <!-- Nom -->
+        <VBox spacing="5">
+            <Label text="NOM" style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;"/>
+            <TextField fx:id="nomField" promptText="Entrez le nom"
+                       style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;"/>
+        </VBox>
+
+        <!-- Prénom -->
+        <VBox spacing="5">
+            <Label text="PRÉNOM" style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;"/>
+            <TextField fx:id="prenomField" promptText="Entrez le prénom"
+                       style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;"/>
+        </VBox>
+
+        <!-- Email -->
+        <VBox spacing="5">
+            <Label text="EMAIL" style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;"/>
+            <TextField fx:id="emailField" promptText="Entrez l'email"
+                       style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;"/>
+        </VBox>
+
+        <!-- Verification status -->
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 5 0;">
+            <CheckBox fx:id="verifiedCheckBox" text="Compte vérifié"
+                      style="-fx-text-fill: #475569; -fx-font-size: 14;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Status message -->
+    <Label fx:id="messageLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 13; -fx-alignment: CENTER;" maxWidth="Infinity" wrapText="true"/>
+
+    <!-- Save button -->
+    <Button text="Enregistrer les modifications" onAction="#handleSave"
+            style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 30; -fx-cursor: hand; -fx-font-size: 14;"/>
+</VBox>

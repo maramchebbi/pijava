@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1030.0" style="-fx-background-color: #ecf0f1; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherUserController">
+
+    <children>
+
+        <!-- 🔙 Déconnexion avec effet de survol -->
+        <Button fx:id="btnLogout" layoutX="20.0" layoutY="14.0" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 10, 0.5, 1, 1);">
+            <graphic>
+                <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+                    <image>
+                        <Image url="@image/4400828.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <!-- ✅ Barre des boutons d'action -->
+        <HBox alignment="CENTER_LEFT" layoutX="190.0" layoutY="114.0" prefHeight="67.0" prefWidth="638.0" spacing="20" style="-fx-background-color: #3498db; -fx-padding: 10; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, #000000, 15, 0.3, 0, 5);">
+            <children>
+                <!-- Bouton Ajouter avec effet et icône -->
+                <Button fx:id="addButton" onAction="#handleAddButtonAction" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3); -fx-transition: all 0.3s ease-in-out;">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <image>
+                                <Image url="@image/738882.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    Ajouter
+                </Button>
+
+                <!-- Bouton Modifier Mot de passe -->
+                <Button fx:id="modifierPasswordButton" onAction="#ouvrirModifierMotDePasse" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <image>
+                                <Image url="@image/6195699.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    Modifier MDP
+                </Button>
+
+                <!-- Bouton Réclamations -->
+                <Button onAction="#handleAfficherReclamations" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <image>
+                                <Image url="@image/2253934.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    Réclamations
+                </Button>
+
+                <!-- Bouton Mon Profil -->
+                <Button fx:id="btnMonProfil" onAction="#handleVoirMonProfil" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <image>
+                                <Image url="@image/7093729.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    Profil
+                </Button>
+            </children>
+        </HBox>
+
+        <!-- 📜 Grille d'utilisateurs -->
+        <ScrollPane layoutX="28.8" layoutY="220.0" prefHeight="550.0" prefWidth="971.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="50.0">
+            <content>
+                <GridPane fx:id="userGrid" hgap="40" style="-fx-padding: 30;" vgap="30">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                </GridPane>
+            </content>
+        </ScrollPane>
+        <Text fontSmoothingType="LCD" layoutX="237.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #2c3e50; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 4, 0.3, 1, 1);" text="Liste des Utilisateurs" wrappingWidth="556.0">
+            <font>
+                <Font name="Segoe UI Semibold" size="48.0" />
+            </font>
+        </Text>
+        <Button layoutX="952.0" layoutY="20.0" onAction="#handleOpenChat" style="-fx-background-color: #8e44ad;                -fx-background-radius: 50%;                -fx-border-radius: 50%;                -fx-min-width: 50px;                -fx-min-height: 50px;                -fx-max-width: 50px;                -fx-max-height: 50px;                -fx-cursor: hand;                -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+            <graphic>
+                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                    <image>
+                        <Image url="@image/chat_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+    </children>
+</AnchorPane>

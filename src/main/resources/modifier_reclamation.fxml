@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ModifierReclamationController"
+      spacing="15" alignment="CENTER" style="-fx-padding: 30; -fx-background-color: #f9f9f9;">
+
+    <Label text="✏️ Modifier Réclamation" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+    <ComboBox fx:id="optionCombo" promptText="Choisir une option" prefWidth="300"/>
+
+    <TextArea fx:id="descriptionArea" promptText="Modifier la description"
+              prefWidth="300" prefHeight="150"/>
+
+    <Button text="Enregistrer les modifications" onAction="#handleModifierReclamation"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+
+    <Label fx:id="statusLabel" style="-fx-text-fill: red; -fx-font-size: 12px;"/>
+</VBox>

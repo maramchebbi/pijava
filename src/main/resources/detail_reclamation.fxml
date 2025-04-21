@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.DetailReclamationController"
+            style="-fx-background-color: #ffffff; -fx-padding: 20;">
+    <children>
+        <VBox spacing="15" layoutX="20" layoutY="20">
+            <children>
+                <Label fx:id="nomPrenomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <Label fx:id="emailLabel" style="-fx-font-size: 14px;"/>
+                <Label fx:id="optionLabel" style="-fx-font-size: 14px;"/>
+                <TextArea fx:id="descriptionLabel" editable="false" wrapText="true"
+                          style="-fx-font-size: 14px; -fx-control-inner-background: white; -fx-border-color: transparent;"
+                          prefRowCount="6"/>
+            </children>
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+        </VBox>
+    </children>
+</AnchorPane>

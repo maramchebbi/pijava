@@ -1,0 +1,27 @@
+.list-view {
+    -fx-background-color: #f2f2f2;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+}
+
+.list-cell:odd {
+    -fx-background-color: transparent;
+}
+
+.list-cell:even {
+    -fx-background-color: transparent;
+}
+#chatBubble {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
+    -fx-transition: all 0.3s;
+}
+
+#chatBubble:hover {
+    -fx-background-color: #9b59b6;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.5, 0, 0);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
