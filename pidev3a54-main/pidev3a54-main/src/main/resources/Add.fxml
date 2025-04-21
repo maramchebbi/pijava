@@ -6,84 +6,96 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="650.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterOeuvre">
+<AnchorPane prefHeight="650.0" prefWidth="890.0" style="-fx-background-color: #F6F4F3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterOeuvre">
     <children>
-        <AnchorPane prefHeight="86.0" prefWidth="890.0" style="-fx-background-color: #b29f94;">
-            <children>
 
+        <!-- Left form -->
+        <GridPane alignment="TOP_LEFT" hgap="10" layoutX="100.0" layoutY="100.0" vgap="12">
+            <children>
+                <Text style="-fx-font-style: italic;" text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="nomField" prefWidth="260" promptText="Nom de l'œuvre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Text style="-fx-font-style: italic;" text="Type :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="typeField" prefWidth="260" promptText="Type" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Text style="-fx-font-style: italic;" text="Matière :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="matiereField" prefWidth="260" promptText="Matière" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Text style="-fx-font-style: italic;" text="Couleur :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="couleurField" prefWidth="260" promptText="Couleur" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Text style="-fx-font-style: italic;" text="Dimensions :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <TextField fx:id="dimensionField" prefWidth="260" promptText="Dimensions" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                <Text style="-fx-font-style: italic;" text="Créateur :" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <TextField fx:id="usertextfield" prefWidth="260" promptText="id_userfield" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <Text style="-fx-font-style: italic;" text="Catégorie :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextField fx:id="categorieField" prefWidth="260" promptText="categorie" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                <Text style="-fx-font-style: italic;" text="Image :" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <Button fx:id="uploadimage" onAction="#uploadimage" prefWidth="260" style="-fx-background-color: #DBDBDB;" text="Choisir une image" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                <Text style="-fx-font-style: italic;" text="Collection :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <ComboBox fx:id="collectionComboBox" prefWidth="260" promptText="Choisir une collection" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+                <Text style="-fx-font-style: italic;" text="Description :" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                <TextArea fx:id="descriptionField" prefHeight="60" prefWidth="260" promptText="Description de l'œuvre" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <!-- Right image preview -->
+        <VBox alignment="CENTER" layoutX="500.0" layoutY="150.0">
+            <children>
+                <ImageView fx:id="textileimage" fitHeight="400.0" fitWidth="280.0" preserveRatio="true" />
+                <Text style="-fx-font-style: italic;" text="Aperçu de l'image" />
+            </children>
+        </VBox>
+        <AnchorPane fx:id="anchropane" prefHeight="68.0" prefWidth="890.0" style="-fx-background-color: #b29f94;">
+            <children>
+                <!-- ImageView for the vase icon -->
+                <ImageView fx:id="iconview" fitHeight="50.0" fitWidth="85.0" layoutX="36.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
+
+                <!-- Text next to the ImageView -->
+                <Text layoutX="133.0" layoutY="43.0" text="Ajouter une œuvre">
+               <font>
+                  <Font name="System Bold Italic" size="28.0" />
+               </font></Text>
             </children>
         </AnchorPane>
-        <TextField fx:id="nomField" layoutX="238.0" layoutY="156.0" prefHeight="26.0" prefWidth="260.0" promptText="Nom de l'œuvre" />
-        <TextField fx:id="typeField" layoutX="238.0" layoutY="195.0" prefHeight="26.0" prefWidth="260.0" promptText="Type" />
-        <TextField fx:id="matiereField" layoutX="238.0" layoutY="235.0" prefHeight="26.0" prefWidth="260.0" promptText="Matière" />
-        <TextField fx:id="couleurField" layoutX="238.0" layoutY="275.0" prefHeight="26.0" prefWidth="260.0" promptText="Couleur" />
-        <TextField fx:id="dimensionField" layoutX="238.0" layoutY="315.0" prefHeight="26.0" prefWidth="260.0" promptText="Dimensions" />
-        <TextField fx:id="usertextfield" layoutX="238.0" layoutY="360.0" prefHeight="26.0" prefWidth="260.0" promptText="id_userfield" />
-        <TextField fx:id="categorieField" layoutX="238.0" layoutY="401.0" prefHeight="26.0" prefWidth="260.0" promptText="categorie" />
-        <TextArea fx:id="descriptionField" layoutX="238.0" layoutY="522.0" prefHeight="44.0" prefWidth="260.0" promptText="Description de l'œuvre" />
-        <Button layoutX="258.0" layoutY="590.0" mnemonicParsing="false" onAction="#ajouterOeuvre" prefHeight="26.0" prefWidth="97.0" style="-fx-background-color: #b29f94;" text="Confirmer" />
-        <Button layoutX="375.0" layoutY="590.0" mnemonicParsing="false" onAction="#viewoeuvre" prefHeight="26.0" prefWidth="97.0" style="-fx-background-color: #b29f94;" text="Retour" />
-        <Button layoutX="238.0" layoutY="444.0" mnemonicParsing="false" onAction="#uploadimage" prefHeight="26.0" prefWidth="260.0" style="-fx-background-color: #DBDBDB;" text="Choisir une image" />
-        <ImageView fx:id="textileimage" fitHeight="410.0" fitWidth="283.0" layoutX="573.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
 
-        <Text layoutX="157.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="157.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="154.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matière :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="153.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Couleur :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="153.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dimensions :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="153.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Créateur :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="153.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="categorie :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="153.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="153.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Collection :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <Text layoutX="157.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description :">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Text>
-        <ComboBox fx:id="collectionComboBox" layoutX="238.0" layoutY="489.0" prefHeight="26.0" prefWidth="260.0" promptText="choisir une collection" />
-      <Text layoutX="191.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Une Nouvelle Piéce :" wrappingWidth="318.13677978515625">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
+          <HBox alignment="CENTER" layoutX="169.0" layoutY="525.0" spacing="15">
+              <children>
+                  <Button onAction="#ajouterOeuvre" prefWidth="120" style="-fx-background-color: #b29f94;" text="Confirmer" />
+                  <Button onAction="#viewoeuvre" prefWidth="120" style="-fx-background-color: #b29f94;" text="Retour" />
+
+              </children>
+          </HBox>
+
     </children>
 </AnchorPane>

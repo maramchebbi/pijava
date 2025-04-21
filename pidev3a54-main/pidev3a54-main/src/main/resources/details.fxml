@@ -5,41 +5,48 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="553.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.detail">
     <children>
+        <!-- Header Section -->
+        <AnchorPane prefHeight="81.0" prefWidth="674.0" style="-fx-background-color: #5e4b3c;">
+            <Label layoutX="14.0" layoutY="23.0" text="Détails de l'Œuvre" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+        </AnchorPane>
 
-        <Label layoutX="34.0" layoutY="187.0" prefHeight="18.0" prefWidth="43.0" text="Nom:" />
-        <TextField fx:id="nomField" editable="false" layoutX="121.0" layoutY="183.0" prefWidth="200" />
+        <!-- Image Section -->
+        <ImageView fx:id="imageView" fitHeight="271.0" fitWidth="300.0" layoutX="361.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
 
-        <Label layoutX="36.0" layoutY="227.0" text="Type:" />
-        <TextField fx:id="typeField" editable="false" layoutX="121.0" layoutY="223.0" prefWidth="200" />
+        <!-- Details Section -->
+        <Label layoutX="34.0" layoutY="147.0" text="Nom:" />
+        <TextField fx:id="nomField" editable="false" layoutX="121.0" layoutY="143.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
-        <Label layoutX="34.0" layoutY="265.0" text="Description:" />
-        <TextField fx:id="descriptionField" editable="false" layoutX="121.0" layoutY="261.0" prefWidth="200" />
+        <Label layoutX="36.0" layoutY="187.0" text="Type:" />
+        <TextField fx:id="typeField" editable="false" layoutX="121.0" layoutY="183.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
-        <Label layoutX="34.0" layoutY="298.0" text="Matière:" />
-        <TextField fx:id="matiereField" editable="false" layoutX="121.0" layoutY="294.0" prefWidth="200" />
+        <Label layoutX="34.0" layoutY="225.0" text="Description:" />
+        <TextField fx:id="descriptionField" editable="false" layoutX="121.0" layoutY="221.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
-        <Label layoutX="33.0" layoutY="332.0" text="Couleur:" />
-        <TextField fx:id="couleurField" editable="false" layoutX="121.0" layoutY="328.0" prefWidth="200" />
+        <Label layoutX="34.0" layoutY="258.0" text="Matière:" />
+        <TextField fx:id="matiereField" editable="false" layoutX="121.0" layoutY="254.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
-        <Label layoutX="33.0" layoutY="368.0" text="Dimensions:" />
-        <TextField fx:id="dimensionField" editable="false" layoutX="121.0" layoutY="364.0" prefWidth="200" />
+        <Label layoutX="33.0" layoutY="292.0" text="Couleur:" />
+        <TextField fx:id="couleurField" editable="false" layoutX="121.0" layoutY="288.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
+        <Label layoutX="33.0" layoutY="328.0" text="Dimensions:" />
+        <TextField fx:id="dimensionField" editable="false" layoutX="121.0" layoutY="324.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
+        <Label layoutX="37.0" layoutY="366.0" text="Catégorie:" />
+        <TextField fx:id="categorieField" editable="false" layoutX="121.0" layoutY="362.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
-        <Label layoutX="37.0" layoutY="406.0" text="Catégorie:" />
-        <TextField fx:id="categorieField" editable="false" layoutX="121.0" layoutY="402.0" prefWidth="200" />
+        <Label layoutX="36.0" layoutY="398.0" text="Créateur:" />
+        <TextField fx:id="id_userfield" editable="false" layoutX="121.0" layoutY="394.0" prefWidth="200" style="-fx-background-color: #f8f8f8;" />
 
-        <!-- Optional: Add creator (user_id) if required for display -->
-        <Label layoutX="36.0" layoutY="438.0" text="Créateur :" />
-        <TextField fx:id="id_userfield" editable="false" layoutX="121.0" layoutY="434.0" prefWidth="200" />
-
-        <!-- Buttons -->
-        <Button layoutX="200.0" layoutY="487.0" mnemonicParsing="false" onAction="#supprimerOeuvre" style="-fx-background-color: #b29f94;" text="Supprimer" />
-        <Button layoutX="121.0" layoutY="487.0" mnemonicParsing="false" onAction="#modifierOeuvre" style="-fx-background-color: #b29f94;" text="Modifier" />
-      <ImageView fx:id="imageView" fitHeight="271.0" fitWidth="300.0" layoutX="361.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" />
-      <AnchorPane fx:id="anchropane" prefHeight="103.0" prefWidth="673.0" style="-fx-background-color: #b29f94;" />
+        <!-- OK Button -->
+        <Button layoutX="280.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleOK" prefWidth="100.0" style="-fx-background-color: #5e4b3c; -fx-text-fill: white;" text="OK" />
     </children>
 </AnchorPane>

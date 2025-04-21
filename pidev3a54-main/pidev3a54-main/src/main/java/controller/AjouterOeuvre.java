@@ -26,10 +26,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
+import javafx.scene.text.Text;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class AjouterOeuvre {
 
         @FXML
         private ImageView Artisferaimage;
+
+
 
         @FXML
         private TextField collectionIdField;
@@ -67,111 +73,121 @@ public class AjouterOeuvre {
 
         @FXML
         private TextField typeField;
+    @FXML
+    private ImageView iconview;
 
 
+    @FXML
+    void ajouterOeuvre(ActionEvent event) {
+        // Récupération des données depuis les champs FXML
+        String nom = nomField.getText();
+        String type = typeField.getText();
+        String description = descriptionField.getText();
+        String matiere = matiereField.getText();
+        String dimensions = dimensionField.getText();
+        String couleur = couleurField.getText();
+        String categorie = categorieField.getText();
 
-        @FXML
-        void ajouterOeuvre(ActionEvent event) {
-            // Récupération des données depuis les champs FXML
-            String nom = nomField.getText();
-            String type = typeField.getText();
-            String description = descriptionField.getText();
-            String matiere = matiereField.getText();
-            String dimensions = dimensionField.getText(); // Fix variable name
-            String couleur = couleurField.getText();
+        int userId;
+        int collectionId;
+        String imagePath = "";
 
-            String categorie = categorieField.getText();
-
-            int userId;
-            int collectionId;
-            String imagePath = "";
-
-            // Vérification et conversion des IDs
-            CeramicCollection selectedCollection;
-            try {
-                userId = Integer.parseInt(usertextfield.getText());
-                // collectionId = Integer.parseInt(collectionIdField.getText());
-                // Corrected collection ID
-                selectedCollection = collectionComboBox.getValue();
-                if (selectedCollection == null) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Erreur");
-                    alert.setHeaderText("Aucune collection sélectionnée !");
-                    alert.setContentText("Veuillez choisir une collection avant d'ajouter l'œuvre.");
-                    alert.show();
-                    return;  // Exit the method if no collection is selected
-                }
-
-
-                collectionId = selectedCollection.getId();
-
-            } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Format incorrect !");
-                alert.setContentText("Les champs ID utilisateur et ID collection doivent être numériques.");
-                alert.show();
+        // Vérification et conversion des IDs
+        CeramicCollection selectedCollection;
+        try {
+            userId = Integer.parseInt(usertextfield.getText());
+            selectedCollection = collectionComboBox.getValue();
+            if (selectedCollection == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Aucune collection sélectionnée !",
+                        "Veuillez choisir une collection avant d'ajouter l'œuvre.");
                 return;
             }
+            collectionId = selectedCollection.getId();
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Format incorrect !",
+                    "Les champs ID utilisateur et ID collection doivent être numériques.");
+            return;
+        }
 
-            // Récupération du chemin de l’image sélectionnée dans l’ImageView
-            if (textileimage.getImage() != null) {
-                Image image = textileimage.getImage();
-                imagePath = image.getUrl();
-                if (imagePath != null && imagePath.startsWith("file:/")) {
-                    imagePath = imagePath.replace("file:/", "");
-                }
-            }
-
-
-
-            Oeuvre oeuvreObj = new Oeuvre(
-                    nom, type, description, matiere, couleur, dimensions, imagePath, categorie, userId, selectedCollection
-            );
-
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            Validator validator = factory.getValidator();
-
-            Set<ConstraintViolation<Oeuvre>> violations = validator.validate(oeuvreObj);
-
-            if (!violations.isEmpty()) {
-                StringBuilder message = new StringBuilder();
-                for (ConstraintViolation<Oeuvre> violation : violations) {
-                    message.append(violation.getMessage()).append("\n");
-                }
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Attention !");
-                alert.setHeaderText("Vous Avez Definir des mauvais Format  :");
-                alert.setContentText(message.toString());
-                alert.show();
-                return; // On ne continue pas si des erreurs sont détectées
-            }
-            // Création du service Oeuvre
-            OeuvreService oeuvreService = new OeuvreService();
-
-            // Tentative d’ajout avec gestion des exceptions
-            try {
-                oeuvreService.add(oeuvreObj);
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Succès");
-                alert.setHeaderText("Œuvre ajoutée avec succès !");
-                alert.show();
-
-                // ➕ Optionnel : Redirection vers un autre écran ou actualisation de l’interface
-                // FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
-                // Parent root = loader.load();
-                // detail controller = loader.getController();
-                // ... transmettre oeuvreObj ou actualiser les données
-
-            } catch (SQLException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur lors de l'ajout");
-                alert.setHeaderText("Impossible d'ajouter l'œuvre");
-                alert.setContentText(e.getMessage());
-                alert.show();
+        // Récupération du chemin de l'image
+        if (textileimage.getImage() != null) {
+            Image image = textileimage.getImage();
+            imagePath = image.getUrl();
+            if (imagePath != null && imagePath.startsWith("file:/")) {
+                imagePath = imagePath.replace("file:/", "");
             }
         }
+
+        // Vérification si l'œuvre existe déjà
+        try {
+            OeuvreService oeuvreService = new OeuvreService();
+            if (oeuvreService.isOeuvreNameOrImageExists(nom, imagePath)) {
+                // Vérification plus précise pour donner un message d'erreur spécifique
+                boolean nomExists = oeuvreService.isOeuvreNameExists(nom);
+                boolean imageExists = oeuvreService.isOeuvreImageExists(imagePath);
+
+                if (nomExists && imageExists) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Combinaison existante",
+                            "Une œuvre avec CE NOM et CETTE IMAGE existe déjà.");
+                } else if (nomExists) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Nom existant",
+                            "Une œuvre avec CE NOM existe déjà. Choisissez un nom différent.");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Image existante",
+                            "Cette IMAGE est déjà utilisée. Choisissez une autre image.");
+                }
+                return;
+            }
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur base de données",
+                    "Impossible de vérifier l'unicité: " + e.getMessage());
+            return;
+        }
+
+        // Création et validation de l'objet Oeuvre
+        Oeuvre oeuvreObj = new Oeuvre(
+                nom, type, description, matiere, couleur, dimensions,
+                imagePath, categorie, userId, selectedCollection
+        );
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Oeuvre>> violations = validator.validate(oeuvreObj);
+
+        if (!violations.isEmpty()) {
+            StringBuilder message = new StringBuilder();
+            for (ConstraintViolation<Oeuvre> violation : violations) {
+                message.append(violation.getMessage()).append("\n");
+            }
+            showAlert(Alert.AlertType.ERROR, "Attention !", "Format invalide", message.toString());
+            return;
+        }
+
+        // Tentative d'ajout
+        try {
+            OeuvreService oeuvreService = new OeuvreService();
+            oeuvreService.add(oeuvreObj);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Œuvre ajoutée",
+                    "L'œuvre a été ajoutée avec succès !");
+
+            // Optionnel: Réinitialiser les champs ou rediriger
+            // resetFields();
+
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout",
+                    "Impossible d'ajouter l'œuvre: " + e.getMessage());
+        }
+    }
+
+    // Méthode utilitaire pour afficher des alertes
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
         @FXML
         public void viewoeuvre(ActionEvent actionEvent) {
@@ -247,6 +263,13 @@ public class AjouterOeuvre {
                         alert.setContentText(e.getMessage());
                         alert.show();
                 }
+            // Load the image from resources folder using a relative path
+            Image image = new Image(getClass().getResource("/images/icon.png").toExternalForm());
+
+            // Set the image to the ImageView
+            iconview.setImage(image);
+
+
         }
 
 

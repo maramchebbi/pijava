@@ -1,123 +1,208 @@
 package controller;
 
+import Models.Oeuvre;
+import Services.OeuvreService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import Services.OeuvreService;
-import Models.Oeuvre;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class ShowOeuvres {
 
     @FXML
     private FlowPane imageContainer;
 
-    private OeuvreService oeuvreService;
+    private final OeuvreService oeuvreService = new OeuvreService();
 
-    public ShowOeuvres() {
-        oeuvreService = new OeuvreService();
+    @FXML
+    public void initialize() {
+        populateImages();
     }
 
-    // Method to populate images in the FlowPane dynamically from the database
     public void populateImages() {
         try {
-
             List<Oeuvre> ouvres = oeuvreService.getAll();
-
-            // Clear existing images in case of a refresh
             imageContainer.getChildren().clear();
 
+            for (Oeuvre oeuvre : ouvres) {
+                // Création du conteneur pour chaque œuvre
+                VBox oeuvreBox = new VBox(10);
+                oeuvreBox.setAlignment(Pos.TOP_CENTER);
+                oeuvreBox.setStyle("-fx-background-color: #ffffff; -fx-border-radius: 5; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);");
+                oeuvreBox.setPadding(new Insets(15));
+                oeuvreBox.setPrefWidth(200);
 
-            for (Oeuvre t : ouvres) {
-                String imagePath = t.getImage(); // This should contain the image path or URL from the database
+                // Nom de l'œuvre
+                Text nameText = new Text(oeuvre.getNom());
+                nameText.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                nameText.setWrappingWidth(180);
+
+                // Image de l'œuvre
+                ImageView imageView = new ImageView();
+                String imagePath = oeuvre.getImage();
                 if (imagePath != null && !imagePath.isEmpty()) {
-                    ImageView imageView = new ImageView(new Image("file:" + imagePath)); // Assuming the images are local
-                    imageView.setFitHeight(100);  // Set a fixed size for the image
-                    imageView.setFitWidth(100);   // Set a fixed size for the image
-
-                    // Add an event handler to open the details page when the image is clicked
-                    imageView.setOnMouseClicked(event -> handleDetails(t));
-
-                    imageContainer.getChildren().add(imageView);  // Add the ImageView to the FlowPane
+                    try {
+                        Image image = new Image("file:" + imagePath);
+                        imageView.setImage(image);
+                        imageView.setFitWidth(180);
+                        imageView.setFitHeight(180);
+                        imageView.setPreserveRatio(true);
+                        imageView.setSmooth(true);
+                    } catch (Exception e) {
+                        System.err.println("Erreur de chargement de l'image: " + imagePath);
+                        Text errorText = new Text("Image non disponible");
+                        errorText.setStyle("-fx-fill: #999999;");
+                        oeuvreBox.getChildren().add(errorText);
+                    }
                 }
+
+                // Boutons d'action
+                HBox buttonBox = new HBox(10);
+                buttonBox.setAlignment(Pos.CENTER);
+
+                Button detailsBtn = new Button("Détails");
+                detailsBtn.setStyle("-fx-background-color: #8a6d5b; -fx-text-fill: white;");
+                detailsBtn.setOnAction(e -> handleDetails(oeuvre));
+
+                Button editBtn = new Button("Modifier");
+                editBtn.setStyle("-fx-background-color: #5e4b3c; -fx-text-fill: white;");
+                editBtn.setOnAction(e -> handleEdit(oeuvre));
+
+                Button deleteBtn = new Button("Supprimer");
+                deleteBtn.setStyle("-fx-background-color: #a52a2a; -fx-text-fill: white;");
+                deleteBtn.setOnAction(e -> handleDelete(oeuvre));
+
+                buttonBox.getChildren().addAll(detailsBtn, editBtn, deleteBtn);
+                oeuvreBox.getChildren().addAll(nameText, imageView, buttonBox);
+                imageContainer.getChildren().add(oeuvreBox);
             }
         } catch (Exception e) {
+            showAlert("Erreur", "Erreur lors du chargement des œuvres: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // Initialize method to call populateImages when the view is loaded
-    @FXML
-    public void initialize() {
-        populateImages();  // Call the method to populate the images when the controller is initialized
-    }
-
-
-    private void handleDetails(Oeuvre t) {
+    private void handleDetails(Oeuvre oeuvre) {
         try {
-            // Load the Details view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
             Parent root = loader.load();
 
-
             detail detailController = loader.getController();
-            detailController.setOeuvreDetails(t);
+            detailController.setOeuvreDetails(oeuvre);
 
-            // Create a new stage for the details view
             Stage stage = new Stage();
-            stage.setTitle("oeuvre Details");
+            stage.setTitle("Détails de l'œuvre");
             stage.setScene(new Scene(root));
             stage.show();
-
-            // Add a listener to refresh the images when the detail window is closed
-            stage.setOnCloseRequest(event -> populateImages()); // Refresh the images when the detail window is closed
-
         } catch (IOException e) {
+            showAlert("Erreur", "Impossible d'ouvrir les détails");
             e.printStackTrace();
         }
     }
 
+    private void handleEdit(Oeuvre oeuvre) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit.fxml"));
+            Parent root = loader.load();
 
+            edit editController = loader.getController();
+            editController.setOeuvreDetails(oeuvre);
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier l'œuvre");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible d'ouvrir l'éditeur");
+            e.printStackTrace();
+        }
+    }
+
+    private void handleDelete(Oeuvre oeuvre) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText("Supprimer l'œuvre '" + oeuvre.getNom() + "' ?");
+        alert.setContentText("Cette action est irréversible.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                // Modification ici pour utiliser la méthode qui accepte un Oeuvre
+                oeuvreService.delete(oeuvre); // Passer l'objet Oeuvre complet
+                showAlert("Succès", "Œuvre supprimée avec succès");
+                populateImages(); // Rafraîchir l'affichage
+            } catch (SQLException e) {
+                showAlert("Erreur", "Échec de la suppression: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @FXML
     private void handleAjouterOeuvre(ActionEvent event) {
         try {
-            // Load the "ajouter.fxml" file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Add.fxml"));
-            Parent root = loader.load();
-
-            // Get the current scene and set the new scene with the form
-            Scene scene = new Scene(root);
+            Parent root = FXMLLoader.load(getClass().getResource("/Add.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();  // Log the error or show an alert
+            showAlert("Erreur", "Impossible d'ouvrir l'interface d'ajout");
+            e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleWorkshopRedirect(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Workshop.fxml")); // adapte le chemin
+            Parent workshopRoot = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter Workshop");
+            stage.setScene(new Scene(workshopRoot));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @FXML
     private void affichercollectionaction(ActionEvent event) {
         try {
-            // Charger le fichier FXML pour l'interface d'ajout de collection
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Collections.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir la scène actuelle et définir la nouvelle scène avec le formulaire d'ajout
-            Scene scene = new Scene(root);
+            Parent root = FXMLLoader.load(getClass().getResource("/Collections.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();  // Loguer l'erreur ou afficher une alerte
+            showAlert("Erreur", "Impossible d'ouvrir les collections");
+            e.printStackTrace();
         }
     }
-
 }

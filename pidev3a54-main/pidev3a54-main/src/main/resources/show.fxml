@@ -12,9 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="650.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.ShowOeuvres">
-
-
+<AnchorPane prefHeight="668.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShowOeuvres">
     <children>
         <!-- Header Text with better styling -->
         <Text fx:id="headerText" layoutX="50.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des Œuvres">
@@ -36,7 +34,7 @@
 
         <!-- Action Buttons with consistent styling -->
         <HBox layoutX="50.0" layoutY="90.0" spacing="10">
-            <Button mnemonicParsing="false" onAction="#affichercollectionaction" prefHeight="35.0" prefWidth="186.0" style="-fx-background-color: #8a6d5b; -fx-text-fill: white; -fx-font-weight: bold;" text="Les Collections">
+            <Button layoutX="590.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleAjouterOeuvre" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #5e4b3c; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Ajouter Œuvre">
                 <effect>
                     <DropShadow color="rgba(0,0,0,0.1)" radius="3.0" />
                 </effect>
@@ -44,22 +42,11 @@
         </HBox>
 
         <!-- Main Content Area with better scroll pane -->
-        <ScrollPane fx:id="scrollPane"
-                    layoutX="50.0"
-                    layoutY="136.0"
-                    prefHeight="470.0"
-                    prefWidth="700.0"
-                    fitToWidth="true"
-                    hbarPolicy="NEVER"
-                    vbarPolicy="ALWAYS"
-                    style="-fx-background: #f8f5f2; -fx-border-color: #d9d1c7; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="50.0" layoutY="136.0" prefHeight="470.0" prefWidth="700.0" style="-fx-background: #f8f5f2; -fx-border-color: #d9d1c7; -fx-border-radius: 5; -fx-background-radius: 5;" vbarPolicy="AS_NEEDED">
             <content>
-                <FlowPane fx:id="imageContainer"
-                          hgap="20"
-                          vgap="20"
-                          prefWidth="680.0"> <!-- on peut définir une largeur ici -->
+                <FlowPane fx:id="imageContainer" alignment="TOP_CENTER" hgap="20" prefWrapLength="700" vgap="30">
                     <padding>
-                        <Insets top="20" right="20" bottom="20" left="20" />
+                        <Insets bottom="20" left="20" right="20" top="20" />
                     </padding>
                 </FlowPane>
             </content>
@@ -67,8 +54,12 @@
                 <DropShadow color="rgba(0,0,0,0.05)" offsetX="0.0" offsetY="2.0" radius="10.0" />
             </effect>
         </ScrollPane>
-
-        <Button layoutX="590.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleAjouterOeuvre" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #5e4b3c; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Ajouter Œuvre">
+         <Button layoutX="291.0" layoutY="90.0" mnemonicParsing="false" onAction="#affichercollectionaction" prefHeight="35.0" prefWidth="186.0" style="-fx-background-color: #8a6d5b; -fx-text-fill: white; -fx-font-weight: bold;" text="Les Collections">
+             <effect>
+                 <DropShadow color="rgba(0,0,0,0.1)" radius="3.0" />
+             </effect>
+         </Button>
+         <Button layoutX="590.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleWorkshopRedirect" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #5e4b3c; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Ajouter Workshop">
              <effect>
                  <DropShadow color="rgba(0,0,0,0.1)" radius="3.0" />
              </effect>

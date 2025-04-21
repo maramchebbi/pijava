@@ -19,7 +19,19 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.ConstraintViolation;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 
+// Pour SQLException
+import java.sql.SQLException;
+import java.io.IOException;
+
+// Pour les autres éléments fréquemment utilisés avec ces classes
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.event.ActionEvent;
 public class edit {
 
     @FXML
@@ -108,10 +120,7 @@ public class edit {
         int userId = Integer.parseInt(useridtextfield.getText().trim());
         String categorie = categorieField.getText().trim();
 
-
         String imagePath = (selectedImageFile != null) ? selectedImageFile.getAbsolutePath() : currentOeuvre.getImage();
-
-
 
         Oeuvre updatedOeuvre = new Oeuvre(
                 currentOeuvre.getId(),
@@ -126,16 +135,44 @@ public class edit {
                 userId
         );
 
-
         try {
             oeuvreService.update(updatedOeuvre);
-            showAlert("Succès", "L'œuvre a été mise à jour avec succès !");
+
+            // Afficher l'alerte de succès
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succès");
+            alert.setHeaderText(null);
+            alert.setContentText("L'œuvre a été mise à jour avec succès !");
+
+            // Ajouter un bouton OK et attendre le clic
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        // Charger la vue details.fxml
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
+                        Parent root = loader.load();
+
+                        // Passer les données mises à jour
+                        detail detailController = loader.getController();
+                        detailController.setOeuvreDetails(updatedOeuvre);
+
+                        // Afficher la nouvelle scène
+                        Stage stage = (Stage) nomField.getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        showAlert("Erreur", "Impossible d'ouvrir la vue des détails");
+                    }
+                }
+            });
+
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Erreur", "Une erreur est survenue lors de la mise à jour.");
         }
     }
-
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

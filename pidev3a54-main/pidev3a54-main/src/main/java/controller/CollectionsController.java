@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import Models.Oeuvre;
 import Services.OeuvreService;
+import controller.Detailco;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -85,19 +86,24 @@ public class CollectionsController {
     }
     private void voir(CeramicCollection collection) {
         try {
-            // Chargement du fichier FXML pour la vue détaillée
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
-            loader.setController(this);
             Parent root = loader.load();
 
+            // Récupérer le contrôleur lié au fichier FXML
+            Detailco controller = loader.getController();
+
+            // Charger les images de la collection sélectionnée
+            controller.populateImagesByCollection(collection.getId());
+
+            // Afficher la nouvelle scène
             Scene scene = new Scene(root);
-            Stage stage = new Stage();
+            Stage stage = new Stage(); // nouvelle fenêtre
             stage.setScene(scene);
-            stage.setTitle("Détails de la Collection");
+            stage.setTitle("Détails de la Collection: " + collection.getNom_c());
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
-            // Gérer l'exception selon vos besoins
         }
     }
 

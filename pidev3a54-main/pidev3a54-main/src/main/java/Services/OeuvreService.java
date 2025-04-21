@@ -78,6 +78,7 @@ public class OeuvreService implements IService<Oeuvre> {
         int rows = stmt.executeUpdate();
         System.out.println("Rows deleted: " + rows);
     }
+
     public void deleteByCollectionId(int collectionId) throws SQLException {
         String query = "DELETE FROM oeuvre WHERE ceramic_collection_id = '" + collectionId + "'";
         Statement stmt = con.createStatement();
@@ -112,30 +113,62 @@ public class OeuvreService implements IService<Oeuvre> {
         }
 
 
-    public List<Oeuvre> getOeuvresByCollectionId(int collectionId, Connection conn) throws SQLException {
+    public List<Oeuvre> getByCollectionId(int collectionId) throws SQLException {
+        String query = "SELECT * FROM oeuvre WHERE ceramic_collection_id = ?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setInt(1, collectionId);
+        ResultSet rs = statement.executeQuery();
+
         List<Oeuvre> oeuvres = new ArrayList<>();
-        String query = "SELECT * FROM Oeuvre WHERE ceramic_collection_id = ?";
+        while (rs.next()) {
+            Oeuvre o = new Oeuvre();
+            o.setId(rs.getInt("id"));
+            o.setNom(rs.getString("nom"));
+            o.setImage(rs.getString("image"));
 
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, collectionId);
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Oeuvre oeuvre = new Oeuvre();
-                    oeuvre.setId(rs.getInt("id"));
-                    oeuvre.setNom(rs.getString("nom"));
-                    oeuvre.setImage(rs.getString("image"));
-                    // Assurez-vous de récupérer et de définir les autres propriétés de l'œuvre
-                    oeuvres.add(oeuvre);
-                }
-            }
+            // Créer et associer la collection
+            CeramicCollection collection = new CeramicCollection();
+            collection.setId(collectionId);
+            o.setCollection(collection);
+
+            oeuvres.add(o);
         }
         return oeuvres;
     }
 
+    public boolean isOeuvreNameOrImageExists(String nom, String imagePath) throws SQLException {
+        String query = "SELECT COUNT(*) FROM oeuvre WHERE nom = ? OR image = ?";
 
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, nom);
+            stmt.setString(2, imagePath);
 
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
 
+    public boolean isOeuvreNameExists(String nom) throws SQLException {
+        String query = "SELECT COUNT(*) FROM oeuvre WHERE nom = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, nom);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
+
+    public boolean isOeuvreImageExists(String imagePath) throws SQLException {
+        String query = "SELECT COUNT(*) FROM oeuvre WHERE image = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, imagePath);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
 }
 
 
