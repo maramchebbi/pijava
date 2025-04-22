@@ -38,6 +38,8 @@ public class ShowOeuvres {
         populateImages();
     }
 
+
+
     public void populateImages() {
         try {
             List<Oeuvre> ouvres = oeuvreService.getAll();
@@ -91,7 +93,12 @@ public class ShowOeuvres {
                 deleteBtn.setStyle("-fx-background-color: #a52a2a; -fx-text-fill: white;");
                 deleteBtn.setOnAction(e -> handleDelete(oeuvre));
 
-                buttonBox.getChildren().addAll(detailsBtn, editBtn, deleteBtn);
+                // Inside your populateImages() method, where you create buttons:
+                Button view3DBtn = new Button("3D View");
+                view3DBtn.setStyle("-fx-background-color: #4b6b9e; -fx-text-fill: white;");
+                view3DBtn.setOnAction(e -> handle3DView(oeuvre));
+
+                buttonBox.getChildren().addAll(detailsBtn, editBtn, deleteBtn,view3DBtn);
                 oeuvreBox.getChildren().addAll(nameText, imageView, buttonBox);
                 imageContainer.getChildren().add(oeuvreBox);
             }
@@ -100,7 +107,40 @@ public class ShowOeuvres {
             e.printStackTrace();
         }
     }
+    //methode 3d
+    private void handle3DView(Oeuvre oeuvre) {
+        try {
+            // Créer le viewer 3D
+            Artwork3DViewer viewer = new Artwork3DViewer();
 
+            // Récupérer le chemin de l'image exacte de l'œuvre
+            String imagePath = oeuvre.getImage();
+
+            // Déterminer les dimensions (vous pouvez les stocker dans votre modèle Oeuvre)
+            double width = 200;  // ou oeuvre.getWidth() si disponible
+            double height = 300; // ou oeuvre.getHeight()
+            double depth = 200;  // ou oeuvre.getDepth()
+
+            // Afficher l'œuvre en 3D avec SA PROPRE image
+            viewer.displayArtwork(
+                    "vase", // ou oeuvre.getType() si vous avez ce champ
+                    width,
+                    height,
+                    depth,
+                    "file:" + imagePath // Préfixe "file:" pour les chemins absolus
+            );
+
+            // Configurer la fenêtre
+            Stage stage = new Stage();
+            stage.setScene(new Scene(viewer, 850, 650));
+            stage.setTitle("Visualisation 3D: " + oeuvre.getNom());
+            stage.show();
+
+        } catch (Exception e) {
+            showAlert("Erreur", "Impossible d'afficher la vue 3D: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     private void handleDetails(Oeuvre oeuvre) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
