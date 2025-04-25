@@ -1,18 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="560.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CollectionsController">
-    <TableView fx:id="tableView" layoutX="20.0" layoutY="98.0" prefHeight="350.0" prefWidth="686.0">
-        <columns>
-            <TableColumn fx:id="nomColumn" prefWidth="115.99996566772461" text="Nom" />
-            <TableColumn fx:id="descriptionColumn" prefWidth="313.6000518798828" text="Description" />
-            <TableColumn fx:id="actionColumn" prefWidth="255.19998779296873" text="Actions" />
-        </columns>
-    </TableView>
-   <Button layoutX="391.0" layoutY="60.0" mnemonicParsing="false" onAction="#ajoutercoaction" prefHeight="26.0" prefWidth="314.0" text="+ ajouter une collection" />
-   <Button layoutX="20.0" layoutY="60.0" mnemonicParsing="false" onAction="#oeuvreaction" prefHeight="26.0" prefWidth="146.0" text="Les Oeuvres Disponibles" />
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: linear-gradient(to bottom right, #f5f5dc, #d2b48c);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CollectionsController">
+    <top>
+        <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" text="Collections de Céramique" textAlignment="CENTER" textFill="#6b4226">
+                    <font>
+                        <Font name="Segoe UI Bold" size="36.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="30.0" />
+                    </VBox.margin>
+                    <effect>
+                        <DropShadow color="#00000040" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Label>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#oeuvreaction" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #8b5a2b; -fx-text-fill: #f5f5dc; -fx-background-radius: 15; -fx-font-weight: bold;" text="Œuvres Disponibles">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                            <effect>
+                                <DropShadow color="#00000080" height="10.0" radius="4.5" width="10.0" />
+                            </effect>
+                        </Button>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ajoutercoaction" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #6b4226; -fx-text-fill: #f5f5dc; -fx-background-radius: 15; -fx-font-weight: bold;" text="+ Ajouter une Collection">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                            <effect>
+                                <DropShadow color="#00000080" height="10.0" radius="4.5" width="10.0" />
+                            </effect>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="30.0" top="20.0" />
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <TableView fx:id="tableView" layoutX="50.0" layoutY="20.0" prefHeight="500.0" prefWidth="924.0" style="-fx-background-color: #f5f5dc; -fx-background-radius: 10; -fx-border-color: #8b5a2b; -fx-border-radius: 10; -fx-border-width: 2;" stylesheets="@css-files/collections.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+                    <columns>
+                        <TableColumn fx:id="nomColumn" prefWidth="200.0" style="-fx-alignment: CENTER-LEFT;" text="Nom" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="350.0" style="-fx-alignment: CENTER-LEFT;" text="Description" />
+                        <TableColumn fx:id="actionColumn" prefWidth="370.0" style="-fx-alignment: CENTER;" text="Actions" />
+                    </columns>
+                    <effect>
+                        <DropShadow color="#00000080" height="20.0" radius="9.5" width="20.0" />
+                    </effect>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" prefHeight="60.0" style="-fx-background-color: #8b5a2b30;" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="© 2025 Collection de Céramique" textFill="#6b4226">
+                    <font>
+                        <Font name="System Italic" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

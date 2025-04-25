@@ -1,68 +1,62 @@
 package controller;
 
-import Models.CeramicCollection;
 import Models.Oeuvre;
 import Services.OeuvreService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.util.Set;
+
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.Set;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import jakarta.validation.ConstraintViolation;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.Parent;
-import java.io.IOException;
 
-public class edit {
+public class edit implements Initializable {
 
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private TextField nomField;
-    @FXML
-    private ComboBox<String> typeComboBox;
-    @FXML
-    private TextField descriptionField;
-    @FXML
-    private TextField matiereField;
-    @FXML
-    private TextField couleurField;
-    @FXML
-    private TextField dimensionField;
-    @FXML
-    private TextField useridtextfield;
-    @FXML
-    private ComboBox<String> categorieComboBox;
+    @FXML private ImageView imageView;
+    @FXML private TextField nomField;
+    @FXML private ComboBox<String> typeComboBox;
+    @FXML private TextField descriptionField;
+    @FXML private TextField matiereField;
+    @FXML private TextField couleurField;
+    @FXML private TextField dimensionField;
+ @FXML private TextField useridtextfield;
+    @FXML private ComboBox<String> categorieComboBox;
 
     private File selectedImageFile = null;
     private Oeuvre currentOeuvre;
     private final OeuvreService oeuvreService = new OeuvreService();
 
-    public void setOeuvreDetails(Oeuvre oeuvre) {
-        this.currentOeuvre = oeuvre;
-
-        // Initialize ComboBoxes with available options
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Setup initial ComboBox values
         ObservableList<String> types = FXCollections.observableArrayList(
                 "Sculpture",
                 "Vase",
                 "Poterie",
                 "Assiette décorative",
-                "bibelot"
+                "Bibelot"
         );
         typeComboBox.setItems(types);
 
@@ -73,19 +67,27 @@ public class edit {
                 "Céramique fantastique"
         );
         categorieComboBox.setItems(categories);
+    }
+
+    public void setOeuvreDetails(Oeuvre oeuvre) {
+        this.currentOeuvre = oeuvre;
 
         if (oeuvre != null) {
             nomField.setText(oeuvre.getNom());
-            typeComboBox.setValue(oeuvre.getType()); // Set current type
+            typeComboBox.setValue(oeuvre.getType());
             descriptionField.setText(oeuvre.getDescription());
             matiereField.setText(oeuvre.getMatiere());
             couleurField.setText(oeuvre.getCouleur());
             dimensionField.setText(oeuvre.getDimensions());
-            useridtextfield.setText(String.valueOf(oeuvre.getUser_id()));
-            categorieComboBox.setValue(oeuvre.getCategorie()); // Set current category
+      useridtextfield.setText(String.valueOf(oeuvre.getUser_id()));
+            categorieComboBox.setValue(oeuvre.getCategorie());
 
             if (oeuvre.getImage() != null && !oeuvre.getImage().isEmpty()) {
-                imageView.setImage(new Image("file:" + oeuvre.getImage()));
+                try {
+                    imageView.setImage(new Image("file:" + oeuvre.getImage()));
+                } catch (Exception e) {
+                    showAlert(AlertType.WARNING, "Erreur d'image", "Impossible de charger l'image: " + e.getMessage());
+                }
             } else {
                 imageView.setImage(null);
             }
@@ -99,28 +101,65 @@ public class edit {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Fichiers image", "*.png", "*.jpg", "*.jpeg")
         );
-        File file = fileChooser.showOpenDialog(null);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
         if (file != null) {
             selectedImageFile = file;
-            imageView.setImage(new Image(file.toURI().toString()));
+            try {
+                Image image = new Image(file.toURI().toString());
+                imageView.setImage(image);
+            } catch (Exception e) {
+                showAlert(AlertType.ERROR, "Erreur", "Impossible de charger l'image sélectionnée: " + e.getMessage());
+            }
         }
     }
 
     @FXML
     private void saveChanges(ActionEvent event) {
         if (currentOeuvre == null) {
-            showAlert("Erreur", "Aucune œuvre sélectionnée pour modification.");
+            showAlert(AlertType.ERROR, "Erreur", "Aucune œuvre sélectionnée pour modification.");
             return;
         }
 
+        // Basic validation
+        if (nomField.getText().trim().isEmpty()) {
+            showAlert(AlertType.WARNING, "Validation", "Le nom de l'œuvre ne peut pas être vide.");
+            nomField.requestFocus();
+            return;
+        }
+
+        if (typeComboBox.getValue() == null) {
+            showAlert(AlertType.WARNING, "Validation", "Veuillez sélectionner un type.");
+            typeComboBox.requestFocus();
+            return;
+        }
+
+        if (categorieComboBox.getValue() == null) {
+            showAlert(AlertType.WARNING, "Validation", "Veuillez sélectionner une catégorie.");
+            categorieComboBox.requestFocus();
+            return;
+        }
+
+        // Get form values
         String nom = nomField.getText().trim();
-        String type = typeComboBox.getValue(); // Get selected type from ComboBox
+        String type = typeComboBox.getValue();
         String description = descriptionField.getText().trim();
         String matiere = matiereField.getText().trim();
         String couleur = couleurField.getText().trim();
         String dimensions = dimensionField.getText().trim();
-        int userId = Integer.parseInt(useridtextfield.getText().trim());
-        String categorie = categorieComboBox.getValue(); // Get selected category from ComboBox
+        String categorie = categorieComboBox.getValue();
+
+        // Parse user ID with validation
+        int userId;
+        try {
+            userId = Integer.parseInt(useridtextfield.getText().trim());
+        } catch (NumberFormatException e) {
+            showAlert(AlertType.WARNING, "Validation", "L'ID du créateur doit être un nombre valide.");
+            useridtextfield.requestFocus();
+            return;
+        }
 
         String imagePath = (selectedImageFile != null) ? selectedImageFile.getAbsolutePath() : currentOeuvre.getImage();
 
@@ -137,10 +176,24 @@ public class edit {
                 userId
         );
 
+        // Validate using Jakarta validation if needed
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Oeuvre>> violations = validator.validate(updatedOeuvre);
+
+        if (!violations.isEmpty()) {
+            StringBuilder errorMessage = new StringBuilder("Validation failed:\n");
+            for (ConstraintViolation<Oeuvre> violation : violations) {
+                errorMessage.append("- ").append(violation.getMessage()).append("\n");
+            }
+            showAlert(AlertType.WARNING, "Validation", errorMessage.toString());
+            return;
+        }
+
         try {
             oeuvreService.update(updatedOeuvre);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Succès");
             alert.setHeaderText(null);
             alert.setContentText("L'œuvre a été mise à jour avec succès !");
@@ -155,24 +208,26 @@ public class edit {
                         detailController.setOeuvreDetails(updatedOeuvre);
 
                         Stage stage = (Stage) nomField.getScene().getWindow();
-                        stage.setScene(new Scene(root));
+                        Scene scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.setMaximized(true);
                         stage.show();
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        showAlert("Erreur", "Impossible d'ouvrir la vue des détails");
+                        showAlert(AlertType.ERROR, "Erreur", "Impossible d'ouvrir la vue des détails");
                     }
                 }
             });
 
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert("Erreur", "Une erreur est survenue lors de la mise à jour.");
+            showAlert(AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la mise à jour: " + e.getMessage());
         }
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void showAlert(AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
@@ -181,24 +236,32 @@ public class edit {
 
     @FXML
     private void cancelChanges(ActionEvent event) {
-        Stage stage = (Stage) nomField.getScene().getWindow();
-        stage.close();
-    }
+        // Ask for confirmation before discarding changes
+        Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirmation");
+        confirmAlert.setHeaderText(null);
+        confirmAlert.setContentText("Êtes-vous sûr de vouloir annuler les modifications ?");
 
-    private void refreshUI(Oeuvre updatedOeuvre) {
-        Image newImage = new Image("file:" + updatedOeuvre.getImage());
-        imageView.setImage(newImage);
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    // Return to detail view
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
+                    Parent root = loader.load();
 
-        nomField.setText(updatedOeuvre.getNom());
-        typeComboBox.setValue(updatedOeuvre.getType());
-        descriptionField.setText(updatedOeuvre.getDescription());
-        matiereField.setText(updatedOeuvre.getMatiere());
-        couleurField.setText(updatedOeuvre.getCouleur());
-        dimensionField.setText(updatedOeuvre.getDimensions());
-        categorieComboBox.setValue(updatedOeuvre.getCategorie());
-    }
+                    detail detailController = loader.getController();
+                    detailController.setOeuvreDetails(currentOeuvre);
 
-    public void onOeuvreUpdated(Oeuvre updatedOeuvre) {
-        refreshUI(updatedOeuvre);
+                    Stage stage = (Stage) nomField.getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setMaximized(true);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showAlert(AlertType.ERROR, "Erreur", "Impossible de retourner à la vue des détails.");
+                }
+            }
+        });
     }
 }

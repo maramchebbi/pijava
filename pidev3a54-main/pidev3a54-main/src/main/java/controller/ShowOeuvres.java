@@ -435,6 +435,7 @@ public class ShowOeuvres {
         }
     }
 
+
     private void handleDetails(Oeuvre oeuvre) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));

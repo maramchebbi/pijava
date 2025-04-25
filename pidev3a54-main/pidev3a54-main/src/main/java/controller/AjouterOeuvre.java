@@ -1,5 +1,5 @@
 package controller;
-
+import javafx.scene.layout.VBox;
 import Models.CeramicCollection;
 import Models.Oeuvre;
 import Services.CollectionCeramiqueService;
@@ -34,6 +34,25 @@ public class AjouterOeuvre {
 
     @FXML
     private ImageView Artisferaimage;
+    @FXML
+    private Button galleryButton;
+
+    @FXML
+    private ImageView galleryIcon;
+    @FXML
+    private VBox step1Form;
+    @FXML
+    private VBox step2Form;
+    @FXML
+    private Button step1Button;
+    @FXML
+    private Button step2Button;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Button previousButton;
+    @FXML
+    private ProgressBar progressBar;
 
     @FXML
     private TextField collectionIdField;
@@ -164,10 +183,18 @@ public class AjouterOeuvre {
         try {
             OeuvreService oeuvreService = new OeuvreService();
             oeuvreService.add(oeuvreObj);
+
+            // Afficher l'alerte
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Œuvre ajoutée",
                     "L'œuvre a été ajoutée avec succès !");
 
-        } catch (SQLException e) {
+            // Redirection après l'alerte
+            Parent root = FXMLLoader.load(getClass().getResource("/show.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (SQLException | IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout",
                     "Impossible d'ajouter l'œuvre: " + e.getMessage());
         }
@@ -277,6 +304,17 @@ public class AjouterOeuvre {
         // Load the image from resources folder using a relative path
         Image image = new Image(getClass().getResource("/images/icon.png").toExternalForm());
         iconview.setImage(image);
+
+        // Configuration des étapes
+        step1Form.setVisible(true);
+        step2Form.setVisible(false);
+        step1Button.setDisable(false);
+        step2Button.setDisable(true);
+        progressBar.setProgress(0.5);
+
+        // Style initial des boutons d'étape
+        step1Button.getStyleClass().add("step-button");
+        step2Button.getStyleClass().add("step-button-inactive");
     }
 
     @FXML
@@ -307,5 +345,47 @@ public class AjouterOeuvre {
                 alert.showAndWait();
             }
         }
+    }
+
+    @FXML
+    private void goToStep2(ActionEvent event) {
+        // Valider les champs de l'étape 1 avant de continuer
+        if (validateStep1()) {
+            step1Form.setVisible(false);
+            step2Form.setVisible(true);
+            step1Button.getStyleClass().remove("step-button");
+            step1Button.getStyleClass().add("step-button-inactive");
+            step2Button.getStyleClass().remove("step-button-inactive");
+            step2Button.getStyleClass().add("step-button");
+            step2Button.setDisable(false);
+            progressBar.setProgress(1.0);
+        }
+    }
+
+    @FXML
+    private void goToStep1(ActionEvent event) {
+        step2Form.setVisible(false);
+        step1Form.setVisible(true);
+        step2Button.getStyleClass().remove("step-button");
+        step2Button.getStyleClass().add("step-button-inactive");
+        step1Button.getStyleClass().remove("step-button-inactive");
+        step1Button.getStyleClass().add("step-button");
+        progressBar.setProgress(0.5);
+    }
+
+    private boolean validateStep1() {
+        if (nomField.getText().isEmpty()) {
+            showAlert(AlertType.ERROR, "Erreur", "Champ manquant", "Le nom est obligatoire");
+            return false;
+        }
+        if (typeComboBox.getValue() == null) {
+            showAlert(AlertType.ERROR, "Erreur", "Champ manquant", "Veuillez sélectionner un type");
+            return false;
+        }
+        if (collectionComboBox.getValue() == null) {
+            showAlert(AlertType.ERROR, "Erreur", "Champ manquant", "Veuillez sélectionner une collection");
+            return false;
+        }
+        return true;
     }
 }

@@ -48,9 +48,14 @@ public class CollectionsController {
 
     @FXML
     public void initialize() {
+        // Configuration des colonnes comme vous aviez déjà
         nomColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNom_c()));
         descriptionColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDescription_c()));
 
+        // Style pour le TableView et la sélection de ligne
+       // tableView.getStylesheets().add(getClass().getResource("/css_files/collections.css").toExternalResource());
+
+        // Configuration de la colonne d'actions
         actionColumn.setCellFactory(param -> new javafx.scene.control.TableCell<CeramicCollection, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -59,26 +64,38 @@ public class CollectionsController {
                     setGraphic(null);
                 } else {
                     Button modifyButton = new Button("Modifier");
-                    modifyButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+                    modifyButton.setStyle("-fx-background-color: #8b5a2b; -fx-text-fill: #f5f5dc; " +
+                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
                     modifyButton.setOnAction(event -> modifyCollection(getTableView().getItems().get(getIndex())));
 
                     Button deleteButton = new Button("Supprimer");
-                    deleteButton.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+                    deleteButton.setStyle("-fx-background-color: #b22222; -fx-text-fill: #f5f5dc; " +
+                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
                     deleteButton.setOnAction(event -> delete(getTableView().getItems().get(getIndex())));
 
                     Button detailButton = new Button("Détails");
-                    detailButton.setStyle("-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+                    detailButton.setStyle("-fx-background-color: #6b4226; -fx-text-fill: #f5f5dc; " +
+                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
                     detailButton.setOnAction(event -> showDetails(getTableView().getItems().get(getIndex())));
 
-                    Button showButton = new Button("voir");
-                    showButton.setStyle("-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+                    Button showButton = new Button("Voir");
+                    showButton.setStyle("-fx-background-color: #a0522d; -fx-text-fill: #f5f5dc; " +
+                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
                     showButton.setOnAction(event -> voir(getTableView().getItems().get(getIndex())));
 
-
-                    javafx.scene.layout.HBox hbox = new javafx.scene.layout.HBox(5);
+                    javafx.scene.layout.HBox hbox = new javafx.scene.layout.HBox(8);
+                    hbox.setAlignment(javafx.geometry.Pos.CENTER);
                     hbox.getChildren().addAll(modifyButton, deleteButton, detailButton, showButton);
                     setGraphic(hbox);
                 }
+            }
+        });
+
+        // Définir la scène en plein écran à l'initialisation
+        tableView.sceneProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                Stage stage = (Stage) tableView.getScene().getWindow();
+                stage.setMaximized(true);
             }
         });
 
