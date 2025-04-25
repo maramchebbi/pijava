@@ -1,12 +1,16 @@
 package controller;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
+import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.TextField; // Pour TextField
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -46,13 +50,28 @@ import java.util.ArrayList;
 
 public class ShowOeuvres {
 
+
     @FXML
     private FlowPane imageContainer;
+    @FXML
+    private HBox filterButtonsContainer;
+    @FXML
+    private TextField searchField;
 
     @FXML
     private ScrollPane scrollPane;
 
     private final OeuvreService oeuvreService = new OeuvreService();
+    private final Random random = new Random();
+
+    private List<String> types = List.of(
+            "Sculpture",
+            "Vase",
+            "Poterie",
+            "Assiette décorative",
+            "bibelot"
+    );
+    private String currentFilter = null;
 
     // Pour la pagination et le chargement infini (comme Pinterest)
     private int currentPage = 0;
@@ -67,10 +86,13 @@ public class ShowOeuvres {
         System.out.println("Controller initialized!");
 
         // Vérification des composants UI
-        if (imageContainer == null) {
-            System.err.println("Error: imageContainer is null!");
-            return;
-        }
+        imageContainer.setAlignment(Pos.CENTER);
+        imageContainer.prefWidthProperty().bind(
+                scrollPane.widthProperty().subtract(2)
+        );
+
+        // Configuration des filtres par type (AJOUT)
+        setupTypeFilters();  // <-- Ajoutez cette ligne avant le chargement initial
 
         // Chargement initial des images
         try {
@@ -85,14 +107,28 @@ public class ShowOeuvres {
             try {
                 Stage stage = (Stage) scrollPane.getScene().getWindow();
 
-                // Layout responsive
+                // Remove any padding or insets that might cause white space
+                scrollPane.setFitToWidth(true);
+                scrollPane.setFitToHeight(true);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+                // Bind the FlowPane width to match the ScrollPane viewport width
                 imageContainer.prefWidthProperty().bind(
-                        scrollPane.widthProperty().subtract(40)
+                        scrollPane.widthProperty().subtract(20)
                 );
 
-                // Implémentation du scroll infini façon Pinterest
+                // Make sure the FlowPane fills the available width
+                imageContainer.setMaxWidth(Double.MAX_VALUE);
+
+                // Adjust the column count based on available width
+                scrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+                    double width = newVal.doubleValue();
+                    int columns = (int) (width / 250);
+                    imageContainer.setPrefWrapLength(width - 30);
+                });
+
+                // Infinite scroll implementation
                 scrollPane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-                    // Si on atteint ~80% du scroll et qu'on n'est pas déjà en train de charger
                     if (newValue.doubleValue() > 0.8 && !isLoading) {
                         loadMoreItems();
                     }
@@ -103,6 +139,7 @@ public class ShowOeuvres {
                 e.printStackTrace();
             }
         });
+        setupDynamicSearch();
     }
 
     // Méthode pour simuler le chargement infini de Pinterest
@@ -134,10 +171,17 @@ public class ShowOeuvres {
     // Version principale pour le chargement initial
     public void populateImages() {
         try {
-            List<Oeuvre> oeuvres = oeuvreService.getAll();
-            imageContainer.getChildren().clear();
-            displayedOeuvreIds.clear(); // Réinitialiser la liste des IDs affichés
+            List<Oeuvre> oeuvres;
+            if (currentFilter != null) {
+                oeuvres = oeuvreService.getAll().stream()
+                        .filter(o -> currentFilter.equalsIgnoreCase(o.getType()))
+                        .collect(Collectors.toList());
+            } else {
+                oeuvres = oeuvreService.getAll();
+            }
 
+            imageContainer.getChildren().clear();
+            displayedOeuvreIds.clear();
             addOeuvresToContainer(oeuvres);
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,131 +221,159 @@ public class ShowOeuvres {
     }
 
     // Méthode commune pour ajouter des œuvres au conteneur
+    // Méthode commune pour ajouter des œuvres au conteneur
     private void addOeuvresToContainer(List<Oeuvre> oeuvres) {
-        // Largeurs pour le layout masonry style Pinterest (colonnes variables)
-        double[] cardWidths = {240, 240, 240, 240};
-        int cardIndex = 0;
+        // Mélanger la liste pour un affichage aléatoire
+        Collections.shuffle(oeuvres);
 
         for (Oeuvre oeuvre : oeuvres) {
-            // Ajouter l'ID à la liste des œuvres déjà affichées
             displayedOeuvreIds.add(oeuvre.getId());
 
-            // Obtenir la largeur pour cette carte (crée un effet masonry plus naturel)
-            double cardWidth = cardWidths[cardIndex % cardWidths.length];
-            cardIndex++;
+            // Créer un groupe pour chaque image et ses éléments
+            StackPane imageGroup = new StackPane();
 
-            // Créer le conteneur de carte
-            VBox card = createCard(oeuvre, cardWidth);
+            // Créer l'image
+            ImageView imageView = createImageView(oeuvre);
 
-            // Ajouter la carte au flow pane
-            imageContainer.getChildren().add(card);
+            // Créer un conteneur vertical pour l'image, le nom et les boutons d'action
+            VBox itemContainer = new VBox(5);
+            itemContainer.setAlignment(Pos.CENTER);
+
+            // Ajouter l'image
+            itemContainer.getChildren().add(imageView);
+
+            // Ajouter le nom de l'œuvre
+            Text nomOeuvre = new Text(oeuvre.getNom());
+            nomOeuvre.setStyle("-fx-font-size: 12px;");
+            itemContainer.getChildren().add(nomOeuvre);
+
+            // Créer et ajouter la barre d'action
+            HBox actionBar = createActionBar(oeuvre);
+            actionBar.setAlignment(Pos.CENTER);
+            itemContainer.getChildren().add(actionBar);
+
+            // Ajouter au conteneur principal
+            imageGroup.getChildren().add(itemContainer);
+            imageContainer.getChildren().add(imageGroup);
         }
     }
-
-    // Méthode pour créer une carte Pinterest-style
-    private VBox createCard(Oeuvre oeuvre, double cardWidth) {
-        // Conteneur principal de la carte
-        VBox card = new VBox();
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 16;");
-
-        // Ombre légère pour l'élévation Pinterest-like
-        DropShadow shadow = new DropShadow();
-        shadow.setRadius(4.0);
-        shadow.setOffsetX(0.0);
-        shadow.setOffsetY(1.0);
-        shadow.setColor(Color.color(0, 0, 0, 0.2));
-        card.setEffect(shadow);
-        card.setPrefWidth(cardWidth);
-
-        // Conteneur d'image avec coins arrondis
-        StackPane imageContainer = new StackPane();
-        imageContainer.setStyle("-fx-background-radius: 16 16 0 0;");
-
-        // Image
-        ImageView imageView = createImageView(oeuvre, cardWidth, imageContainer);
-        imageContainer.getChildren().add(imageView);
-
-        // Section inférieure avec titre et contrôles minimaux (style Pinterest)
-        VBox bottomSection = new VBox(8);
-        bottomSection.setPadding(new Insets(12));
-        bottomSection.setStyle("-fx-background-radius: 0 0 16 16;");
-
-        // Titre - typographie propre et subtile comme Pinterest
-        Text title = new Text(oeuvre.getNom());
-        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-fill: #333333;");
-        title.setWrappingWidth(cardWidth - 24); // Tenir compte du padding
-
-        // Barre d'action style Pinterest (plus minimaliste)
-        HBox actionBar = createActionBar(oeuvre);
-
-        // Ajouter tout à la carte
-        bottomSection.getChildren().addAll(title, actionBar);
-        card.getChildren().addAll(imageContainer, bottomSection);
-
-        return card;
-    }
-
     // Créer l'ImageView avec effets et gestion des événements
-    private ImageView createImageView(Oeuvre oeuvre, double cardWidth, StackPane container) {
+    private ImageView createImageView(Oeuvre oeuvre) {
         ImageView imageView = new ImageView();
         String imagePath = oeuvre.getImage();
+
+        // Tailles aléatoires pour un effet Pinterest
+        double baseWidth = 200 + random.nextInt(150); // Largeur entre 200 et 350
+        double baseHeight = 250 + random.nextInt(200); // Hauteur entre 250 et 450
 
         if (imagePath != null && !imagePath.isEmpty()) {
             try {
                 Image image = new Image("file:" + imagePath);
                 imageView.setImage(image);
-                imageView.setFitWidth(cardWidth);
+
+                // Définir la taille avec préservation du ratio
+                imageView.setFitWidth(baseWidth);
                 imageView.setPreserveRatio(true);
                 imageView.setSmooth(true);
-                imageView.setStyle("-fx-background-radius: 16 16 0 0;");
 
-                // Effets de survol pour interaction Pinterest-like
-                container.setOnMouseEntered(e -> {
+                // Style minimal avec coins légèrement arrondis
+                imageView.setStyle("-fx-background-radius: 8;");
+
+                // Effet de survol Pinterest-like
+                imageView.setOnMouseEntered(e -> {
                     imageView.setOpacity(0.9);
-                    container.setCursor(javafx.scene.Cursor.HAND);
+                    imageView.setCursor(javafx.scene.Cursor.HAND);
+                    // Légère élévation au survol
+                    DropShadow hoverShadow = new DropShadow();
+                    hoverShadow.setRadius(8.0);
+                    hoverShadow.setOffsetX(0.0);
+                    hoverShadow.setOffsetY(2.0);
+                    hoverShadow.setColor(Color.color(0, 0, 0, 0.15));
+                    imageView.setEffect(hoverShadow);
                 });
 
-                container.setOnMouseExited(e -> {
+                imageView.setOnMouseExited(e -> {
                     imageView.setOpacity(1.0);
+                    imageView.setEffect(null);
                 });
 
-                // Afficher les détails au clic (plutôt que d'utiliser un bouton)
-                container.setOnMouseClicked(e -> handleDetails(oeuvre));
+                // Afficher les détails au clic
+                imageView.setOnMouseClicked(e -> handleDetails(oeuvre));
 
             } catch (Exception e) {
-                // Placeholder d'erreur avec style Pinterest
-                StackPane placeholder = new StackPane();
-                placeholder.setStyle("-fx-background-color: #f0f0f0; -fx-min-height: 180; -fx-background-radius: 16 16 0 0;");
-                Text placeholderText = new Text("No Image");
-                placeholderText.setStyle("-fx-fill: #999999; -fx-font-size: 14;");
-                placeholder.getChildren().add(placeholderText);
-                container.getChildren().add(placeholder);
+                // Create a placeholder image instead of StackPane
+                Image placeholderImage = new Image(getClass().getResourceAsStream("/placeholder.png")); // Make sure you have a placeholder.png in your resources
+                imageView.setImage(placeholderImage);
+                imageView.setFitWidth(baseWidth);
+                imageView.setFitHeight(baseHeight);
+                imageView.setPreserveRatio(false);
+                imageView.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 8;");
             }
+        } else {
+            // Handle case where imagePath is null or empty
+            Image placeholderImage = new Image(getClass().getResourceAsStream("/placeholder.png"));
+            imageView.setImage(placeholderImage);
+            imageView.setFitWidth(baseWidth);
+            imageView.setFitHeight(baseHeight);
+            imageView.setPreserveRatio(false);
+            imageView.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 8;");
         }
 
         return imageView;
     }
 
     // Créer la barre d'action avec les boutons
+    // Créer la barre d'action avec les boutons utilisant vos propres icônes
     private HBox createActionBar(Oeuvre oeuvre) {
-        HBox actionBar = new HBox(8);
+        HBox actionBar = new HBox(10); // Augmenté l'espacement entre les boutons
         actionBar.setAlignment(Pos.CENTER_LEFT);
         actionBar.setPadding(new Insets(6, 0, 0, 0));
 
-        // Créer des boutons minimalistes avec l'affichage d'icône approprié
-        // Pinterest utilise des contrôles très minimalistes - souvent juste des options d'épinglage et de menu
-        Button editBtn = createMinimalIconButton(FontAwesomeIcon.EDIT, "Modifier");
+        // Utiliser vos propres icônes depuis le dossier resources/images
+        Button editBtn = createCustomIconButton("/images/edit.png", "Modifier");
         editBtn.setOnAction(e -> handleEdit(oeuvre));
 
-        Button deleteBtn = createMinimalIconButton(FontAwesomeIcon.TRASH, "Supprimer");
+        Button deleteBtn = createCustomIconButton("/images/truc.png", "Supprimer");
         deleteBtn.setOnAction(e -> handleDelete(oeuvre));
 
-        Button view3DBtn = createMinimalIconButton(FontAwesomeIcon.CUBE, "Vue 3D");
+        Button view3DBtn = createCustomIconButton("/images/3d.png", "Vue 3D");
         view3DBtn.setOnAction(e -> handle3DView(oeuvre));
 
         actionBar.getChildren().addAll(editBtn, deleteBtn, view3DBtn);
 
         return actionBar;
+    }
+
+    // Méthode pour créer un bouton avec une icône personnalisée
+    private Button createCustomIconButton(String iconPath, String tooltipText) {
+        Button button = new Button();
+
+        try {
+            Image icon = new Image(getClass().getResourceAsStream(iconPath));
+            ImageView imageView = new ImageView(icon);
+            imageView.setFitHeight(16);
+            imageView.setFitWidth(16);
+
+            button.setGraphic(imageView);
+            button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            button.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 6; -fx-background-radius: 4;");
+            button.setTooltip(new Tooltip(tooltipText));
+
+            // Effet de survol
+            button.setOnMouseEntered(e -> {
+                button.setStyle("-fx-background-color: #f0f0f0; -fx-cursor: hand; -fx-padding: 6; -fx-background-radius: 4;");
+            });
+
+            button.setOnMouseExited(e -> {
+                button.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 6; -fx-background-radius: 4;");
+            });
+        } catch (Exception e) {
+            // En cas d'erreur de chargement d'image, revenir à l'icône FontAwesome
+            System.err.println("Impossible de charger l'icône: " + iconPath);
+            return createMinimalIconButton(FontAwesomeIcon.QUESTION, tooltipText);
+        }
+
+        return button;
     }
 
     // Pinterest utilise des boutons très subtils, uniquement avec icône
@@ -313,21 +385,21 @@ public class ShowOeuvres {
         Button button = new Button();
         button.setGraphic(iconView);
         button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        button.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 4;");
+        button.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-cursor: hand; -fx-padding: 6; -fx-background-radius: 4;");
         button.setTooltip(new Tooltip(tooltipText));
 
-        // Effet de survol plus subtil (style Pinterest)
         button.setOnMouseEntered(e -> {
             iconView.setStyle("-fx-fill: #e60023;");
+            button.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-cursor: hand; -fx-padding: 6; -fx-background-radius: 4; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 1);");
         });
 
         button.setOnMouseExited(e -> {
             iconView.setStyle("-fx-fill: #767676;");
+            button.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-cursor: hand; -fx-padding: 6; -fx-background-radius: 4;");
         });
 
         return button;
     }
-
     // Méthode 3D
     private void handle3DView(Oeuvre oeuvre) {
         try {
@@ -491,4 +563,109 @@ public class ShowOeuvres {
             e.printStackTrace();
         }
     }
+
+
+    private void setupDynamicSearch() {
+        searchField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                performSearch(newValue);
+            }
+        });
+    }
+
+    // Méthode pour effectuer la recherche
+    private void performSearch(String searchTerm) {
+        try {
+            List<Oeuvre> allOeuvres = oeuvreService.getAll();
+
+            // Filtrer par type si un filtre est actif
+            if (currentFilter != null) {
+                allOeuvres = allOeuvres.stream()
+                        .filter(o -> currentFilter.equalsIgnoreCase(o.getType()))
+                        .collect(Collectors.toList());
+            }
+
+            // Filtrer par terme de recherche si présent
+            if (searchTerm != null && !searchTerm.isEmpty()) {
+                String searchTermLower = searchTerm.toLowerCase();
+                allOeuvres = allOeuvres.stream()
+                        .filter(oeuvre ->
+                                oeuvre.getNom().toLowerCase().contains(searchTermLower) ||
+                                        (oeuvre.getDescription() != null &&
+                                                oeuvre.getDescription().toLowerCase().contains(searchTermLower))
+                        ).collect(Collectors.toList());
+            }
+
+            imageContainer.getChildren().clear();
+            displayedOeuvreIds.clear();
+            addOeuvresToContainer(allOeuvres);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur lors de la recherche: " + e.getMessage());
+        }
+    }
+    private Button createFilterButton(String text) {
+        Button button = new Button(text);
+        button.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+        button.setOnMouseEntered(e -> {
+            if (!button.getStyle().contains("#e60023")) {
+                button.setStyle("-fx-background-color: #d0d0d0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+            }
+        });
+        button.setOnMouseExited(e -> {
+            if (!button.getStyle().contains("#e60023")) {
+                button.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+            }
+        });
+        return button;
+    }
+
+    private void resetFilterButtonsStyle() {
+        for (Node node : filterButtonsContainer.getChildren()) {
+            if (node instanceof Button) {
+                node.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+            }
+        }
+    }
+    private void filterByType(String type) {
+        try {
+            List<Oeuvre> allOeuvres = oeuvreService.getAll();
+            List<Oeuvre> filteredOeuvres = allOeuvres.stream()
+                    .filter(oeuvre -> type.equalsIgnoreCase(oeuvre.getType()))
+                    .collect(Collectors.toList());
+
+            imageContainer.getChildren().clear();
+            displayedOeuvreIds.clear();
+            addOeuvresToContainer(filteredOeuvres);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur lors du filtrage par type: " + e.getMessage());
+        }
+    }
+    private void setupTypeFilters() {
+        // Create "All" filter button
+        Button allButton = createFilterButton("Tous");
+        allButton.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;");
+        allButton.setOnAction(e -> {
+            resetFilterButtonsStyle();
+            allButton.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;");
+            currentFilter = null;
+            populateImages();
+        });
+        filterButtonsContainer.getChildren().add(allButton);
+
+        // Create filter buttons for each type
+        for (String type : types) {
+            Button typeButton = createFilterButton(type);
+            typeButton.setOnAction(e -> {
+                resetFilterButtonsStyle();
+                typeButton.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;");
+                currentFilter = type;
+                filterByType(type);
+            });
+            filterButtonsContainer.getChildren().add(typeButton);
+        }
+    }
+
 }
