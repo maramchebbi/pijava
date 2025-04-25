@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.paint.Color?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.WebcamController"
+            prefWidth="1000" prefHeight="600"
+            style="-fx-background-color: linear-gradient(to bottom, #dfe9f3, #ffffff);">
+
+    <!-- Cadre vidéo avec ombre -->
+    <ImageView fx:id="cameraView"
+               layoutX="50" layoutY="40"
+               fitWidth="900" fitHeight="480"
+               style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);"
+    />
+
+    <!-- Bouton stylisé pour la capture -->
+    <Button layoutX="420" layoutY="540"
+            text="📸 Prendre une photo"
+            onAction="#capturePhoto"
+            style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20; -fx-padding: 10 20; -fx-cursor: hand;"
+    />
+
+</AnchorPane>

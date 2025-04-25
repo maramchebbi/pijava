@@ -17,9 +17,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
+import javafx.scene.control.TextField;
 
+import java.awt.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AfficherPeintureController {
 
@@ -32,13 +36,54 @@ public class AfficherPeintureController {
     @FXML
     private GridPane affichageGrid;
 
+    @FXML
+    private TextField searchField;
+
+
     private PeintureService peintureService;
 
     @FXML
     public void initialize() {
         peintureService = new PeintureService();
         loadPeintures();
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                filtrerPeintures(newValue);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
+
+    private void filtrerPeintures(String query) throws SQLException {
+        List<Peinture> toutesPeintures = peintureService.getAll();
+        List<Peinture> filtrees = toutesPeintures.stream()
+                .filter(p -> p.getTitre().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+
+        loadPeinture(filtrees); // Appelle la version avec paramètre
+    }
+
+    public void loadPeinture(List<Peinture> peintures) {
+        affichageGrid.getChildren().clear();
+        int column = 0;
+        int row = 0;
+
+        for (Peinture peinture : peintures) {
+            VBox card = createPeintureCard(peinture);
+            affichageGrid.add(card, column, row);
+            GridPane.setMargin(card, new Insets(10));
+
+            column++;
+            if (column == 3) {
+                column = 0;
+                row++;
+            }
+        }
+    }
+
+
 
     public void loadPeintures() {
         try {
@@ -92,6 +137,29 @@ public class AfficherPeintureController {
         Label styleLabel = new Label("Style : " + (peinture.getStyle() != null ? peinture.getStyle().getType() : "Inconnu"));
         styleLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #7f8c8d;");
 
+        // Rating stars
+        HBox ratingBox = new HBox(4);
+        ratingBox.setAlignment(Pos.CENTER);
+        List<Label> starLabels = new ArrayList<>();
+        int[] currentRating = {0}; // permet de modifier le rating dynamiquement
+
+        for (int i = 1; i <= 5; i++) {
+            Label star = new Label("☆");
+            star.setStyle("-fx-font-size: 18px; -fx-text-fill: #f1c40f; -fx-cursor: hand;");
+            final int ratingValue = i;
+            star.setOnMouseClicked(e -> {
+                currentRating[0] = ratingValue;
+                for (int j = 0; j < 5; j++) {
+                    starLabels.get(j).setText(j < ratingValue ? "★" : "☆");
+                }
+
+                // TODO: Sauvegarder la note dans la base de données si besoin
+                System.out.println("Rated " + peinture.getTitre() + " : " + ratingValue + " étoiles");
+            });
+            starLabels.add(star);
+            ratingBox.getChildren().add(star);
+        }
+
         // Buttons
         HBox buttonsBox = new HBox(10);
         buttonsBox.setAlignment(Pos.CENTER);
@@ -128,9 +196,10 @@ public class AfficherPeintureController {
         buttonsBox.getChildren().addAll(updateButton, deleteButton);
 
         // Assemble card
-        card.getChildren().addAll(imageView, titleLabel, dateLabel, styleLabel, buttonsBox);
+        card.getChildren().addAll(imageView, titleLabel, dateLabel, styleLabel, ratingBox, buttonsBox);
         return card;
     }
+
 
     @FXML
     private void handleAjouterButton() {

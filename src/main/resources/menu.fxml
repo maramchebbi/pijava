@@ -10,13 +10,14 @@
 
     <!-- Barre latérale -->
     <left>
-        <VBox spacing="20" styleClass="sidebar">
+        <VBox spacing="20" styleClass="sidebar" alignment="TOP_CENTER" prefWidth="250" style="-fx-padding: 20;">
             <Label text="🎨 Artisfera" styleClass="menu-title"/>
             <Button text="➕ Ajouter Peinture" onAction="#goToAjouterPeinture" styleClass="menu-btn"/>
             <Button text="🖼 Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn"/>
             <Button text="🎨 Ajouter Style" onAction="#goToAjouterStyle" styleClass="menu-btn"/>
             <Button text="📋 Afficher Styles" onAction="#goToAfficherStyles" styleClass="menu-btn"/>
             <Button text="🗨 Chatbot" onAction="#goToChatbot" styleClass="menu-btn"/>
+            <Button text="✨ Ghibli Effect" onAction="#handleGhibliEffect" styleClass="menu-btn"/>
         </VBox>
     </left>
 

@@ -94,4 +94,33 @@ public class PeintureService {
         }
         return null;
     }
+
+    public List<Peinture> getPeinturesParStyleNom(String styleNom) throws SQLException {
+        List<Peinture> peintures = new ArrayList<>();
+
+        Style style = styleService.getByType(styleNom);
+        if (style == null) {
+            System.out.println("Style introuvable : " + styleNom);
+            return peintures; // liste vide
+        }
+
+        String query = "SELECT * FROM peinture WHERE type_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, style.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Peinture peinture = new Peinture(
+                        rs.getInt("id"),
+                        rs.getString("titre"),
+                        rs.getDate("date_cr").toLocalDate(),
+                        rs.getString("tableau"),
+                        style,
+                        rs.getInt("user_id")
+                );
+                peintures.add(peinture);
+            }
+        }
+        return peintures;
+    }
+
 }
