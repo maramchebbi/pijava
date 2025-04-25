@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.image.Image;
 import javafx.geometry.Insets;
+import java.io.File;
 
 public class Artwork3DViewer extends BorderPane {
     private PerspectiveCamera camera = new PerspectiveCamera(true);
@@ -21,7 +22,7 @@ public class Artwork3DViewer extends BorderPane {
     private Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
 
     public Artwork3DViewer() {
-        initialize3DScene(); // on initialise ici
+        initialize3DScene();
         setupCamera();
         setupLighting();
         addRotationControls();
@@ -44,8 +45,9 @@ public class Artwork3DViewer extends BorderPane {
     private void setupLighting() {
         PointLight pointLight = new PointLight(Color.WHITE);
         pointLight.setTranslateZ(-800);
+        pointLight.setTranslateY(-300); // Meilleur éclairage
 
-        AmbientLight ambientLight = new AmbientLight(Color.rgb(80, 80, 80));
+        AmbientLight ambientLight = new AmbientLight(Color.rgb(100, 100, 100));
 
         root3D.getChildren().addAll(pointLight, ambientLight);
         root3D.getTransforms().addAll(rotateX, rotateY);
@@ -84,38 +86,55 @@ public class Artwork3DViewer extends BorderPane {
         this.setBottom(controls);
     }
 
-    public void displayArtwork(String type, double width, double height, double depth, String texturePath) {
+    public void displayArtwork(String type, double width, double height, double depth, String imagePath) {
         root3D.getChildren().removeIf(node -> node instanceof Shape3D);
 
         Shape3D artwork = createArtworkModel(type, width, height, depth);
-        applyMaterial(artwork, texturePath);
+        applyTexture(artwork, imagePath);
         root3D.getChildren().add(artwork);
     }
 
     private Shape3D createArtworkModel(String type, double width, double height, double depth) {
         switch (type.toLowerCase()) {
-            case "box":
-                return new Box(width, height, depth);
-            case "sphere":
-                return new Sphere(width / 2); // radius
-            case "cylinder":
-                return new Cylinder(width / 2, height); // radius, height
+            case "vase":
+                Cylinder vase = new Cylinder(width/2, height);
+                vase.setTranslateY(-height/2); // Centrer verticalement
+                return vase;
+            case "bowl":
+                Sphere bowl = new Sphere(width/2);
+                bowl.setScaleY(0.5); // Écraser pour forme de bol
+                bowl.setTranslateY(-height/2);
+                return bowl;
+            case "plate":
+                Cylinder plate = new Cylinder(width/2, depth);
+                plate.setTranslateY(-depth/2);
+                return plate;
             default:
-                System.err.println("Unknown artwork type: " + type);
-                return new Box(width, height, depth); // default
+                Box box = new Box(width, height, depth);
+                box.setTranslateY(-height/2);
+                return box;
         }
     }
 
-    private void applyMaterial(Shape3D shape, String texturePath) {
+    private void applyTexture(Shape3D shape, String imagePath) {
         PhongMaterial material = new PhongMaterial();
-        material.setDiffuseColor(Color.BEIGE);
+        material.setSpecularColor(Color.WHITE);
+        material.setSpecularPower(64);
 
-        if (texturePath != null && !texturePath.isEmpty()) {
-            try {
-                material.setDiffuseMap(new Image(getClass().getResourceAsStream(texturePath)));
-            } catch (Exception e) {
-                System.err.println("Could not load texture: " + e.getMessage());
+        try {
+            // Solution pour les chemins absolus et relatifs
+            Image texture;
+            if (new File(imagePath).exists()) {
+                texture = new Image("file:" + imagePath);
+            } else {
+                texture = new Image(getClass().getResourceAsStream(imagePath));
             }
+
+            material.setDiffuseMap(texture);
+            System.out.println("Texture loaded successfully from: " + imagePath);
+        } catch (Exception e) {
+            System.err.println("Error loading texture: " + e.getMessage());
+            material.setDiffuseColor(Color.TAN); // Couleur de fallback
         }
 
         shape.setMaterial(material);

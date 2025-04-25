@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
@@ -16,7 +17,7 @@
 
         <!-- Field for Type -->
         <Label layoutX="197.0" layoutY="332.0" text="Type:" />
-        <TextField fx:id="typeField" editable="true" layoutX="282.0" layoutY="328.0" prefWidth="200" />
+        <ComboBox fx:id="typeComboBox" layoutX="282.0" layoutY="328.0" prefWidth="200" />
 
         <!-- Field for Description -->
         <Label layoutX="195.0" layoutY="370.0" text="Description:" />
@@ -40,15 +41,13 @@
 
         <!-- Field for Categorie -->
         <Label layoutX="193.0" layoutY="544.0" text="categorie:" />
-        <TextField fx:id="categorieField" editable="true" layoutX="282.0" layoutY="540.0" prefWidth="200" />
+        <ComboBox fx:id="categorieComboBox" layoutX="282.0" layoutY="540.0" prefWidth="200" />
 
         <!-- Save Changes Button -->
         <Button layoutX="282.0" layoutY="586.0" mnemonicParsing="false" onAction="#saveChanges" style="-fx-background-color: #b29f94;" text="Save Changes" />
 
         <!-- Cancel Button -->
         <Button layoutX="396.0" layoutY="586.0" mnemonicParsing="false" onAction="#cancelChanges" style="-fx-background-color: #b29f94;" text="Cancel" />
-      <Button layoutX="41.0" layoutY="127.0" mnemonicParsing="false" onAction="#newimageaction" prefHeight="26.0" prefWidth="110.0" text="choisir image" />
-
-
+        <Button layoutX="41.0" layoutY="127.0" mnemonicParsing="false" onAction="#newimageaction" prefHeight="26.0" prefWidth="110.0" text="choisir image" />
     </children>
 </AnchorPane>

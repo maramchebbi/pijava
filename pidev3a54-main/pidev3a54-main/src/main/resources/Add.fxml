@@ -24,7 +24,7 @@
                 <TextField fx:id="nomField" prefWidth="260" promptText="Nom de l'œuvre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                 <Text style="-fx-font-style: italic;" text="Type :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="typeField" prefWidth="260" promptText="Type" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <ComboBox fx:id="typeComboBox" prefWidth="260" promptText="Sélectionner un type" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                 <Text style="-fx-font-style: italic;" text="Matière :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                 <TextField fx:id="matiereField" prefWidth="260" promptText="Matière" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -39,7 +39,7 @@
                 <TextField fx:id="usertextfield" prefWidth="260" promptText="id_userfield" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                 <Text style="-fx-font-style: italic;" text="Catégorie :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                <TextField fx:id="categorieField" prefWidth="260" promptText="categorie" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <ComboBox fx:id="categorieComboBox" prefWidth="260" promptText="Sélectionner une catégorie" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
                 <Text style="-fx-font-style: italic;" text="Image :" GridPane.columnIndex="0" GridPane.rowIndex="7" />
                 <Button fx:id="uploadimage" onAction="#uploadimage" prefWidth="260" style="-fx-background-color: #DBDBDB;" text="Choisir une image" GridPane.columnIndex="1" GridPane.rowIndex="7" />
@@ -50,23 +50,23 @@
                 <Text style="-fx-font-style: italic;" text="Description :" GridPane.columnIndex="0" GridPane.rowIndex="9" />
                 <TextArea fx:id="descriptionField" prefHeight="60" prefWidth="260" promptText="Description de l'œuvre" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             </children>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
         </GridPane>
 
         <!-- Right image preview -->
@@ -83,19 +83,19 @@
 
                 <!-- Text next to the ImageView -->
                 <Text layoutX="133.0" layoutY="43.0" text="Ajouter une œuvre">
-               <font>
-                  <Font name="System Bold Italic" size="28.0" />
-               </font></Text>
+                    <font>
+                        <Font name="System Bold Italic" size="28.0" />
+                    </font></Text>
             </children>
         </AnchorPane>
 
-          <HBox alignment="CENTER" layoutX="169.0" layoutY="525.0" spacing="15">
-              <children>
-                  <Button onAction="#ajouterOeuvre" prefWidth="120" style="-fx-background-color: #b29f94;" text="Confirmer" />
-                  <Button onAction="#viewoeuvre" prefWidth="120" style="-fx-background-color: #b29f94;" text="Retour" />
+        <HBox alignment="CENTER" layoutX="169.0" layoutY="525.0" spacing="15">
+            <children>
+                <Button onAction="#ajouterOeuvre" prefWidth="120" style="-fx-background-color: #b29f94;" text="Confirmer" />
+                <Button onAction="#viewoeuvre" prefWidth="120" style="-fx-background-color: #b29f94;" text="Retour" />
 
-              </children>
-          </HBox>
+            </children>
+        </HBox>
 
     </children>
 </AnchorPane>
