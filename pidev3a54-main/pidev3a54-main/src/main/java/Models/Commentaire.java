@@ -6,18 +6,22 @@ public class Commentaire {
     private int id;
     private String contenu;
     private LocalDateTime date;
-    private int userId;       // Clé étrangère vers User
-    private int oeuvreId;     // Clé étrangère vers Oeuvre
+
+    // Mix des deux approches
+    private int userId;       // Temporaire (sera remplacé par User user plus tard)
+    private Oeuvre oeuvre;    // Gardé comme objet
 
     // Constructeurs
     public Commentaire() {
         this.date = LocalDateTime.now();
+        this.userId = 1; // Valeur par défaut temporaire
+      //  this.userId = 2; // Valeur par défaut temporaire
     }
 
-    public Commentaire(String contenu, int userId, int oeuvreId) {
+    public Commentaire(String contenu, int userId, Oeuvre oeuvre) {
         this.contenu = contenu;
         this.userId = userId;
-        this.oeuvreId = oeuvreId;
+        this.oeuvre = oeuvre;
         this.date = LocalDateTime.now();
     }
 
@@ -54,12 +58,17 @@ public class Commentaire {
         this.userId = userId;
     }
 
-    public int getOeuvreId() {
-        return oeuvreId;
+    public Oeuvre getOeuvre() {
+        return oeuvre;
     }
 
-    public void setOeuvreId(int oeuvreId) {
-        this.oeuvreId = oeuvreId;
+    public void setOeuvre(Oeuvre oeuvre) {
+        this.oeuvre = oeuvre;
+    }
+
+    // Méthode utilitaire pour oeuvreId
+    public int getOeuvreId() {
+        return oeuvre != null ? oeuvre.getId() : 0;
     }
 
     // Méthode toString()
@@ -70,7 +79,7 @@ public class Commentaire {
                 ", contenu='" + contenu + '\'' +
                 ", date=" + date +
                 ", userId=" + userId +
-                ", oeuvreId=" + oeuvreId +
+                ", oeuvre=" + (oeuvre != null ? oeuvre.getId() : "null") +
                 '}';
     }
 }

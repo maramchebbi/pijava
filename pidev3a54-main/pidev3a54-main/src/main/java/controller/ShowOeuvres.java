@@ -339,9 +339,24 @@ public class ShowOeuvres {
         Button view3DBtn = createCustomIconButton("/images/3d.png", "Vue 3D");
         view3DBtn.setOnAction(e -> handle3DView(oeuvre));
 
-        actionBar.getChildren().addAll(editBtn, deleteBtn, view3DBtn);
+        Button commentBtn = createCustomIconButton("/images/comment.png", "Commentaires");
+        commentBtn.setOnAction(e -> handleComments(oeuvre));
+
+        actionBar.getChildren().addAll(editBtn, deleteBtn, view3DBtn, commentBtn);
 
         return actionBar;
+    }
+    // Dans ShowOeuvres.java
+    private void handleComments(Oeuvre oeuvre) {
+        try {
+            // Créer et utiliser le contrôleur de commentaires
+            CommentaireController commentaireController = new CommentaireController();
+            commentaireController.showCommentsDialog(oeuvre);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'affichage des commentaires: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Erreur", "Problème lors de l'affichage des commentaires: " + e.getMessage());
+        }
     }
 
     // Méthode pour créer un bouton avec une icône personnalisée

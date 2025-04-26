@@ -1,0 +1,81 @@
+/* Styles généraux pour le TableView */
+.table-view {
+    -fx-background-color: #f5f5dc;
+    -fx-background-radius: 10;
+    -fx-padding: 0;
+}
+
+/* En-tête des colonnes */
+.table-view .column-header-background {
+    -fx-background-color: #8b5a2b;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 45px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #f5f5dc;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 5 0;
+}
+
+/* Lignes du tableau */
+.table-row-cell {
+    -fx-background-color: #f5f5dc;
+    -fx-border-color: #d2b48c;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 5;
+    -fx-cell-size: 50px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #e6e0c8;
+}
+
+/* Ligne sélectionnée */
+.table-row-cell:selected {
+    -fx-background-color: #d2b48c;
+    -fx-text-background-color: #6b4226;
+    -fx-font-weight: bold;
+}
+
+/* Effet au survol d'une ligne */
+.table-row-cell:hover {
+    -fx-background-color: #d2b48c80;
+    -fx-cursor: hand;
+}
+
+/* Style des cellules */
+.table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 5 10;
+    -fx-text-fill: #6b4226;
+}
+
+/* Style du scroll bar */
+.scroll-bar:vertical {
+    -fx-background-color: #f5f5dc;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #8b5a2b;
+    -fx-background-radius: 5;
+}
+
+/* Style des boutons */
+.button {
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.2s;
+}

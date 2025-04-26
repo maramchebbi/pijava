@@ -1,0 +1,69 @@
+/* styles.css */
+.root {
+    -fx-font-family: "Calibri";
+    -fx-background-color: #f5f0eb;
+}
+
+/* Text Field Styling */
+.detail-field {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-radius: 5px;
+    -fx-border-color: #d7c3af;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 10px;
+    -fx-font-size: 14px;
+}
+
+.detail-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: #be9b7b;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 1);
+}
+
+/* Button Styling */
+.action-button {
+    -fx-background-color: linear-gradient(to bottom, #7d6253, #5e4b3c);
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.action-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #8d725f, #6e5b4c);
+}
+
+.action-button:pressed {
+    -fx-background-color: #5e4b3c;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 1, 0, 0, 1);
+}
+
+/* Label Styling */
+.field-label {
+    -fx-text-fill: #5e4b3c;
+}
+
+.image-caption {
+    -fx-text-fill: #5e4b3c;
+    -fx-font-style: italic;
+}
+
+/* ScrollPane Styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #ebe1d7;
+    -fx-background-radius: 0;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #be9b7b;
+    -fx-background-radius: 5px;
+}
