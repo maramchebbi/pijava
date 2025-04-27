@@ -1,0 +1,159 @@
+/* Styles CSS pour la page d'événements */
+
+/* Style du conteneur principal */
+.main-container {
+    -fx-background-color: transparent;
+}
+
+/* En-tête */
+.header-container {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+.main-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498DB;
+}
+
+.subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7F8C8D;
+}
+
+/* Barre de filtres */
+.filter-bar {
+    -fx-background-color: #F8F9F9;
+    -fx-padding: 12px;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #EEEEEE;
+    -fx-spacing: 15;
+}
+
+/* Style pour les ComboBox et DatePicker */
+.combo-box, .date-picker {
+    -fx-background-color: white;
+    -fx-background-radius: 4px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 4px;
+}
+
+.combo-box:hover, .date-picker:hover {
+    -fx-border-color: #3498DB;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #7F8C8D;
+}
+
+/* Style pour la barre de recherche */
+.search-container {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 20px;
+    -fx-padding: 5px 10px;
+}
+
+/* Alternative to focused-within for search container */
+.search-container:hover {
+    -fx-border-color: #3498DB;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.search-field:focused {
+    -fx-background-color: transparent;
+}
+
+/* Style des boutons de vue */
+.view-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.view-button:hover {
+    -fx-opacity: 0.8;
+}
+
+/* Style du FlowPane d'événements */
+.events-flow-pane {
+    -fx-padding: 20px;
+    -fx-background-color: transparent;
+}
+
+/* Style des cartes d'événements */
+.event-card {
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 3);
+    -fx-cursor: hand;
+}
+
+.event-card:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 15, 0, 0, 5);
+}
+
+/* Style pour les images d'événements */
+.event-image {
+    -fx-background-radius: 8px 8px 0 0;
+}
+
+/* Style pour les textes des événements */
+.event-title {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.event-details {
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-font-size: 12px;
+}
+
+/* Style pour le ScrollPane */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 1;
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb {
+    -fx-background-color: rgba(180, 180, 180, 0.6);
+    -fx-background-radius: 5;
+}
+
+/* Style pour l'indicateur de chargement */
+.loading-container {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+}
+
+.loading-spinner {
+    -fx-progress-color: #3498DB;
+}
+
+/* Style pour le pied de page */
+.footer-container {
+    -fx-background-color: white;
+    -fx-padding: 12px;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #EEEEEE;
+}

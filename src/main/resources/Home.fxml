@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.HomeController" prefHeight="700.0" prefWidth="1200.0" stylesheets="@styles/dashboardDesign.css">
+
+    <!-- Barre supérieure avec profil utilisateur et recherche -->
+    <top>
+        <HBox alignment="CENTER_RIGHT" spacing="15.0" styleClass="top-bar">
+            <padding>
+                <Insets top="10.0" right="20.0" bottom="10.0" left="20.0"/>
+            </padding>
+
+            <TextField promptText="Rechercher..." prefWidth="250.0" styleClass="search-field"/>
+
+            <Button styleClass="notifications-button" text="🔔">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Button>
+
+            <HBox alignment="CENTER" spacing="10.0" styleClass="user-profile">
+                <Circle radius="16" styleClass="avatar-circle" fill="#A0A0A0"/>
+                <Label text="Utilisateur" styleClass="user-name"/>
+                <Label text="▼" styleClass="dropdown-icon">
+                    <font>
+                        <Font size="10.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" spacing="10.0" styleClass="user-profile">
+                    <Circle radius="16" styleClass="avatar-circle" fill="#A0A0A0"/>
+                    <Label text="Utilisateur" styleClass="user-name"/>
+                    <MenuButton styleClass="profile-menu" text="▼">
+                        <font>
+                            <Font size="10.0" />
+                        </font>
+                        <items>
+                            <MenuItem text="Mon profil"/>
+                            <MenuItem text="Paramètres"/>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Déconnexion"/>
+                        </items>
+                    </MenuButton>
+                </HBox>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- Sidebar gauche améliorée -->
+    <left>
+        <AnchorPane prefWidth="250.0" styleClass="nav-form">
+            <children>
+                <!-- Logo et titre -->
+                <VBox alignment="CENTER" spacing="10.0" layoutX="25.0" layoutY="30.0" prefWidth="200.0">
+                    <HBox alignment="CENTER" spacing="10.0">
+                        <Label text="📅" styleClass="logo-icon">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                        <Label text="EventPro" styleClass="logo-text">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                    <Label text="Gestion d'Événements" styleClass="logo-subtitle"/>
+                </VBox>
+
+                <!-- Menu avec icônes textuelles -->
+                <Accordion layoutX="15.0" layoutY="140.0" prefWidth="220.0" styleClass="custom-accordion">
+                    <panes>
+                        <TitledPane text="Événements" styleClass="menu-titled-pane">
+                            <graphic>
+                                <Label text="📆" styleClass="menu-icon"/>
+                            </graphic>
+                            <content>
+                                <VBox spacing="8" styleClass="menu-items-container">
+                                    <Button text="Ajouter un événement" onAction="#handleAjouterEvent" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="➕" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                    <Button text="Afficher les événements" onAction="#handleAfficherEvent" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="📋" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                    <Button text="Modifier un événement" onAction="#handleModifierEvent" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="✏️" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane text="Sponsors" styleClass="menu-titled-pane">
+                            <graphic>
+                                <Label text="🤝" styleClass="menu-icon"/>
+                            </graphic>
+                            <content>
+                                <VBox spacing="8" styleClass="menu-items-container">
+                                    <Button text="Ajouter un sponsor" onAction="#handleAjouterSponsor" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="➕" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                    <Button text="Afficher les sponsors" onAction="#handleAfficherSponsor" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="📋" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                    <Button text="Modifier un sponsor" onAction="#handleModifierSponsor" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="✏️" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane text="Recommandations" styleClass="menu-titled-pane">
+                            <graphic>
+                                <Label text="👍" styleClass="menu-icon"/>
+                            </graphic>
+                            <content>
+                                <VBox spacing="8" styleClass="menu-items-container">
+                                    <Button text="Populaires" onAction="#handleAjouterSponsor" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="⭐" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                    <Button text="Pour vous" onAction="#handleAfficherRecommendations" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="👤" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane text="Participations" styleClass="menu-titled-pane">
+                            <graphic>
+                                <Label text="👥" styleClass="menu-icon"/>
+                            </graphic>
+                            <content>
+                                <VBox spacing="8" styleClass="menu-items-container">
+                                    <Button text="Liste" onAction="#handleParticipations" styleClass="menu-button">
+                                        <graphic>
+                                            <Label text="📋" styleClass="submenu-icon"/>
+                                        </graphic>
+                                    </Button>
+                                </VBox>
+                            </content>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+
+                <!-- Statut de connexion en bas du sidebar -->
+                <HBox alignment="CENTER" spacing="10.0" layoutX="25.0" layoutY="620.0" styleClass="connection-status">
+                    <Circle radius="5.0" fill="#4cd964"/>
+                    <Label text="Connecté" styleClass="status-text"/>
+                    <Label text="🚪" styleClass="logout-icon"/>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </left>
+
+    <!-- Zone centrale avec un message d'accueil -->
+    <center>
+        <StackPane>
+            <!-- Contenu dynamique chargé ici -->
+            <AnchorPane fx:id="contentArea" styleClass="content-container" AnchorPane.topAnchor="0.0"
+                        AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+
+                <!-- Message de bienvenue par défaut (visible uniquement à l'accueil) -->
+                <VBox fx:id="welcomeContent" alignment="CENTER" spacing="20.0" visible="true"
+                      AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      styleClass="welcome-container">
+
+                    <StackPane styleClass="logo-container">
+                        <Circle radius="50" styleClass="logo-circle"/>
+                        <Label text="📅" styleClass="welcome-logo">
+                            <font>
+                                <Font size="50.0" />
+                            </font>
+                        </Label>
+                    </StackPane>
+
+                    <Label text="Bienvenue sur EventPro" styleClass="welcome-title"/>
+                    <Label text="Sélectionnez une option dans le menu pour commencer" styleClass="welcome-subtitle"/>
+
+                    <!-- Raccourcis rapides -->
+                    <HBox alignment="CENTER" spacing="20.0" styleClass="quick-actions">
+                        <Button text="Nouvel événement" styleClass="action-button, primary-button"
+                                onAction="#handleAjouterEvent">
+                            <graphic>
+                                <Label text="➕" styleClass="action-icon"/>
+                            </graphic>
+                        </Button>
+
+                        <Button text="Voir les événements" styleClass="action-button, secondary-button"
+                                onAction="#handleAfficherEvent">
+                            <graphic>
+                                <Label text="📋" styleClass="action-icon"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </AnchorPane>
+
+            <!-- Indicateur de chargement (initialement invisible) -->
+            <StackPane fx:id="loadingIndicator" visible="false" styleClass="loading-container">
+                <Rectangle width="100.0" height="100.0" styleClass="loading-background"/>
+                <ProgressIndicator styleClass="loading-spinner"/>
+            </StackPane>
+        </StackPane>
+    </center>
+
+</BorderPane>
