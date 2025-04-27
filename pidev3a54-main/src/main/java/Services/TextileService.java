@@ -339,4 +339,23 @@ public class TextileService implements IService<textile> {
 
         return null;
     }
+
+    public collection_t getCollectionById(int id) throws SQLException {
+        String query = "SELECT * FROM collection_t WHERE id = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    collection_t collection = new collection_t();
+                    collection.setId(rs.getInt("id"));
+                    collection.setNom(rs.getString("nom"));
+                    collection.setUserId(rs.getInt("user_id"));
+                    collection.setDescription(rs.getString("description"));
+                    return collection;
+                }
+            }
+        }
+        return null;
+    }
 }

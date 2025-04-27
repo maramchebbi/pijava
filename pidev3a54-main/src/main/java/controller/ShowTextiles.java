@@ -264,24 +264,25 @@ public class ShowTextiles {
                 "-fx-border-width: 1; " +
                 "-fx-border-radius: 12; " +
                 "-fx-spacing: 0; " +
-                "-fx-max-width: 280; " +
-                "-fx-min-width: 280;");
+                "-fx-max-width: 300; " +  // Changé de 280px à 300px
+                "-fx-min-width: 300; " +  // Changé de 280px à 300px
+                "-fx-alignment: center;"); // Centrer le contenu de la carte
 
         // Conteneur d'image amélioré avec coins arrondis
         StackPane imageContainer = new StackPane();
-        imageContainer.setStyle("-fx-background-color: #f5f5f5; -fx-background-radius: 12 12 0 0;");
+        imageContainer.setStyle("-fx-background-color: #f5f5f5; -fx-background-radius: 12 12 0 0; -fx-padding: 10 0 0 0;"); // Ajout de padding en haut
 
         // Image avec coins arrondis
         ImageView imageView = new ImageView();
         try {
             Image image = new Image("file:" + t.getImage());
             imageView.setImage(image);
-            imageView.setFitWidth(280);
+            imageView.setFitWidth(300);  // Changé de 280px à 300px
             imageView.setFitHeight(180);
             imageView.setPreserveRatio(true);
 
             // Création d'un Rectangle pour le masque de découpage (clip)
-            Rectangle clip = new Rectangle(280, 180);
+            Rectangle clip = new Rectangle(300, 180);  // Changé de 280px à 300px
             clip.setArcWidth(24);
             clip.setArcHeight(24);
             imageView.setClip(clip);
@@ -292,7 +293,7 @@ public class ShowTextiles {
                 imageView.setImage(new Image("/images/default-textile.png"));
             } catch (Exception ex) {
                 // Si même l'image par défaut ne peut pas être chargée, créer un rectangle coloré
-                Rectangle placeholder = new Rectangle(280, 180);
+                Rectangle placeholder = new Rectangle(300, 180);  // Changé de 280px à 300px
                 placeholder.setFill(Color.web("#e0e0e0"));
                 placeholder.setArcWidth(24);
                 placeholder.setArcHeight(24);
@@ -335,7 +336,7 @@ public class ShowTextiles {
 
         // Zone de contenu de la carte avec espacement amélioré
         VBox contentBox = new VBox();
-        contentBox.setStyle("-fx-spacing: 8; -fx-padding: 16 20 12 20;");
+        contentBox.setStyle("-fx-spacing: 8; -fx-padding: 20 20 16 20;"); // Augmentation du padding
 
         // Titre et type dans une même boîte avec des styles améliorés
         HBox titleBox = new HBox();
@@ -346,7 +347,7 @@ public class ShowTextiles {
         Label nameLabel = new Label(t.getNom());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #603813; -fx-font-size: 17px;");
         nameLabel.setWrapText(true);
-        nameLabel.setMaxWidth(170);
+        nameLabel.setMaxWidth(190); // Ajusté pour la nouvelle largeur
 
         // Type de textile comme badge
         Label typeLabel = new Label(t.getType());
@@ -475,8 +476,9 @@ public class ShowTextiles {
                     "-fx-border-width: 1; " +
                     "-fx-border-radius: 12; " +
                     "-fx-spacing: 0; " +
-                    "-fx-max-width: 280; " +
-                    "-fx-min-width: 280; " +
+                    "-fx-max-width: 300; " +  // Changé de 280px à 300px
+                    "-fx-min-width: 300; " +  // Changé de 280px à 300px
+                    "-fx-alignment: center; " + // Centrer le contenu de la carte
                     "-fx-translate-y: -3; " +
                     "-fx-cursor: hand;");
         });
@@ -489,14 +491,14 @@ public class ShowTextiles {
                     "-fx-border-width: 1; " +
                     "-fx-border-radius: 12; " +
                     "-fx-spacing: 0; " +
-                    "-fx-max-width: 280; " +
-                    "-fx-min-width: 280; " +
+                    "-fx-max-width: 300; " +  // Changé de 280px à 300px
+                    "-fx-min-width: 300; " +  // Changé de 280px à 300px
+                    "-fx-alignment: center; " + // Centrer le contenu de la carte
                     "-fx-translate-y: 0;");
         });
 
         return card;
     }
-
     @FXML
     private void handleRate(ActionEvent event, textile t) {
         try {
@@ -805,6 +807,7 @@ public class ShowTextiles {
             return "rgba(200, 200, 200, 0.2)";
         }
     }
+
     @FXML
     private void handleDetails(ActionEvent event) {
         textile textile = getTextileFromEvent(event);

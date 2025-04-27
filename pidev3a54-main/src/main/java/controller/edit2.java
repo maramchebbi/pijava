@@ -1,5 +1,6 @@
 package controller;
 
+import Models.collection_t;
 import Models.textile;
 import Services.TextileService;
 import javafx.event.ActionEvent;
@@ -9,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -29,145 +29,154 @@ import java.util.Set;
 
 public class edit2 {
 
-    @FXML private ImageView imageView;
-    @FXML private TextField nomField;
-    @FXML private TextField typeField;
-    @FXML private TextArea descriptionField;
-    @FXML private TextField matiereField;
-    @FXML private TextField couleurField;
-    @FXML private TextField dimensionField;
-    @FXML private TextField createurField;
-    @FXML private TextField techniqueField;
+        @FXML
+        private ImageView imageView;
 
-    private textile currentTextile;
-    private TextileService textileService = new TextileService();
-    private File selectedImageFile = null;
+        @FXML
+        private TextField nomField;
 
-    public void setTextileDetails(textile textile) {
-        this.currentTextile = textile;
+        @FXML
+        private TextField typeField;
 
-        if (textile.getImage() != null && !textile.getImage().isEmpty()) {
-            try {
+        @FXML
+        private TextArea descriptionField;
+
+        @FXML
+        private TextField matiereField;
+
+        @FXML
+        private TextField couleurField;
+
+        @FXML
+        private TextField dimensionField;
+
+        @FXML
+        private TextField createurField;
+
+        @FXML
+        private TextField techniqueField;
+        private File selectedImageFile = null;
+
+        private textile currentTextile;
+        private TextileService textileService = new TextileService();
+
+        public void setTextileDetails(textile textile) {
+            this.currentTextile = textile;
+
+            if (textile.getImage() != null && !textile.getImage().isEmpty()) {
                 imageView.setImage(new Image("file:" + textile.getImage()));
-            } catch (Exception e) {
-                System.err.println("Erreur de chargement de l'image: " + e.getMessage());
+            } else {
+                imageView.setImage(null);
             }
+
+            nomField.setText(textile.getNom());
+            typeField.setText(textile.getType());
+            descriptionField.setText(textile.getDescription());
+            matiereField.setText(textile.getMatiere());
+            couleurField.setText(textile.getCouleur());
+            dimensionField.setText(textile.getDimension());
+            createurField.setText(textile.getCreateur());
+            techniqueField.setText(textile.getTechnique());
         }
 
-        nomField.setText(textile.getNom());
-        typeField.setText(textile.getType());
-        descriptionField.setText(textile.getDescription());
-        matiereField.setText(textile.getMatiere());
-        couleurField.setText(textile.getCouleur());
-        dimensionField.setText(textile.getDimension());
-        createurField.setText(textile.getCreateur());
-        techniqueField.setText(textile.getTechnique());
-    }
-
     @FXML
-    public void chooseImage(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir une image");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
-        );
-
-        File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
-        if (file != null) {
-            selectedImageFile = file;
-            try {
-                imageView.setImage(new Image(file.toURI().toString()));
-            } catch (Exception e) {
-                showAlert(AlertType.ERROR, "Erreur", "Impossible de charger l'image sélectionnée");
-            }
-        }
-    }
-
-    @FXML
-    public void saveChanges(ActionEvent event) {
+    private void saveChanges(ActionEvent event) {
         // Validation des champs obligatoires
         if (nomField.getText().isEmpty() || typeField.getText().isEmpty() ||
                 descriptionField.getText().isEmpty() || matiereField.getText().isEmpty() ||
                 couleurField.getText().isEmpty() || dimensionField.getText().isEmpty() ||
                 createurField.getText().isEmpty() || techniqueField.getText().isEmpty()) {
-            showAlert(AlertType.ERROR, "Champs manquants", "Veuillez remplir tous les champs obligatoires.");
+            showAlert(Alert.AlertType.ERROR, "Champs manquants", "Veuillez remplir tous les champs obligatoires.");
             return;
         }
 
-        // Création du textile mis à jour
-        textile updatedTextile = new textile();
+        // Préparation de l'objet textile modifié
+        textile updatedTextile = new textile(
+                currentTextile.getCollectionId(),
+                nomField.getText().trim(),
+                typeField.getText().trim(),
+                descriptionField.getText().trim(),
+                matiereField.getText().trim(),
+                couleurField.getText().trim(),
+                dimensionField.getText().trim(),
+                createurField.getText().trim(),
+                (selectedImageFile != null) ? selectedImageFile.getAbsolutePath() : currentTextile.getImage(),
+                techniqueField.getText().trim(),
+                currentTextile.getUserId()
+        );
         updatedTextile.setId(currentTextile.getId());
-        updatedTextile.setNom(nomField.getText().trim());
-        updatedTextile.setType(typeField.getText().trim());
-        updatedTextile.setDescription(descriptionField.getText().trim());
-        updatedTextile.setMatiere(matiereField.getText().trim());
-        updatedTextile.setCouleur(couleurField.getText().trim());
-        updatedTextile.setDimension(dimensionField.getText().trim());
-        updatedTextile.setCreateur(createurField.getText().trim());
-        updatedTextile.setTechnique(techniqueField.getText().trim());
-        updatedTextile.setImage(selectedImageFile != null ? selectedImageFile.getAbsolutePath() : currentTextile.getImage());
-        updatedTextile.setUserId(currentTextile.getUserId());
-        updatedTextile.setCollectionId(currentTextile.getCollectionId());
 
-        // Validation avec Hibernate Validator
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<textile>> violations = validator.validate(updatedTextile);
-
-        if (!violations.isEmpty()) {
-            StringBuilder errors = new StringBuilder();
-            for (ConstraintViolation<textile> violation : violations) {
-                errors.append("- ").append(violation.getMessage()).append("\n");
-            }
-            showAlert(AlertType.ERROR, "Erreur de validation", errors.toString());
-            return;
-        }
-
-        // Sauvegarde des modifications
         try {
             textileService.update(updatedTextile);
-            showAlert(AlertType.INFORMATION, "Succès", "Textile modifié avec succès");
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Textile modifié avec succès !");
 
-            // Retour à l'écran précédent
-            Screen screen = Screen.getPrimary();
-            double width = screen.getVisualBounds().getWidth();
-            double height = screen.getVisualBounds().getHeight();
-
-            Parent root = FXMLLoader.load(getClass().getResource("/show1.fxml"));
-            Scene scene = new Scene(root, width, height);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (SQLException | IOException e) {
-            showAlert(AlertType.ERROR, "Erreur", "Échec de la mise à jour: " + e.getMessage());
+            // Redirection avec plein écran
+            redirectToDetails1WithFullScreen(event);
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur",
+                    "Erreur lors de la modification: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void cancelChanges(ActionEvent event) {
-        try {
-            Screen screen = Screen.getPrimary();
-            double width = screen.getVisualBounds().getWidth();
-            double height = screen.getVisualBounds().getHeight();
+    private void cancelChanges(ActionEvent event) {
+        redirectToDetails1WithFullScreen(event);
+    }
 
-            Parent root = FXMLLoader.load(getClass().getResource("/show1.fxml"));
-            Scene scene = new Scene(root, width, height);
+
+    // Nouvelle méthode pour rediriger avec plein écran
+    private void redirectToDetails1WithFullScreen(ActionEvent event) {
+        try {
+            // Obtenir les dimensions de l'écran
+            javafx.stage.Screen screen = javafx.stage.Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/details1.fxml"));
+            Parent root = loader.load();
+
+            // Initialiser le controller avec la collection
+            detail1 controller = loader.getController();
+            collection_t collection = new collection_t();
+            collection.setId(currentTextile.getCollectionId());
+            controller.setCollection(collection);
+
+            // Créer une nouvelle scène avec les dimensions exactes de l'écran
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, screenWidth, screenHeight);
             stage.setScene(scene);
+
+            // Assurez-vous que la fenêtre est maximisée
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
-            showAlert(AlertType.ERROR, "Erreur", "Impossible de revenir à la liste");
+            showAlert(Alert.AlertType.ERROR, "Erreur",
+                    "Erreur de navigation: " + e.getMessage());
             e.printStackTrace();
         }
     }
+        private void showAlert(Alert.AlertType type, String title, String message) {
+            Alert alert = new Alert(type);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
 
-    private void showAlert(AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        @FXML
+        private void chooseImage(ActionEvent event) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choose Image");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+            );
+            File file = fileChooser.showOpenDialog(null);
+            if (file != null) {
+                selectedImageFile = file;
+                imageView.setImage(new Image(file.toURI().toString()));
+            }
+        }
     }
-}
+
+

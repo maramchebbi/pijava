@@ -17,7 +17,7 @@ public class TextileApiServer {
 
             // Renvoyer une page HTML simple
             return "<h1>" + t.getNom() + "</h1>"
-                    + "<p>ID: " + t.getId() + "</p>"
+//                    + "<p>ID: " + t.getId() + "</p>"
                     + "<p>Type: " + t.getType() + "</p>";
         });
     }

@@ -59,29 +59,7 @@ public class TextileQRService {
         return QRCodeGenerator.generateQRCode(qrCodeUrl, QR_CODE_SIZE, QR_CODE_SIZE);
     }
 
-    /**
-     * Obtient l'URL de la page HTML pour un textile
-     */
-    public String getTextileUrl(int textileId) {
-        return BASE_URL + textileId + ".html";
-    }
 
-    /**
-     * Génère et sauvegarde un QR code pour un textile
-     * @param textileId L'ID du textile
-     * @return Le chemin du fichier QR code généré
-     */
-    public String generateAndSaveQRCode(int textileId) throws SQLException, WriterException, IOException {
-        // Récupérer l'URL du textile
-        String qrCodeContent = getTextileUrl(textileId);
 
-        // Définir le chemin de sauvegarde
-        String fileName = "textile_" + textileId + "_qrcode.png";
-        String filePath = QR_CODE_DIRECTORY + File.separator + fileName;
 
-        // Générer et sauvegarder le QR code comme image
-        QRCodeGenerator.generateQRCodeFile(qrCodeContent, QR_CODE_SIZE, QR_CODE_SIZE, filePath);
-
-        return filePath;
-    }
 }

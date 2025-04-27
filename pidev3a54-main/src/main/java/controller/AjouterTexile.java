@@ -3,6 +3,7 @@ package controller;
 import Models.collection_t;
 import Models.textile;
 import Services.TextileService;
+import Utils.EmailService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -159,6 +160,8 @@ public class AjouterTexile {
         String technique = techniquefield.getText().trim();
         String userIdText = iduserfield.getText().trim();
         collection_t selectedCollection = collectionIdField.getValue();
+        String collectionName = selectedCollection.getNom();
+
 
         // Validation
         boolean isValid = true;
@@ -229,6 +232,7 @@ public class AjouterTexile {
             alert.setHeaderText("Textile ajouté avec succès !");
             alert.show();
 
+
             // Redirection
             Screen screen = Screen.getPrimary();
 
@@ -242,6 +246,23 @@ public class AjouterTexile {
             stage.setScene(scene);
             stage.show();
 
+            String clientEmail = "oussamaabid52@gmail.com";
+
+            new Thread(() -> {
+                boolean sent = EmailService.notifyNewTextile(
+                        clientEmail,
+                        nom,
+                        collectionName,
+                        createur
+                );
+
+                if (sent) {
+                    System.out.println("Email envoyé avec succès à " + clientEmail);
+                } else {
+                    System.err.println("Échec de l'envoi de l'email à " + clientEmail);
+                }
+            }).start();
+
         } catch (SQLException | IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
@@ -249,6 +270,7 @@ public class AjouterTexile {
             alert.setContentText(e.getMessage());
             alert.show();
         }
+
     }
 
     public void viewtextile(ActionEvent actionEvent) {

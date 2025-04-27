@@ -196,15 +196,16 @@ public class ShowCollectionT {
     @FXML
     private void handleDetailsCollection(collection_t collection) {
         try {
-
             Screen screen = Screen.getPrimary();
             double screenWidth = screen.getVisualBounds().getWidth();
             double screenHeight = screen.getVisualBounds().getHeight();
 
+            // Utiliser le bon chemin avec le 's'
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/details1.fxml"));
             Parent root = loader.load();
 
 
+            // S'assurer que le contrôleur détecté est bien de type detail1
             detail1 controller = loader.getController();
             controller.setCollection(collection);
 
@@ -221,7 +222,6 @@ public class ShowCollectionT {
             e.printStackTrace();
         }
     }
-
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
