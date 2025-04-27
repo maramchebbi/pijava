@@ -4,49 +4,67 @@ import Models.Workshops;
 import Services.WorkshopService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.application.Platform;
 
-public class AddWorkshop {
+public class AddWorkshop implements Initializable {
 
     @FXML private TextField titreField;
     @FXML private TextArea descriptionField;
     @FXML private Label videoLabel;
+    @FXML private Button backButton;
 
     private File selectedVideoFile;
-    private WorkshopService workshopService = new WorkshopService(); // Initialize service
+    private WorkshopService workshopService = new WorkshopService();
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // We'll use Platform.runLater to ensure this runs after the scene is fully initialized
+        Platform.runLater(() -> {
+            if (titreField.getScene() != null && titreField.getScene().getWindow() != null) {
+                setFullScreen((Stage) titreField.getScene().getWindow());
+            }
+        });
+    }
 
+    private void setFullScreen(Stage stage) {
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX(screenBounds.getMinX());
+        stage.setY(screenBounds.getMinY());
+        stage.setWidth(screenBounds.getWidth());
+        stage.setHeight(screenBounds.getHeight());
+        stage.setTitle("Ajouter un Workshop");
+    }
 
     @FXML
     void voiraction(ActionEvent event) {
         try {
-            // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShowWorkshops.fxml"));
             Parent root = loader.load();
-
-            // Get the current stage - CORRECTED: using 'event' instead of 'actionEvent'
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Create a new scene with the loaded FXML content
             Scene scene = new Scene(root);
-
-            // Set the new scene and show the stage
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
-
         } catch (IOException e) {
             System.out.println("Error loading the FXML file: " + e.getMessage());
-            e.printStackTrace();  // Added for better debugging
+            e.printStackTrace();
         }
     }
 
@@ -64,48 +82,103 @@ public class AddWorkshop {
         if (file != null) {
             selectedVideoFile = file;
             videoLabel.setText(file.getName());
+            videoLabel.setStyle("-fx-text-fill: #2e7d32;"); // Green color for success
         } else {
             videoLabel.setText("Aucune vidéo sélectionnée");
+            videoLabel.setStyle("-fx-text-fill: #767676;"); // Reset to default color
         }
     }
 
     @FXML
     private void handleAddWorkshop() {
-        String titre = titreField.getText();
-        String description = descriptionField.getText();
-
-        if (titre.isEmpty() || description.isEmpty() || selectedVideoFile == null) {
-            showAlert(Alert.AlertType.ERROR, "Veuillez remplir tous les champs et sélectionner une vidéo.");
+        if (!validateInputs()) {
             return;
         }
 
         try {
             // Create and save workshop
             Workshops workshop = new Workshops();
-            workshop.setTitre(titre);
-            workshop.setDescription(description);
+            workshop.setTitre(titreField.getText());
+            workshop.setDescription(descriptionField.getText());
             workshop.setVideo(selectedVideoFile.getAbsolutePath());
 
-            workshopService.add(workshop); // Actually save to database
+            workshopService.add(workshop);
+
+            // Show success message with improved appearance
+            showSuccessAlert("Workshop ajouté avec succès!");
 
             // Clear fields
-            titreField.clear();
-            descriptionField.clear();
-            videoLabel.setText("Aucune vidéo sélectionnée");
-            selectedVideoFile = null;
-
-            showAlert(Alert.AlertType.INFORMATION, "Workshop ajouté avec succès !");
+            resetForm();
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur lors de l'ajout: " + e.getMessage());
+            showErrorAlert("Erreur lors de l'ajout", "Détails: " + e.getMessage());
         }
     }
 
-    private void showAlert(Alert.AlertType type, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle("Information");
+    private boolean validateInputs() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        if (titreField.getText().trim().isEmpty()) {
+            errorMessage.append("- Le titre est requis\n");
+            titreField.setStyle("-fx-border-color: #ff6b6b; -fx-background-color: #fff8f8; -fx-border-radius: 5; -fx-background-radius: 5;");
+        } else {
+            titreField.setStyle("-fx-background-color: #fafafa; -fx-border-color: #e6dfd5; -fx-border-radius: 5; -fx-background-radius: 5;");
+        }
+
+        if (descriptionField.getText().trim().isEmpty()) {
+            errorMessage.append("- La description est requise\n");
+            descriptionField.setStyle("-fx-border-color: #ff6b6b; -fx-background-color: #fff8f8; -fx-border-radius: 5; -fx-background-radius: 5;");
+        } else {
+            descriptionField.setStyle("-fx-background-color: #fafafa; -fx-border-color: #e6dfd5; -fx-border-radius: 5; -fx-background-radius: 5;");
+        }
+
+        if (selectedVideoFile == null) {
+            errorMessage.append("- Une vidéo doit être sélectionnée\n");
+        }
+
+        if (errorMessage.length() > 0) {
+            showErrorAlert("Validation échouée", "Veuillez corriger les erreurs suivantes:\n" + errorMessage.toString());
+            return false;
+        }
+
+        return true;
+    }
+
+    private void resetForm() {
+        titreField.clear();
+        descriptionField.clear();
+        videoLabel.setText("Aucune vidéo sélectionnée");
+        videoLabel.setStyle("-fx-text-fill: #767676;");
+        selectedVideoFile = null;
+    }
+
+    private void showSuccessAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        styleAlert(alert);
+        alert.setTitle("Succès");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        styleAlert(alert);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void styleAlert(Alert alert) {
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: white; -fx-border-color: #e6dfd5; -fx-border-width: 1px;");
+        dialogPane.getStyleClass().add("modern-alert");
+
+        // Add custom styling if CSS is available in your project
+        // Stage stage = (Stage) dialogPane.getScene().getWindow();
+        // stage.getScene().getStylesheets().add(getClass().getResource("/styles/alerts.css").toExternalForm());
+    }
+
+
 }

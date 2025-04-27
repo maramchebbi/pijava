@@ -1,107 +1,225 @@
 package controller;
-
 import Models.CeramicCollection;
+import Models.Oeuvre;
+import controller.Detailco;
 import Services.CollectionCeramiqueService;
+import Services.OeuvreService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.GridPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import Models.Oeuvre;
-import Services.OeuvreService;
-import controller.Detailco;
+import javafx.event.ActionEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class CollectionsController {
 
     @FXML
-    private TableColumn<CeramicCollection, String> actionColumn;
-
-
-    @FXML
-    private TableColumn<CeramicCollection, String> descriptionColumn;
+    private FlowPane collectionsContainer;
 
     @FXML
-    private TableColumn<CeramicCollection, String> nomColumn;
-
-    @FXML
-    private TableView<CeramicCollection> tableView;
+    private ScrollPane scrollPane;
 
     private ObservableList<CeramicCollection> collectionsList = FXCollections.observableArrayList();
     private CollectionCeramiqueService collectionService;
+    private OeuvreService oeuvreService;
+
+    // Image par défaut quand aucune œuvre n'est disponible
+    private final String DEFAULT_IMAGE = "/images/default_ceramic.jpg";
 
     public CollectionsController() {
         this.collectionService = new CollectionCeramiqueService();
+        this.oeuvreService = new OeuvreService();
     }
 
     @FXML
     public void initialize() {
-        // Configuration des colonnes comme vous aviez déjà
-        nomColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNom_c()));
-        descriptionColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDescription_c()));
+        // Configuration du conteneur de collections
+        collectionsContainer.setHgap(20);
+        collectionsContainer.setVgap(20);
+        collectionsContainer.setPadding(new Insets(20));
+        collectionsContainer.setAlignment(Pos.CENTER);
 
-        // Style pour le TableView et la sélection de ligne
-       // tableView.getStylesheets().add(getClass().getResource("/css_files/collections.css").toExternalResource());
+        // Configuration du scroll pane
+        scrollPane.setFitToWidth(true);
+        scrollPane.setContent(collectionsContainer);
+        scrollPane.getStyleClass().add("edge-to-edge");
 
-        // Configuration de la colonne d'actions
-        actionColumn.setCellFactory(param -> new javafx.scene.control.TableCell<CeramicCollection, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    Button modifyButton = new Button("Modifier");
-                    modifyButton.setStyle("-fx-background-color: #8b5a2b; -fx-text-fill: #f5f5dc; " +
-                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
-                    modifyButton.setOnAction(event -> modifyCollection(getTableView().getItems().get(getIndex())));
-
-                    Button deleteButton = new Button("Supprimer");
-                    deleteButton.setStyle("-fx-background-color: #b22222; -fx-text-fill: #f5f5dc; " +
-                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
-                    deleteButton.setOnAction(event -> delete(getTableView().getItems().get(getIndex())));
-
-                    Button detailButton = new Button("Détails");
-                    detailButton.setStyle("-fx-background-color: #6b4226; -fx-text-fill: #f5f5dc; " +
-                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
-                    detailButton.setOnAction(event -> showDetails(getTableView().getItems().get(getIndex())));
-
-                    Button showButton = new Button("Voir");
-                    showButton.setStyle("-fx-background-color: #a0522d; -fx-text-fill: #f5f5dc; " +
-                            "-fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5 10;");
-                    showButton.setOnAction(event -> voir(getTableView().getItems().get(getIndex())));
-
-                    javafx.scene.layout.HBox hbox = new javafx.scene.layout.HBox(8);
-                    hbox.setAlignment(javafx.geometry.Pos.CENTER);
-                    hbox.getChildren().addAll(modifyButton, deleteButton, detailButton, showButton);
-                    setGraphic(hbox);
-                }
-            }
-        });
-
-        // Définir la scène en plein écran à l'initialisation
-        tableView.sceneProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                Stage stage = (Stage) tableView.getScene().getWindow();
-                stage.setMaximized(true);
-            }
-        });
-
+        // Chargement des collections
         loadCollectionsData();
     }
-    private void voir(CeramicCollection collection) {
+
+    // Charger les collections depuis la base de données
+    private void loadCollectionsData() {
+        try {
+            List<CeramicCollection> collections = collectionService.getAll();
+            collectionsList.setAll(collections);
+
+            // Afficher chaque collection comme une carte
+            for (CeramicCollection collection : collections) {
+                collectionsContainer.getChildren().add(createCollectionCard(collection));
+            }
+
+        } catch (SQLException e) {
+            showAlert(AlertType.ERROR, "Erreur",
+                    "Erreur lors de la récupération des collections: " + e.getMessage());
+        }
+    }
+
+    private VBox createCollectionCard(CeramicCollection collection) {
+        // Créer la carte (container)
+        VBox card = new VBox();
+        card.setAlignment(Pos.CENTER);
+        card.setSpacing(10);
+        card.setPadding(new Insets(15));
+        card.setPrefWidth(250);
+        card.setPrefHeight(320);
+        card.setStyle("-fx-background-color: white; -fx-border-color: #D2B48C; -fx-border-radius: 5;");
+
+        // Ajouter un effet d'ombre
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.rgb(0, 0, 0, 0.2));
+        shadow.setRadius(5);
+        card.setEffect(shadow);
+
+        // Créer l'image de la collection
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(220);
+        imageView.setFitHeight(180);
+        imageView.setPreserveRatio(true);
+
+        // Essayer de trouver une image parmi les œuvres de cette collection
+        String imagePath = getCollectionImagePath(collection.getId());
+        if (imagePath != null && new File(imagePath).exists()) {
+            imageView.setImage(new Image("file:" + imagePath));
+        } else {
+            // Utiliser l'image par défaut si aucune œuvre n'est trouvée
+            try {
+                imageView.setImage(new Image(getClass().getResourceAsStream(DEFAULT_IMAGE)));
+            } catch (Exception e) {
+                // Fallback si l'image par défaut n'est pas trouvée
+                StackPane placeholder = new StackPane();
+                placeholder.setPrefSize(220, 180);
+                placeholder.setStyle("-fx-background-color: #F5F5F5;");
+                Label noImageLabel = new Label("Aucune image");
+                noImageLabel.setStyle("-fx-text-fill: #6B4226;");
+                placeholder.getChildren().add(noImageLabel);
+                card.getChildren().add(placeholder);
+            }
+        }
+
+        // Ajouter l'image au conteneur
+        if (imageView.getImage() != null) {
+            card.getChildren().add(imageView);
+        }
+
+        // Titre de la collection
+        Label titleLabel = new Label(collection.getNom_c());
+        titleLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 16));
+        titleLabel.setTextFill(Color.web("#6B4226"));
+        titleLabel.setWrapText(true);
+        titleLabel.setTextAlignment(TextAlignment.CENTER);
+
+        // Description (limitée à 2-3 lignes)
+        Label descriptionLabel = new Label(truncateText(collection.getDescription_c(), 100));
+        descriptionLabel.setWrapText(true);
+        descriptionLabel.setTextAlignment(TextAlignment.CENTER);
+        descriptionLabel.setTextFill(Color.web("#666666"));
+
+        // Bouton pour voir les œuvres
+        Button viewButton = new Button("Voir les œuvres");
+        viewButton.setStyle("-fx-background-color: #D2B48C; -fx-text-fill: #6B4226; " +
+                "-fx-background-radius: 3;");
+        viewButton.setOnAction(e -> viewCollectionOeuvres(collection));
+
+        // Zone pour les actions (modifier/supprimer)
+        HBox actionsBox = new HBox(10);
+        actionsBox.setAlignment(Pos.CENTER);
+
+        Button editButton = new Button("Modifier");
+        editButton.setStyle("-fx-background-color: #F5F5F5; -fx-text-fill: #6B4226;");
+        editButton.setOnAction(e -> modifyCollection(collection));
+
+        Button deleteButton = new Button("Supprimer");
+        deleteButton.setStyle("-fx-background-color: #F5F5F5; -fx-text-fill: #6B4226;");
+        deleteButton.setOnAction(e -> delete(collection));
+
+        actionsBox.getChildren().addAll(editButton, deleteButton);
+
+        // Ajouter tous les éléments à la carte
+        card.getChildren().addAll(titleLabel, descriptionLabel, viewButton, actionsBox);
+
+        // Ajouter un effet au survol
+        card.setOnMouseEntered(e -> {
+            card.setStyle("-fx-background-color: #FFFAF0; -fx-border-color: #D2B48C; -fx-border-radius: 5;");
+            card.setScaleX(1.03);
+            card.setScaleY(1.03);
+        });
+
+        card.setOnMouseExited(e -> {
+            card.setStyle("-fx-background-color: white; -fx-border-color: #D2B48C; -fx-border-radius: 5;");
+            card.setScaleX(1.0);
+            card.setScaleY(1.0);
+        });
+
+        return card;
+    }
+
+    // Récupérer le chemin d'une image d'une œuvre dans cette collection
+    private String getCollectionImagePath(int collectionId) {
+        try {
+            // Récupérer les œuvres de cette collection
+            List<Oeuvre> oeuvres = oeuvreService.getByCollectionId(collectionId);
+
+            if (oeuvres != null && !oeuvres.isEmpty()) {
+                // Option 1: Prendre la première œuvre qui a une image
+                for (Oeuvre oeuvre : oeuvres) {
+                    if (oeuvre.getImage() != null && !oeuvre.getImage().isEmpty()) {
+                        return oeuvre.getImage();
+                    }
+                }
+
+                // Option 2: Si aucune œuvre n'a d'image, retourner null
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des œuvres: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    // Tronquer le texte de la description
+    private String truncateText(String text, int maxLength) {
+        if (text == null || text.length() <= maxLength) {
+            return text;
+        }
+        return text.substring(0, maxLength) + "...";
+    }
+
+    // Afficher les œuvres d'une collection
+    private void viewCollectionOeuvres(CeramicCollection collection) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
             Parent root = loader.load();
@@ -114,58 +232,56 @@ public class CollectionsController {
 
             // Afficher la nouvelle scène
             Scene scene = new Scene(root);
-            Stage stage = new Stage(); // nouvelle fenêtre
+            Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("Détails de la Collection: " + collection.getNom_c());
+            stage.setTitle("Œuvres de la Collection: " + collection.getNom_c());
             stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    // Charger les collections depuis la base de données
-    private void loadCollectionsData() {
-        try {
-            List<CeramicCollection> collections = collectionService.getAll();
-            collectionsList.setAll(collections); // Remplacer toutes les collections dans la liste observable
-            tableView.setItems(collectionsList);  // Afficher les collections dans la TableView
-        } catch (SQLException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Erreur lors de la récupération des collections");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            showAlert(AlertType.ERROR, "Erreur",
+                    "Impossible d'afficher les œuvres de cette collection.");
         }
     }
 
     // Modifier une collection
     private void modifyCollection(CeramicCollection collection) {
-        // Créer un dialog personnalisé
         Dialog<CeramicCollection> dialog = new Dialog<>();
         dialog.setTitle("Modifier la Collection");
-        dialog.setHeaderText("Modifier : " + collection.getNom_c());
+        dialog.setHeaderText("Modifier la collection: " + collection.getNom_c());
 
-        ButtonType updateButtonType = new ButtonType("Mettre à jour", ButtonBar.ButtonData.OK_DONE);
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: white;");
+        dialogPane.setPrefSize(400, 250);
+
+        ButtonType updateButtonType = new ButtonType("Enregistrer", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
 
-        // Création des champs
+        Button updateButton = (Button) dialog.getDialogPane().lookupButton(updateButtonType);
+        updateButton.setStyle("-fx-background-color: #D2B48C; -fx-text-fill: #6B4226;");
+
+        Button cancelButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setStyle("-fx-background-color: #F5F5F5; -fx-text-fill: #6B4226;");
+
         TextField nomField = new TextField(collection.getNom_c());
-        TextField descriptionField = new TextField(collection.getDescription_c());
+        nomField.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #D2B48C; -fx-border-radius: 3;");
+
+        TextArea descriptionField = new TextArea(collection.getDescription_c());
+        descriptionField.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #D2B48C; -fx-border-radius: 3;");
+        descriptionField.setPrefRowCount(3);
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+        grid.setVgap(15);
+        grid.setPadding(new Insets(20, 10, 10, 10));
 
-        grid.add(new Label("Nom:"), 0, 0);
+        grid.add(new Label("Nom de la collection:"), 0, 0);
         grid.add(nomField, 1, 0);
         grid.add(new Label("Description:"), 0, 1);
         grid.add(descriptionField, 1, 1);
 
         dialog.getDialogPane().setContent(grid);
 
-        // Convertir le résultat en objet CeramicCollection quand on clique sur "Mettre à jour"
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButtonType) {
                 collection.setNom_c(nomField.getText());
@@ -180,97 +296,107 @@ public class CollectionsController {
         result.ifPresent(updatedCollection -> {
             try {
                 collectionService.update(updatedCollection);
-                tableView.refresh(); // Actualiser la table
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Succès");
-                alert.setHeaderText("Collection modifiée !");
-                alert.setContentText("Les informations ont été mises à jour.");
-                alert.showAndWait();
+
+                // Rafraîchir l'affichage
+                collectionsContainer.getChildren().clear();
+                loadCollectionsData();
+
+                showAlert(Alert.AlertType.INFORMATION, "Collection modifiée",
+                        "Les informations de la collection ont été mises à jour avec succès.");
             } catch (SQLException e) {
                 e.printStackTrace();
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Échec de la mise à jour");
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Erreur",
+                        "Une erreur est survenue lors de la mise à jour de la collection.");
             }
         });
     }
 
-
+    // Supprimer une collection
     private void delete(CeramicCollection collection) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Voulez-vous vraiment supprimer cette collection ?");
-        alert.setContentText("Cela supprimera aussi toutes les œuvres associées à cette collection.");
+        alert.setHeaderText("Supprimer la collection");
+        alert.setContentText("Voulez-vous vraiment supprimer la collection \"" + collection.getNom_c() + "\" ?\n" +
+                "Cette action supprimera également toutes les œuvres associées.");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: white;");
+
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        if (okButton != null) {
+            okButton.setStyle("-fx-background-color: #D2B48C; -fx-text-fill: #6B4226;");
+        }
+
+        Button cancelButton = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        if (cancelButton != null) {
+            cancelButton.setStyle("-fx-background-color: #F5F5F5; -fx-text-fill: #6B4226;");
+        }
 
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                collectionService.delete(collection);  // Supprimer via le service (œuvres + collection)
-                collectionsList.remove(collection);    // Supprimer de la liste observable
+                collectionService.delete(collection);
+
+                // Rafraîchir l'affichage
+                collectionsContainer.getChildren().clear();
+                loadCollectionsData();
+
                 showAlert(Alert.AlertType.INFORMATION, "Suppression réussie",
-                        "La collection \"" + collection.getNom_c() + "\" et ses œuvres associées ont été supprimées.");
+                        "La collection \"" + collection.getNom_c() + "\" a été supprimée avec succès.");
             } catch (SQLException e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Erreur de suppression",
-                        "Une erreur est survenue lors de la suppression. Veuillez réessayer plus tard.");
+                        "Une erreur est survenue lors de la suppression. Veuillez réessayer.");
             }
         }
     }
+
+    // Afficher une alerte
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
-    }
 
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: white;");
 
-    // Afficher les détails d'une collection
-    private void showDetails(CeramicCollection collection) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Détails de la collection");
-        alert.setHeaderText("Détails de : " + collection.getNom_c());
-        alert.setContentText("Nom : " + collection.getNom_c() + "\nDescription : " + collection.getDescription_c());
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        if (okButton != null) {
+            okButton.setStyle("-fx-background-color: #D2B48C; -fx-text-fill: #6B4226;");
+        }
+
         alert.showAndWait();
     }
 
     @FXML
     private void ajoutercoaction(ActionEvent event) {
         try {
-            // Charger le fichier FXML pour l'interface d'ajout de collection
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCollection.fxml"));
             Parent root = loader.load();
 
-            // Obtenir la scène actuelle et définir la nouvelle scène avec le formulaire d'ajout
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();  // Loguer l'erreur ou afficher une alerte
+            e.printStackTrace();
         }
     }
-//new method
-@FXML
-private void oeuvreaction(ActionEvent event) {
-    try {
-        // Charger le fichier FXML pour l'interface d'ajout de collection
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
-        Parent root = loader.load();
 
-        // Obtenir la scène actuelle et définir la nouvelle scène avec le formulaire d'ajout
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();  // Loguer l'erreur ou afficher une alerte
+    @FXML
+    private void oeuvreaction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
-
-}
-
-

@@ -51,7 +51,7 @@
             <Button onAction="#affichercollectionaction" style="-fx-background-color: #B96B25; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;">
                 <graphic>
                     <HBox alignment="CENTER" spacing="6">
-                        <FontAwesomeIconView glyphName="TH" size="14" style="-fx-fill: #333333;"/>
+                        <FontAwesomeIconView glyphName="TH" size="14" style="-fx-fill: white;"/>
                         <Label text="Collections" style="-fx-text-fill: white;"/>
                     </HBox>
                 </graphic>
@@ -65,28 +65,43 @@
         </HBox>
 
         <!-- Barre de recherche centrée -->
-        <HBox alignment="CENTER" style="-fx-background-color: white; -fx-padding: 16;">
-            <HBox alignment="CENTER" style="-fx-background-color: #efefef; -fx-background-radius: 24; -fx-padding: 8 16; -fx-pref-width: 600;">
-                <FontAwesomeIconView glyphName="SEARCH" size="14" style="-fx-fill: #767676;"/>
-                <Label text="Recherche" style="-fx-text-fill: #767676; -fx-font-size: 12;"/>
-                <Region prefWidth="8" />
-                <TextField fx:id="searchField" promptText="Rechercher des œuvres..." style="-fx-background-color: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-pref-width: 350;"/>
+        <HBox alignment="CENTER" style="-fx-background-color: white; -fx-padding: 12 0 16 0;">
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f0f0f0; -fx-background-radius: 24; -fx-padding: 6 16; -fx-max-width: 600; -fx-pref-width: 600;">
+                <!-- Search Field -->
+                <TextField fx:id="searchField" promptText="Rechercher des oeuvres..."
+                           style="-fx-background-color: transparent; -fx-prompt-text-fill: #767676; -fx-text-fill: #333333; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-font-size: 14px; -fx-padding: 4 8; -fx-pref-width: 550;"/>
             </HBox>
         </HBox>
 
-        <!-- Barre de filtres -->
-        <!-- Barre de filtres - with improved visibility -->
-        <VBox style="-fx-background-color: white; -fx-border-color: #efefef; -fx-border-width: 0 0 1 0;">
-            <ScrollPane hbarPolicy="NEVER" vbarPolicy="NEVER"
-                        style="-fx-background-color: white; -fx-background: white;"
-                        fitToWidth="true" prefHeight="70" minHeight="70">
-                <HBox alignment="CENTER" style="-fx-background-color: white; -fx-padding: 8;">
-                    <HBox fx:id="filterButtonsContainer" alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 8 16;">
-                        <!-- Les boutons seront ajoutés dynamiquement -->
-                    </HBox>
-                </HBox>
-            </ScrollPane>
-        </VBox>
+        <!-- Remplacé la barre de filtres par une version avec ComboBox -->
+        <HBox fx:id="filterContainer" alignment="CENTER" spacing="24" style="-fx-background-color: white; -fx-padding: 16; -fx-border-color: #efefef; -fx-border-width: 0 0 1 0;">
+            <!-- Filter area - ComboBoxes will be added dynamically -->
+
+            <!-- Type Filter -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="Type:" style="-fx-font-weight: bold; -fx-text-fill: #333333;"/>
+                <ComboBox fx:id="typeComboBox" prefWidth="180" promptText="Tous les types"
+                          style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 5;"/>
+            </HBox>
+
+            <!-- Color Filter -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="Couleur:" style="-fx-font-weight: bold; -fx-text-fill: #333333;"/>
+                <ComboBox fx:id="colorComboBox" prefWidth="180" promptText="Toutes les couleurs"
+                          style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 5;"/>
+            </HBox>
+
+            <!-- Material Filter -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="Matière:" style="-fx-font-weight: bold; -fx-text-fill: #333333;"/>
+                <ComboBox fx:id="materialComboBox" prefWidth="180" promptText="Toutes les matières"
+                          style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 5;"/>
+            </HBox>
+
+            <!-- Reset Button -->
+            <Button fx:id="resetFiltersButton" text="Réinitialiser"
+                    style="-fx-background-color: #f8f8f8; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-padding: 6 12;"/>
+        </HBox>
 
         <!-- Contenu principal: GridView Pinterest-style -->
         <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER"

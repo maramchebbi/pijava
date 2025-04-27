@@ -13,6 +13,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -38,6 +41,8 @@ public class AjouterCollectionController {
 
     @FXML
     private TextField useridfield;
+    @FXML
+    private ImageView ceramicImageView;
 
     private CollectionCeramiqueService collectionCeramiqueService;
 
@@ -46,6 +51,31 @@ public class AjouterCollectionController {
     public AjouterCollectionController() {
         collectionCeramiqueService = new CollectionCeramiqueService();
     }
+    @FXML
+    public void initialize() {
+        try {
+            // Try to load the intended image
+            Image image = new Image(getClass().getResourceAsStream("/images/close-up-hands-working-pottery.jpg"));
+            if (image.isError()) {
+                throw new IOException("Image failed to load properly");
+            }
+            ceramicImageView.setImage(image);
+        } catch (Exception e) {
+            System.err.println("Failed to load primary image: " + e.getMessage());
+
+            // Try to load a backup image or a placeholder
+            try {
+                // You could use a simpler placeholder image or one that's definitely in your resources
+                Image fallbackImage = new Image(getClass().getResourceAsStream("/images/close-up-hands-working-pottery.jpg"));
+                ceramicImageView.setImage(fallbackImage);
+            } catch (Exception ex) {
+                // If all else fails, create a small blank image
+                ceramicImageView.setImage(null);
+                System.err.println("Could not load fallback image either: " + ex.getMessage());
+            }
+        }
+    }
+
 
 //    @FXML
 //    void ajoutercollectionaction(ActionEvent event) {

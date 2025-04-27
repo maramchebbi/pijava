@@ -23,28 +23,28 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterOeuvre">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterOeuvre">
     <top>
-        <AnchorPane prefHeight="80.0" style="-fx-background-color: linear-gradient(to right, #a17a74, #c4a59d);" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="80.0" style="-fx-background-color: #D2C5B8;" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER_LEFT" layoutX="20.0" prefHeight="80.0" spacing="15.0">
                     <children>
                         <ImageView fx:id="iconview" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter une œuvre">
+                        <Text fill="#4A3C31" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter une oeuvre">
                             <font>
-                                <Font name="System Bold" size="26.0" />
+                                <Font name="System Bold" size="28.0" />
                             </font>
                         </Text>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" layoutX="900.0" prefHeight="80.0" AnchorPane.rightAnchor="20.0">
                     <children>
-                        <Button fx:id="galleryButton" mnemonicParsing="false" onAction="#viewoeuvre" styleClass="header-button" stylesheets="@../styles/styles.css">
+                        <Button fx:id="galleryButton" mnemonicParsing="false" onAction="#viewoeuvre" style="-fx-background-color: #8E7D6B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 15 10 15;">
                             <graphic>
                                 <HBox alignment="CENTER" spacing="10.0">
                                     <children>
                                         <ImageView fx:id="galleryIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
-                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Voir la Galerie">
+                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Gallery">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
@@ -52,6 +52,13 @@
                                     </children>
                                 </HBox>
                             </graphic>
+                            <effect>
+                                <DropShadow height="5.0" radius="2.0" width="5.0">
+                                    <color>
+                                        <Color opacity="0.25" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
                         </Button>
                     </children>
                 </HBox>
@@ -70,12 +77,12 @@
             <children>
                 <HBox alignment="CENTER" spacing="30.0">
                     <children>
-                        <Button fx:id="step1Button" mnemonicParsing="false" styleClass="step-button" stylesheets="@../styles/styles.css">
+                        <Button fx:id="step1Button" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-width: 0;">
                             <graphic>
                                 <HBox alignment="CENTER" spacing="10.0">
                                     <children>
-                                        <Circle fill="#a17a74" radius="15.0" strokeType="INSIDE" />
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1. Informations générales">
+                                        <Circle fill="#D2C5B8" radius="15.0" strokeType="INSIDE" />
+                                        <Text fill="#4A3C31" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Informations générales">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
@@ -84,13 +91,13 @@
                                 </HBox>
                             </graphic>
                         </Button>
-                        <Separator prefWidth="50.0" />
-                        <Button fx:id="step2Button" disable="true" mnemonicParsing="false" styleClass="step-button-inactive" stylesheets="@../styles/styles.css">
+                        <Separator prefWidth="50.0" style="-fx-background-color: #D2C5B8;" />
+                        <Button fx:id="step2Button" disable="true" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-border-width: 0;">
                             <graphic>
                                 <HBox alignment="CENTER" spacing="10.0">
                                     <children>
-                                        <Circle fill="#d1d1d1" radius="15.0" strokeType="INSIDE" />
-                                        <Text fill="#717171" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Détails et visualisation">
+                                        <Circle fill="#E8E0D8" radius="15.0" strokeType="INSIDE" />
+                                        <Text fill="#8A7A6B" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Détails et visualisation">
                                             <font>
                                                 <Font name="System Bold" size="14.0" />
                                             </font>
@@ -104,13 +111,13 @@
                         <Insets top="20.0" />
                     </VBox.margin>
                 </HBox>
-                <ProgressBar fx:id="progressBar" prefWidth="700.0" progress="0.5" styleClass="custom-progress-bar" stylesheets="@../styles/styles.css" />
+                <ProgressBar fx:id="progressBar" prefWidth="700.0" progress="0.5" style="-fx-accent: #D2C5B8; -fx-control-inner-background: #F5F2EF;" />
                 <StackPane fx:id="formContainer" prefHeight="450.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
                     <!-- Step 1 Form -->
                     <children>
-                        <VBox fx:id="step1Form" alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+                        <VBox fx:id="step1Form" alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: #FAFAFA; -fx-background-radius: 10; -fx-border-color: #EAE2D9; -fx-border-radius: 10; -fx-border-width: 1;">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Informations de base de l'œuvre">
+                                <Text fill="#4A3C31" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations de base de l'œuvre">
                                     <font>
                                         <Font name="System Italic" size="18.0" />
                                     </font>
@@ -118,7 +125,7 @@
                                         <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Text>
-                                <GridPane hgap="20.0" vgap="25.0" alignment="CENTER">
+                                <GridPane alignment="CENTER" hgap="20.0" vgap="25.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" />
@@ -131,22 +138,30 @@
                                         <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Nom:" />
-                                        <TextField fx:id="nomField" promptText="Nom de l'œuvre" styleClass="elegant-field" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" />
-                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Type:" GridPane.rowIndex="1" />
-                                        <ComboBox fx:id="typeComboBox" prefWidth="300.0" promptText="Sélectionner un type" styleClass="elegant-combo" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Catégorie:" GridPane.rowIndex="2" />
-                                        <ComboBox fx:id="categorieComboBox" prefWidth="300.0" promptText="Sélectionner une catégorie" styleClass="elegant-combo" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Collection:" GridPane.rowIndex="3" />
-                                        <ComboBox fx:id="collectionComboBox" prefWidth="300.0" promptText="Choisir une collection" styleClass="elegant-combo" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="ID Créateur:" GridPane.rowIndex="4" />
-                                        <TextField fx:id="usertextfield" promptText="ID du créateur" styleClass="elegant-field" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Nom:" />
+                                        <TextField fx:id="nomField" promptText="Nom de l'œuvre" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-padding: 8;" GridPane.columnIndex="1" />
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Type:" GridPane.rowIndex="1" />
+                                        <ComboBox fx:id="typeComboBox" prefWidth="300.0" promptText="Sélectionner un type" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Catégorie:" GridPane.rowIndex="2" />
+                                        <ComboBox fx:id="categorieComboBox" prefWidth="300.0" promptText="Sélectionner une catégorie" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Collection:" GridPane.rowIndex="3" />
+                                        <ComboBox fx:id="collectionComboBox" prefWidth="300.0" promptText="Choisir une collection" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="ID Créateur:" GridPane.rowIndex="4" />
+                                        <TextField fx:id="usertextfield" promptText="ID du créateur" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-padding: 8;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     </children>
                                 </GridPane>
                                 <HBox alignment="CENTER" spacing="20.0">
                                     <children>
-                                        <Button fx:id="retourBtn" mnemonicParsing="false" onAction="#viewoeuvre" styleClass="cancel-button" stylesheets="@../styles/styles.css" text="Annuler" />
-                                        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#goToStep2" styleClass="next-button" stylesheets="@../styles/styles.css" text="Suivant →" />
+                                        <Button fx:id="retourBtn" mnemonicParsing="false" onAction="#viewoeuvre" style="-fx-background-color: #F0E9E1; -fx-text-fill: #4A3C31; -fx-font-weight: bold; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10 20 10 20;" text="Annuler" />
+                                        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#goToStep2" style="-fx-background-color: #D2C5B8; -fx-text-fill: #4A3C31; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 20 10 20;" text="Suivant →">
+                                            <effect>
+                                                <DropShadow height="5.0" radius="2.0" width="5.0">
+                                                    <color>
+                                                        <Color opacity="0.25" />
+                                                    </color>
+                                                </DropShadow>
+                                            </effect>
+                                        </Button>
                                     </children>
                                     <VBox.margin>
                                         <Insets top="30.0" />
@@ -157,7 +172,7 @@
                                 <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                             </padding>
                             <effect>
-                                <DropShadow height="20.0" radius="9.5" width="20.0">
+                                <DropShadow height="15.0" radius="7.0" width="15.0">
                                     <color>
                                         <Color opacity="0.15" />
                                     </color>
@@ -165,9 +180,9 @@
                             </effect>
                         </VBox>
                         <!-- Step 2 Form -->
-                        <VBox fx:id="step2Form" alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 10;" visible="false">
+                        <VBox fx:id="step2Form" alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: #FAFAFA; -fx-background-radius: 10; -fx-border-color: #EAE2D9; -fx-border-radius: 10; -fx-border-width: 1;" visible="false">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Détails et visualisation">
+                                <Text fill="#4A3C31" strokeType="OUTSIDE" strokeWidth="0.0" text="Détails et visualisation">
                                     <font>
                                         <Font name="System Italic" size="18.0" />
                                     </font>
@@ -177,9 +192,9 @@
                                 </Text>
                                 <HBox alignment="CENTER" spacing="40.0">
                                     <children>
-                                        <VBox spacing="15.0" alignment="TOP_CENTER">
+                                        <VBox alignment="TOP_CENTER" spacing="15.0">
                                             <children>
-                                                <GridPane hgap="20.0" vgap="20.0" alignment="CENTER">
+                                                <GridPane alignment="CENTER" hgap="20.0" vgap="20.0">
                                                     <columnConstraints>
                                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
                                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" />
@@ -191,31 +206,39 @@
                                                         <RowConstraints minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
                                                     </rowConstraints>
                                                     <children>
-                                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Matière:" />
-                                                        <TextField fx:id="matiereField" promptText="Matière (ex: céramique, argile...)" styleClass="elegant-field" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" />
-                                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Couleur:" GridPane.rowIndex="1" />
-                                                        <TextField fx:id="couleurField" promptText="Couleur principale" styleClass="elegant-field" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Dimensions:" GridPane.rowIndex="2" />
-                                                        <TextField fx:id="dimensionField" promptText="Format: LxlxH (en cm)" styleClass="elegant-field" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                        <Label styleClass="form-label" stylesheets="@../styles/styles.css" text="Description:" GridPane.rowIndex="3" />
-                                                        <TextArea fx:id="descriptionField" prefHeight="100.0" prefWidth="200.0" promptText="Description de l'œuvre" styleClass="elegant-textarea" stylesheets="@../styles/styles.css" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Matière:" />
+                                                        <TextField fx:id="matiereField" promptText="Matière (ex: céramique, argile...)" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-padding: 8;" GridPane.columnIndex="1" />
+                                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Couleur:" GridPane.rowIndex="1" />
+                                                        <TextField fx:id="couleurField" promptText="Couleur principale" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-padding: 8;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Dimensions:" GridPane.rowIndex="2" />
+                                                        <TextField fx:id="dimensionField" promptText="Format: LxlxH (en cm)" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-padding: 8;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A3C31;" text="Description:" GridPane.rowIndex="3" />
+                                                        <TextArea fx:id="descriptionField" prefHeight="100.0" prefWidth="200.0" promptText="Description de l'œuvre" style="-fx-background-color: white; -fx-border-color: #D2C5B8; -fx-border-radius: 5;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                     </children>
                                                 </GridPane>
                                             </children>
                                         </VBox>
-                                        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 8px; -fx-border-color: #e9ecef; -fx-border-radius: 8px;">
+                                        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #F5F2EF; -fx-background-radius: 8px; -fx-border-color: #EAE2D9; -fx-border-radius: 8px;">
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aperçu de l'image">
+                                                <Text fill="#4A3C31" strokeType="OUTSIDE" strokeWidth="0.0" text="Aperçu de l'image">
                                                     <font>
                                                         <Font name="System Italic" size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <StackPane style="-fx-background-color: white; -fx-border-color: #e9ecef; -fx-border-radius: 5px;" minWidth="250.0" minHeight="250.0">
+                                                <StackPane minHeight="250.0" minWidth="250.0" style="-fx-background-color: white; -fx-border-color: #EAE2D9; -fx-border-radius: 5px;">
                                                     <children>
-                                                        <ImageView fx:id="textileimage" fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true" styleClass="image-preview" />
+                                                        <ImageView fx:id="textileimage" fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true" />
                                                     </children>
                                                 </StackPane>
-                                                <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadimage" styleClass="upload-button" stylesheets="@../styles/styles.css" text="Choisir une image" />
+                                                <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadimage" style="-fx-background-color: #D2C5B8; -fx-text-fill: #4A3C31; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 15 8 15;" text="Choisir une image">
+                                                    <effect>
+                                                        <DropShadow height="5.0" radius="2.0" width="5.0">
+                                                            <color>
+                                                                <Color opacity="0.25" />
+                                                            </color>
+                                                        </DropShadow>
+                                                    </effect>
+                                                </Button>
                                             </children>
                                             <padding>
                                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -225,8 +248,16 @@
                                 </HBox>
                                 <HBox alignment="CENTER" spacing="20.0">
                                     <children>
-                                        <Button fx:id="previousButton" mnemonicParsing="false" onAction="#goToStep1" styleClass="previous-button" stylesheets="@../styles/styles.css" text="← Précédent" />
-                                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#ajouterOeuvre" styleClass="submit-button" stylesheets="@../styles/styles.css" text="Confirmer l'ajout" />
+                                        <Button fx:id="previousButton" mnemonicParsing="false" onAction="#goToStep1" style="-fx-background-color: #F0E9E1; -fx-text-fill: #4A3C31; -fx-font-weight: bold; -fx-border-color: #D2C5B8; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10 20 10 20;" text="← Précédent" />
+                                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#ajouterOeuvre" style="-fx-background-color: #8E7D6B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 20 10 20;" text="Confirmer l'ajout">
+                                            <effect>
+                                                <DropShadow height="5.0" radius="2.0" width="5.0">
+                                                    <color>
+                                                        <Color opacity="0.25" />
+                                                    </color>
+                                                </DropShadow>
+                                            </effect>
+                                        </Button>
                                     </children>
                                     <VBox.margin>
                                         <Insets top="30.0" />
@@ -237,7 +268,7 @@
                                 <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                             </padding>
                             <effect>
-                                <DropShadow height="20.0" radius="9.5" width="20.0">
+                                <DropShadow height="15.0" radius="7.0" width="15.0">
                                     <color>
                                         <Color opacity="0.15" />
                                     </color>

@@ -1,33 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddWorkshop">
-
-    <VBox alignment="CENTER" layoutX="100" layoutY="50" prefWidth="400" spacing="10">
-        <Label text="Ajouter un Workshop">
-            <font>
-                <Font name="System Bold" size="18" />
-            </font>
-        </Label>
-
-
-        <TextField fx:id="titreField" promptText="Titre du Workshop" />
-        <TextArea fx:id="descriptionField" prefRowCount="4" promptText="Description" />
-
-        <HBox alignment="CENTER" spacing="10">
-            <Button onAction="#handleBrowseVideo" text="Choisir vidéo" />
-            <Label fx:id="videoLabel" text="Aucune vidéo sélectionnée" />
+<BorderPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddWorkshop">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #f8f5f0; -fx-padding: 15px 30px; -fx-border-color: #e6dfd5; -fx-border-width: 0 0 1 0;">
+            <Button fx:id="backButton" onAction="#voiraction" style="-fx-background-color: #d4c3a8; -fx-text-fill: #4a4a4a; -fx-font-weight: bold; -fx-background-radius: 5;" text="← Workshops">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+                <padding>
+                    <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+                </padding>
+                <effect>
+                    <DropShadow color="#00000033" height="2.0" radius="0.5" width="2.0" />
+                </effect>
+            </Button>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="Ajouter un Workshop" textAlignment="CENTER">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
         </HBox>
+    </top>
 
-        <Button onAction="#handleAddWorkshop" prefWidth="150" text="Ajouter" />
-    </VBox>
-   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#voiraction" prefHeight="26.0" prefWidth="142.0" text="Workshops" />
-</AnchorPane>
+    <!-- Main Content -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="30" style="-fx-padding: 40px;">
+            <!-- Form Container with shadow effect -->
+            <VBox maxWidth="800" style="-fx-background-color: white; -fx-padding: 40px; -fx-background-radius: 10;">
+                <effect>
+                    <DropShadow radius="10" spread="0.05">
+                        <color>
+                            <Color opacity="0.2" />
+                        </color>
+                    </DropShadow>
+                </effect>
+
+                <!-- Title Field -->
+                <VBox spacing="10">
+                    <Label style="-fx-text-fill: #4a4a4a; -fx-font-weight: bold;" text="Titre du Workshop">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="titreField" promptText="Entrez le titre du workshop" style="-fx-background-color: #fafafa; -fx-border-color: #e6dfd5; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 12px;">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TextField>
+                </VBox>
+
+                <Region prefHeight="20" />
+
+                <!-- Description Field -->
+                <VBox spacing="10">
+                    <Label style="-fx-text-fill: #4a4a4a; -fx-font-weight: bold;" text="Description">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+                    <TextArea fx:id="descriptionField" prefRowCount="6" promptText="Décrivez votre workshop en détail..." style="-fx-background-color: #fafafa; -fx-border-color: #e6dfd5; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8px;" wrapText="true">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TextArea>
+                </VBox>
+
+                <Region prefHeight="20" />
+
+                <!-- Video Selection -->
+                <VBox spacing="10">
+                    <Label style="-fx-text-fill: #4a4a4a; -fx-font-weight: bold;" text="Vidéo">
+                        <font>
+                            <Font size="16.0" />
+                        </font>
+                    </Label>
+
+                    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #fafafa; -fx-border-color: #e6dfd5; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 12px;">
+                        <Button onAction="#handleBrowseVideo" style="-fx-background-color: #d4c3a8; -fx-text-fill: #4a4a4a; -fx-background-radius: 5;" text="Choisir un fichier">
+                            <padding>
+                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+                            </padding>
+                        </Button>
+                        <Label fx:id="videoLabel" style="-fx-text-fill: #767676;" text="Aucune vidéo sélectionnée">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                </VBox>
+            </VBox>
+            <Button onAction="#handleAddWorkshop" style="-fx-background-color: #d4c3a8; -fx-text-fill: #4a4a4a; -fx-font-weight: bold; -fx-background-radius: 5;" text="Ajouter le Workshop">
+                <font>
+                    <Font size="14.0" />
+                </font>
+                <padding>
+                    <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
+                </padding>
+                <effect>
+                    <DropShadow color="#00000033" height="2.0" radius="0.5" width="2.0" />
+                </effect>
+            </Button>
+        </VBox>
+    </center>
+
+    <!-- Bottom Actions Bar -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="1200.0" spacing="20" style="-fx-background-color: #f8f5f0; -fx-padding: 20px 40px; -fx-border-color: #e6dfd5; -fx-border-width: 1 0 0 0;" />
+    </bottom>
+</BorderPane>

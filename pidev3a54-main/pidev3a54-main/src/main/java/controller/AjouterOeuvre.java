@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.shape.Circle;
+import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -232,6 +234,7 @@ public class AjouterOeuvre {
         }
     }
 
+    @FXML
     public void initialize() {
         // Créer une instance du service des collections
         CollectionCeramiqueService collectionService = new CollectionCeramiqueService(/*connection*/);
@@ -312,11 +315,14 @@ public class AjouterOeuvre {
         step2Button.setDisable(true);
         progressBar.setProgress(0.5);
 
-        // Style initial des boutons d'étape
-        step1Button.getStyleClass().add("step-button");
-        step2Button.getStyleClass().add("step-button-inactive");
+        // Configurer l'icône pour le bouton de galerie
+        try {
+            Image galleryIconImage = new Image(getClass().getResource("/images/icon.png").toExternalForm());
+            galleryIcon.setImage(galleryIconImage);
+        } catch (Exception e) {
+            System.out.println("Impossible de charger l'icône de galerie: " + e.getMessage());
+        }
     }
-
     @FXML
     public void uploadimage(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
@@ -353,10 +359,16 @@ public class AjouterOeuvre {
         if (validateStep1()) {
             step1Form.setVisible(false);
             step2Form.setVisible(true);
-            step1Button.getStyleClass().remove("step-button");
-            step1Button.getStyleClass().add("step-button-inactive");
-            step2Button.getStyleClass().remove("step-button-inactive");
-            step2Button.getStyleClass().add("step-button");
+
+            // Mise à jour du style des boutons d'étape
+            step1Button.setStyle("-fx-background-color: transparent; -fx-border-width: 0;");
+            ((Circle) ((HBox) ((HBox) step1Button.getGraphic()).getChildren().get(0)).getChildren().get(0)).setFill(javafx.scene.paint.Color.web("#E8E0D8"));
+            ((Text) ((HBox) ((HBox) step1Button.getGraphic()).getChildren().get(0)).getChildren().get(1)).setFill(javafx.scene.paint.Color.web("#8A7A6B"));
+
+            step2Button.setStyle("-fx-background-color: transparent; -fx-border-width: 0;");
+            ((Circle) ((HBox) ((HBox) step2Button.getGraphic()).getChildren().get(0)).getChildren().get(0)).setFill(javafx.scene.paint.Color.web("#D2C5B8"));
+            ((Text) ((HBox) ((HBox) step2Button.getGraphic()).getChildren().get(0)).getChildren().get(1)).setFill(javafx.scene.paint.Color.web("#4A3C31"));
+
             step2Button.setDisable(false);
             progressBar.setProgress(1.0);
         }
@@ -366,10 +378,16 @@ public class AjouterOeuvre {
     private void goToStep1(ActionEvent event) {
         step2Form.setVisible(false);
         step1Form.setVisible(true);
-        step2Button.getStyleClass().remove("step-button");
-        step2Button.getStyleClass().add("step-button-inactive");
-        step1Button.getStyleClass().remove("step-button-inactive");
-        step1Button.getStyleClass().add("step-button");
+
+        // Mise à jour du style des boutons d'étape
+        step2Button.setStyle("-fx-background-color: transparent; -fx-border-width: 0;");
+        ((Circle) ((HBox) ((HBox) step2Button.getGraphic()).getChildren().get(0)).getChildren().get(0)).setFill(javafx.scene.paint.Color.web("#E8E0D8"));
+        ((Text) ((HBox) ((HBox) step2Button.getGraphic()).getChildren().get(0)).getChildren().get(1)).setFill(javafx.scene.paint.Color.web("#8A7A6B"));
+
+        step1Button.setStyle("-fx-background-color: transparent; -fx-border-width: 0;");
+        ((Circle) ((HBox) ((HBox) step1Button.getGraphic()).getChildren().get(0)).getChildren().get(0)).setFill(javafx.scene.paint.Color.web("#D2C5B8"));
+        ((Text) ((HBox) ((HBox) step1Button.getGraphic()).getChildren().get(0)).getChildren().get(1)).setFill(javafx.scene.paint.Color.web("#4A3C31"));
+
         progressBar.setProgress(0.5);
     }
 

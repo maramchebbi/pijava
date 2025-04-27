@@ -1,59 +1,91 @@
+// Artwork3DViewer.java
 package controller;
 
-import javafx.scene.*;
-import javafx.scene.paint.*;
-import javafx.scene.shape.*;
-import javafx.scene.transform.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.input.*;
+import javafx.animation.Animation;
+import javafx.animation.RotateTransition;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.SubScene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.geometry.Insets;
-import java.io.File;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.Shape3D;
+import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 public class Artwork3DViewer extends BorderPane {
-    private PerspectiveCamera camera = new PerspectiveCamera(true);
-    private Group root3D = new Group();
-    private SubScene subScene;
+
+    private final Group root3D = new Group();
+    private final SubScene subScene;
+    private final PerspectiveCamera camera;
+    private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
+    private final Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
+    private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
+
     private double anchorX, anchorY;
     private double anchorAngleX = 0;
     private double anchorAngleY = 0;
-    private Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
-    private Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
+    private double anchorAngleZ = 0;
+
+    private Shape3D artwork;
+    private RotateTransition rotateTransition;
+    private boolean autoRotating = false;
+
+    // Lighting control
+    private final Group lightGroup = new Group();
 
     public Artwork3DViewer() {
-        initialize3DScene();
-        setupCamera();
-        setupLighting();
-        addRotationControls();
-        addUIComponents();
-    }
-
-    private void initialize3DScene() {
-        subScene = new SubScene(root3D, 800, 600, true, SceneAntialiasing.BALANCED);
-        subScene.setFill(Color.LIGHTGRAY);
-        this.setCenter(subScene);
-    }
-
-    private void setupCamera() {
-        camera.setNearClip(0.1);
+        // Create 3D scene
+        camera = new PerspectiveCamera(true);
         camera.setFarClip(10000.0);
+        camera.setNearClip(0.1);
         camera.setTranslateZ(-1000);
+
+        subScene = new SubScene(root3D, 800, 600, true, javafx.scene.SceneAntialiasing.BALANCED);
+        subScene.setFill(Color.LIGHTGRAY);
         subScene.setCamera(camera);
+
+        root3D.getChildren().add(lightGroup);
+
+        // Setup UI
+        setCenter(subScene);
+        setupControls();
+
+        // Handle mouse events for manual rotation
+        setupMouseControl();
     }
 
-    private void setupLighting() {
-        PointLight pointLight = new PointLight(Color.WHITE);
-        pointLight.setTranslateZ(-800);
-        pointLight.setTranslateY(-300); // Meilleur éclairage
+    private void setupControls() {
+        Button resetBtn = new Button("Reset View");
+        resetBtn.setOnAction(e -> resetView());
 
-        AmbientLight ambientLight = new AmbientLight(Color.rgb(100, 100, 100));
+        Button autoRotateBtn = new Button("Auto Rotate");
+        autoRotateBtn.setOnAction(e -> toggleAutoRotate());
 
-        root3D.getChildren().addAll(pointLight, ambientLight);
-        root3D.getTransforms().addAll(rotateX, rotateY);
+        // Zoom slider
+        Slider zoomSlider = new Slider(500, 2000, 1000);
+        zoomSlider.setShowTickLabels(true);
+        zoomSlider.setShowTickMarks(true);
+        zoomSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            camera.setTranslateZ(-newVal.doubleValue());
+        });
+
+        HBox controls = new HBox(10, resetBtn, autoRotateBtn, zoomSlider);
+        controls.setStyle("-fx-padding: 10px; -fx-background-color: #f0f0f0;");
+
+        setBottom(controls);
     }
 
-    private void addRotationControls() {
+    private void setupMouseControl() {
         subScene.setOnMousePressed(event -> {
             anchorX = event.getSceneX();
             anchorY = event.getSceneY();
@@ -62,87 +94,176 @@ public class Artwork3DViewer extends BorderPane {
         });
 
         subScene.setOnMouseDragged(event -> {
+            // Stop auto-rotation if user starts dragging
+            if (autoRotating) {
+                rotateTransition.pause();
+            }
+
             rotateX.setAngle(anchorAngleX - (anchorY - event.getSceneY()));
             rotateY.setAngle(anchorAngleY + anchorX - event.getSceneX());
         });
 
+        subScene.setOnMouseReleased(event -> {
+            // Resume auto-rotation if it was active
+            if (autoRotating) {
+                rotateTransition.play();
+            }
+        });
+
+        // Mouse wheel for zoom
         subScene.setOnScroll(event -> {
-            double delta = event.getDeltaY();
-            camera.setTranslateZ(camera.getTranslateZ() + delta);
+            double zoomFactor = 1.05;
+            double deltaY = event.getDeltaY();
+
+            if (deltaY < 0) {
+                zoomFactor = 0.95;
+            }
+
+            double newZ = camera.getTranslateZ() * zoomFactor;
+            // Limit zoom range
+            if (newZ > -2000 && newZ < -100) {
+                camera.setTranslateZ(newZ);
+            }
         });
     }
 
-    private void addUIComponents() {
-        Slider zoomSlider = new Slider(-2000, -500, -1000);
-        zoomSlider.valueProperty().addListener((obs, oldVal, newVal) ->
-                camera.setTranslateZ(newVal.doubleValue())
-        );
-
-        Button resetView = new Button("Reset View");
-        resetView.setOnAction(e -> resetView());
-
-        HBox controls = new HBox(10, new Label("Zoom:"), zoomSlider, resetView);
-        controls.setPadding(new Insets(10));
-        this.setBottom(controls);
-    }
-
     public void displayArtwork(String type, double width, double height, double depth, String imagePath) {
-        root3D.getChildren().removeIf(node -> node instanceof Shape3D);
+        // Clear previous artwork
+        if (artwork != null) {
+            root3D.getChildren().remove(artwork);
+        }
 
-        Shape3D artwork = createArtworkModel(type, width, height, depth);
-        applyTexture(artwork, imagePath);
-        root3D.getChildren().add(artwork);
-    }
+        // Get dimensions from the "dimensions" attribute
+        String dimensionsStr = "30x45x30"; // Default if no dimensions available
+        try {
+            // Parse from your dimensions string format if available
+            // Example: "30x45x30" -> width=30, height=45, depth=30
+            String[] dims = dimensionsStr.split("x");
+            if (dims.length >= 3) {
+                width = Double.parseDouble(dims[0]);
+                height = Double.parseDouble(dims[1]);
+                depth = Double.parseDouble(dims[2]);
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsing dimensions: " + e.getMessage());
+        }
 
-    private Shape3D createArtworkModel(String type, double width, double height, double depth) {
+        // Create texture material from image
+        PhongMaterial material = new PhongMaterial();
+        try {
+            Image image = new Image(imagePath);
+            material.setDiffuseMap(image);
+            material.setSpecularColor(Color.WHITE);
+            material.setSpecularPower(32);
+        } catch (Exception e) {
+            System.err.println("Error loading image: " + e.getMessage());
+            material.setDiffuseColor(Color.CORAL);
+        }
+
+        // Create 3D shape based on type
         switch (type.toLowerCase()) {
             case "vase":
-                Cylinder vase = new Cylinder(width/2, height);
-                vase.setTranslateY(-height/2); // Centrer verticalement
-                return vase;
-            case "bowl":
-                Sphere bowl = new Sphere(width/2);
-                bowl.setScaleY(0.5); // Écraser pour forme de bol
-                bowl.setTranslateY(-height/2);
-                return bowl;
-            case "plate":
-                Cylinder plate = new Cylinder(width/2, depth);
-                plate.setTranslateY(-depth/2);
-                return plate;
+                artwork = createVase(width, height, depth, material);
+                break;
+            case "assiette décorative":
+                artwork = createPlate(width, height, depth, material);
+                break;
+            case "sculpture":
+                artwork = createSculpture(width, height, depth, material);
+                break;
+            case "poterie":
+                artwork = createPottery(width, height, depth, material);
+                break;
+            case "bibelot":
+                artwork = createFigurine(width, height, depth, material);
+                break;
             default:
-                Box box = new Box(width, height, depth);
-                box.setTranslateY(-height/2);
-                return box;
+                // Default to a box if type is unknown
+                artwork = createDefaultShape(width, height, depth, material);
         }
+
+        // Apply transforms for rotation
+        artwork.getTransforms().addAll(rotateX, rotateY, rotateZ);
+
+        // Add to scene
+        root3D.getChildren().add(artwork);
+
+        // Reset view
+        resetView();
     }
 
-    private void applyTexture(Shape3D shape, String imagePath) {
-        PhongMaterial material = new PhongMaterial();
-        material.setSpecularColor(Color.WHITE);
-        material.setSpecularPower(64);
+    private Shape3D createVase(double width, double height, double depth, PhongMaterial material) {
+        // Create a cylinder for vase
+        Cylinder vase = new Cylinder(width/2, height);
+        vase.setMaterial(material);
+        return vase;
+    }
 
-        try {
-            // Solution pour les chemins absolus et relatifs
-            Image texture;
-            if (new File(imagePath).exists()) {
-                texture = new Image("file:" + imagePath);
-            } else {
-                texture = new Image(getClass().getResourceAsStream(imagePath));
-            }
+    private Shape3D createPlate(double width, double height, double depth, PhongMaterial material) {
+        // Create a flattened cylinder for plate
+        Cylinder plate = new Cylinder(width/2, height/10);
+        plate.setMaterial(material);
+        return plate;
+    }
 
-            material.setDiffuseMap(texture);
-            System.out.println("Texture loaded successfully from: " + imagePath);
-        } catch (Exception e) {
-            System.err.println("Error loading texture: " + e.getMessage());
-            material.setDiffuseColor(Color.TAN); // Couleur de fallback
-        }
+    private Shape3D createSculpture(double width, double height, double depth, PhongMaterial material) {
+        // For sculpture, let's use a sphere as example (could be more complex)
+        Sphere sculpture = new Sphere(Math.min(width, height)/2);
+        sculpture.setMaterial(material);
+        return sculpture;
+    }
 
-        shape.setMaterial(material);
+    private Shape3D createPottery(double width, double height, double depth, PhongMaterial material) {
+        // For pottery, cylinder with different dimensions
+        Cylinder pottery = new Cylinder(width/2, height);
+        pottery.setMaterial(material);
+        return pottery;
+    }
+
+    private Shape3D createFigurine(double width, double height, double depth, PhongMaterial material) {
+        // For bibelot/figurine, a scaled box
+        Box figurine = new Box(width, height, depth);
+        figurine.setMaterial(material);
+        return figurine;
+    }
+
+    private Shape3D createDefaultShape(double width, double height, double depth, PhongMaterial material) {
+        // Default shape is a box
+        Box box = new Box(width, height, depth);
+        box.setMaterial(material);
+        return box;
     }
 
     private void resetView() {
+        // Reset rotation angles
         rotateX.setAngle(0);
         rotateY.setAngle(0);
+        rotateZ.setAngle(0);
+
+        // Reset camera position
         camera.setTranslateZ(-1000);
+
+        // Stop auto-rotation if active
+        if (rotateTransition != null) {
+            rotateTransition.stop();
+        }
+        autoRotating = false;
+    }
+
+    private void toggleAutoRotate() {
+        if (autoRotating) {
+            rotateTransition.stop();
+            autoRotating = false;
+        } else {
+            if (rotateTransition == null) {
+                rotateTransition = new RotateTransition(Duration.seconds(10), artwork);
+                rotateTransition.setAxis(Rotate.Y_AXIS);
+                rotateTransition.setByAngle(360);
+                rotateTransition.setCycleCount(Animation.INDEFINITE);
+                rotateTransition.setAutoReverse(false);
+            }
+            rotateTransition.play();
+            autoRotating = true;
+        }
     }
 }

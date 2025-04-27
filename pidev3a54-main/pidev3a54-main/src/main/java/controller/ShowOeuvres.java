@@ -10,8 +10,13 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.scene.control.TextField; // Pour TextField
-
+import javafx.scene.control.TextField;
+// Pour TextField
+import javafx.scene.control.Label;  // L'import essentiel
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
+import javafx.collections.FXCollections;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContentDisplay;
@@ -47,6 +52,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Map;               // Interface générale
+import java.util.HashMap;           // Implémentation spécifique
+import java.util.TreeMap;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 public class ShowOeuvres {
 
@@ -63,6 +73,48 @@ public class ShowOeuvres {
 
     private final OeuvreService oeuvreService = new OeuvreService();
     private final Random random = new Random();
+    @FXML
+    private HBox colorFilterContainer;
+
+    @FXML
+    private HBox materialFilterContainer;
+
+    @FXML
+    private ComboBox<String> typeComboBox;
+    @FXML
+    private ComboBox<String> colorComboBox;
+    @FXML
+    private ComboBox<String> materialComboBox;
+    @FXML
+    private HBox filterContainer;
+
+    private String currentColorFilter = null;
+    private String currentMaterialFilter = null;
+
+    // Définir vos couleurs avec leurs codes hex pour l'affichage
+    private final Map<String, String> colors = Map.of(
+            "Rouge", "#FF4040",
+            "Bleu", "#4080FF",
+            "Vert", "#40FF80",
+            "Jaune", "#FFFF40",
+            "Orange", "#FF8040",
+            "Violet", "#8040FF",
+            "Rose", "#FF80B0",
+            "Gris", "#B0B0B0",
+            "Noir", "#202020",
+            "Blanc", "#FFFFFF"
+    );
+
+    // Définir vos matières
+    private final List<String> materials = List.of(
+            "Argile",
+            "Céramique",
+            "Porcelaine",
+            "Verre",
+            "Terre cuite",
+            "Grès",
+            "Faïence"
+    );
 
     private List<String> types = List.of(
             "Sculpture",
@@ -91,8 +143,8 @@ public class ShowOeuvres {
                 scrollPane.widthProperty().subtract(2)
         );
 
-        // Configuration des filtres par type (AJOUT)
-        setupTypeFilters();  // <-- Ajoutez cette ligne avant le chargement initial
+        // Setup the filter UI
+        setupFilters();
 
         // Chargement initial des images
         try {
@@ -424,14 +476,34 @@ public class ShowOeuvres {
             // Récupérer le chemin de l'image exacte de l'œuvre
             String imagePath = oeuvre.getImage();
 
-            // Déterminer les dimensions (vous pouvez les stocker dans votre modèle Oeuvre)
-            double width = 200;  // ou oeuvre.getWidth() si disponible
-            double height = 300; // ou oeuvre.getHeight()
-            double depth = 200;  // ou oeuvre.getDepth()
+            // Déterminer le type d'objet (vous devez avoir ce champ dans votre modèle)
+            String type = oeuvre.getType(); // "Vase", "Sculpture", etc.
 
-            // Afficher l'œuvre en 3D avec SA PROPRE image
+            // Extraire les dimensions à partir de votre attribut "dimensions"
+            // Par défaut si pas de dimensions spécifiques
+            double width = 200;
+            double height = 300;
+            double depth = 200;
+
+            // Si vous avez un attribut dimensions, vous pouvez essayer de l'analyser
+            if (oeuvre.getDimensions() != null && !oeuvre.getDimensions().isEmpty()) {
+                try {
+                    // Supposons que dimensions soit au format "LxHxP" en cm
+                    String[] dims = oeuvre.getDimensions().split("x");
+                    if (dims.length >= 2) {
+                        width = Double.parseDouble(dims[0]);
+                        height = Double.parseDouble(dims[1]);
+                        depth = dims.length > 2 ? Double.parseDouble(dims[2]) : width;
+                    }
+                } catch (Exception e) {
+                    System.err.println("Erreur lors du parsing des dimensions: " + e.getMessage());
+                    // Continuer avec les valeurs par défaut
+                }
+            }
+
+            // Afficher l'œuvre en 3D avec sa propre image
             viewer.displayArtwork(
-                    "vase", // ou oeuvre.getType() si vous avez ce champ
+                    type,
                     width,
                     height,
                     depth,
@@ -549,17 +621,32 @@ public class ShowOeuvres {
     @FXML
     private void handleWorkshopRedirect(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddWorkshop.fxml")); // adapte le chemin
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddWorkshop.fxml"));
             Parent workshopRoot = loader.load();
 
-            // Interface modal pour workshop
+            // Get the controller to set up any needed state
+            AddWorkshop controller = loader.getController();
+
+            // Create the scene first
+            Scene scene = new Scene(workshopRoot);
+
+            // Create and set up the stage
             Stage stage = new Stage();
             stage.setTitle("Ajouter Workshop");
-            stage.setScene(new Scene(workshopRoot));
+            stage.setScene(scene);
+
+            // Make it fullscreen if needed
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setX(screenBounds.getMinX());
+            stage.setY(screenBounds.getMinY());
+            stage.setWidth(screenBounds.getWidth());
+            stage.setHeight(screenBounds.getHeight());
+
+            // Now show the stage
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Erreur", "Impossible d'ouvrir l'interface de workshop");
+            showAlert("Erreur", "Impossible d'ouvrir l'interface de workshop: " + e.getMessage());
         }
     }
 
@@ -623,26 +710,51 @@ public class ShowOeuvres {
     }
     private Button createFilterButton(String text) {
         Button button = new Button(text);
-        button.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+
+        // Default style (inactive)
+        button.setStyle("-fx-background-color: #f8f8f8; -fx-text-fill: #333333; " +
+                "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                "-fx-padding: 6 14; -fx-cursor: hand; " +
+                "-fx-font-size: 12px; -fx-border-color: #e0e0e0; -fx-border-width: 1px;");
+
+        // Hover effect
         button.setOnMouseEntered(e -> {
             if (!button.getStyle().contains("#e60023")) {
-                button.setStyle("-fx-background-color: #d0d0d0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+                button.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; " +
+                        "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                        "-fx-padding: 6 14; -fx-cursor: hand; " +
+                        "-fx-font-size: 12px; -fx-border-color: #d0d0d0; -fx-border-width: 1px;");
             }
         });
+
+        // Return to default style when not hovered
         button.setOnMouseExited(e -> {
             if (!button.getStyle().contains("#e60023")) {
-                button.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+                button.setStyle("-fx-background-color: #f8f8f8; -fx-text-fill: #333333; " +
+                        "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                        "-fx-padding: 6 14; -fx-cursor: hand; " +
+                        "-fx-font-size: 12px; -fx-border-color: #e0e0e0; -fx-border-width: 1px;");
             }
         });
+
         return button;
     }
 
     private void resetFilterButtonsStyle() {
         for (Node node : filterButtonsContainer.getChildren()) {
             if (node instanceof Button) {
-                node.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; -fx-background-radius: 24; -fx-padding: 8 16;");
+                node.setStyle("-fx-background-color: #f8f8f8; -fx-text-fill: #333333; " +
+                        "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                        "-fx-padding: 6 14; -fx-cursor: hand; " +
+                        "-fx-font-size: 12px; -fx-border-color: #e0e0e0; -fx-border-width: 1px;");
             }
         }
+    }
+    private void setActiveFilterStyle(Button button) {
+        button.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; " +
+                "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                "-fx-padding: 6 14; -fx-cursor: hand; " +
+                "-fx-font-size: 12px; -fx-border-color: #e60023; -fx-border-width: 1px;");
     }
     private void filterByType(String type) {
         try {
@@ -658,16 +770,27 @@ public class ShowOeuvres {
             e.printStackTrace();
             showAlert("Erreur", "Erreur lors du filtrage par type: " + e.getMessage());
         }
+        applyAllFilters();
+
     }
     private void setupTypeFilters() {
+        // Make sure the container exists and is cleared
+        if (filterButtonsContainer == null) {
+            System.err.println("Error: filterButtonsContainer is null");
+            return;
+        }
+
+        // Clear existing buttons to prevent duplication
+        filterButtonsContainer.getChildren().clear();
+
         // Create "All" filter button
         Button allButton = createFilterButton("Tous");
-        allButton.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;");
+        setActiveFilterStyle(allButton);
         allButton.setOnAction(e -> {
             resetFilterButtonsStyle();
-            allButton.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;");
+            setActiveFilterStyle(allButton);
             currentFilter = null;
-            populateImages();
+            applyAllFilters();
         });
         filterButtonsContainer.getChildren().add(allButton);
 
@@ -676,12 +799,320 @@ public class ShowOeuvres {
             Button typeButton = createFilterButton(type);
             typeButton.setOnAction(e -> {
                 resetFilterButtonsStyle();
-                typeButton.setStyle("-fx-background-color: #e60023; -fx-text-fill: white; -fx-background-radius: 24; -fx-padding: 8 16;");
+                setActiveFilterStyle(typeButton);
                 currentFilter = type;
-                filterByType(type);
+                applyAllFilters();
             });
             filterButtonsContainer.getChildren().add(typeButton);
         }
     }
+    private void setupColorFilters() {
+        colorFilterContainer.getChildren().clear();
+
+        // Create "All" button for colors with the same styling as other filter buttons
+        Button allButton = createFilterButton("Tous");
+        setActiveFilterStyle(allButton);
+        allButton.setOnAction(e -> {
+            resetColorFilterButtonsStyle();
+            setActiveFilterStyle(allButton);
+            currentColorFilter = null;
+            applyAllFilters();
+        });
+        colorFilterContainer.getChildren().add(allButton);
+
+        // Create color buttons with improved styling
+        for (Map.Entry<String, String> entry : colors.entrySet()) {
+            String colorName = entry.getKey();
+            String colorCode = entry.getValue();
+
+            // Create a circular button for color
+            Button colorButton = new Button();
+            colorButton.setPrefSize(28, 28);
+            colorButton.setMinSize(28, 28);
+            colorButton.setMaxSize(28, 28);
+
+            // Default style with white border
+            colorButton.setStyle("-fx-background-color: " + colorCode + "; " +
+                    "-fx-background-radius: 14; -fx-border-radius: 14; " +
+                    "-fx-border-color: white; -fx-border-width: 2; " +
+                    "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 1);");
+
+            // Add tooltip with color name
+            Tooltip tooltip = new Tooltip(colorName);
+            colorButton.setTooltip(tooltip);
+
+            // Configure button action
+            colorButton.setOnAction(e -> {
+                resetColorFilterButtonsStyle();
+                // Active style with prominent border
+                colorButton.setStyle("-fx-background-color: " + colorCode + "; " +
+                        "-fx-background-radius: 14; -fx-border-radius: 14; " +
+                        "-fx-border-color: #e60023; -fx-border-width: 2; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(230,0,35,0.3), 4, 0, 0, 0);");
+                currentColorFilter = colorName;
+                applyAllFilters();
+            });
+
+            // Hover effect
+            colorButton.setOnMouseEntered(e -> {
+                if (!colorButton.getStyle().contains("#e60023")) {
+                    colorButton.setStyle("-fx-background-color: " + colorCode + "; " +
+                            "-fx-background-radius: 14; -fx-border-radius: 14; " +
+                            "-fx-border-color: #e0e0e0; -fx-border-width: 2; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 0, 1);");
+                }
+            });
+
+            colorButton.setOnMouseExited(e -> {
+                if (!colorButton.getStyle().contains("#e60023")) {
+                    colorButton.setStyle("-fx-background-color: " + colorCode + "; " +
+                            "-fx-background-radius: 14; -fx-border-radius: 14; " +
+                            "-fx-border-color: white; -fx-border-width: 2; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 1);");
+                }
+            });
+
+            colorFilterContainer.getChildren().add(colorButton);
+        }
+    }
+
+
+    private void setupMaterialFilters() {
+        materialFilterContainer.getChildren().clear();
+
+        // Create "All" button for materials
+        Button allButton = createFilterButton("Tous");
+        setActiveFilterStyle(allButton);
+        allButton.setOnAction(e -> {
+            resetMaterialFilterButtonsStyle();
+            setActiveFilterStyle(allButton);
+            currentMaterialFilter = null;
+            applyAllFilters();
+        });
+        materialFilterContainer.getChildren().add(allButton);
+
+        // Create buttons for each material
+        for (String material : materials) {
+            Button materialButton = createFilterButton(material);
+            materialButton.setOnAction(e -> {
+                resetMaterialFilterButtonsStyle();
+                setActiveFilterStyle(materialButton);
+                currentMaterialFilter = material;
+                applyAllFilters();
+            });
+            materialFilterContainer.getChildren().add(materialButton);
+        }
+    }
+    private void resetColorFilterButtonsStyle() {
+        for (Node node : colorFilterContainer.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getTooltip() == null) {
+                    // "All" button
+                    button.setStyle("-fx-background-color: #f8f8f8; -fx-text-fill: #333333; " +
+                            "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                            "-fx-padding: 6 14; -fx-cursor: hand; " +
+                            "-fx-font-size: 12px; -fx-border-color: #e0e0e0; -fx-border-width: 1px;");
+                } else {
+                    // Color button
+                    String colorName = button.getTooltip().getText();
+                    String colorCode = colors.get(colorName);
+                    button.setStyle("-fx-background-color: " + colorCode + "; " +
+                            "-fx-background-radius: 14; -fx-border-radius: 14; " +
+                            "-fx-border-color: white; -fx-border-width: 2; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 1);");
+                }
+            }
+        }
+    }
+
+
+    private void resetMaterialFilterButtonsStyle() {
+        for (Node node : materialFilterContainer.getChildren()) {
+            if (node instanceof Button) {
+                node.setStyle("-fx-background-color: #f8f8f8; -fx-text-fill: #333333; " +
+                        "-fx-background-radius: 20; -fx-border-radius: 20; " +
+                        "-fx-padding: 6 14; -fx-cursor: hand; " +
+                        "-fx-font-size: 12px; -fx-border-color: #e0e0e0; -fx-border-width: 1px;");
+            }
+        }
+    }
+
+    // Méthode qui applique tous les filtres (type, couleur et matière) en même temps
+    private void applyAllFilters() {
+        try {
+            List<Oeuvre> allOeuvres = oeuvreService.getAll();
+            List<Oeuvre> filteredOeuvres = allOeuvres;
+
+            // Apply type filter if active
+            if (currentFilter != null) {
+                filteredOeuvres = filteredOeuvres.stream()
+                        .filter(oeuvre -> currentFilter.equalsIgnoreCase(oeuvre.getType()))
+                        .collect(Collectors.toList());
+            }
+
+            // Apply color filter if active
+            if (currentColorFilter != null) {
+                filteredOeuvres = filteredOeuvres.stream()
+                        .filter(oeuvre -> oeuvre.getCouleur() != null &&
+                                currentColorFilter.equalsIgnoreCase(oeuvre.getCouleur()))
+                        .collect(Collectors.toList());
+            }
+
+            // Apply material filter if active
+            if (currentMaterialFilter != null) {
+                filteredOeuvres = filteredOeuvres.stream()
+                        .filter(oeuvre -> oeuvre.getMatiere() != null &&
+                                currentMaterialFilter.equalsIgnoreCase(oeuvre.getMatiere()))
+                        .collect(Collectors.toList());
+            }
+
+            // Apply search filter if active
+            String searchTerm = searchField.getText();
+            if (searchTerm != null && !searchTerm.isEmpty()) {
+                String searchTermLower = searchTerm.toLowerCase();
+                filteredOeuvres = filteredOeuvres.stream()
+                        .filter(oeuvre ->
+                                oeuvre.getNom().toLowerCase().contains(searchTermLower) ||
+                                        (oeuvre.getDescription() != null &&
+                                                oeuvre.getDescription().toLowerCase().contains(searchTermLower))
+                        ).collect(Collectors.toList());
+            }
+
+            // Display filtered results
+            imageContainer.getChildren().clear();
+            displayedOeuvreIds.clear();
+            addOeuvresToContainer(filteredOeuvres);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur lors de l'application des filtres: " + e.getMessage());
+        }
+    }
+
+    private void setupFilters() {
+        // Create a container for filters if it doesn't exist in FXML
+        if (filterContainer == null) {
+            filterContainer = new HBox(20);
+            filterContainer.setPadding(new Insets(10, 15, 10, 15));
+            filterContainer.setAlignment(Pos.CENTER);
+
+            // Make sure to add this to your layout
+            // Find the parent node that should contain your filters
+            VBox mainContainer = (VBox) scrollPane.getParent();
+            // Add filterContainer at index 0 (top) of the VBox
+            if (!mainContainer.getChildren().contains(filterContainer)) {
+                mainContainer.getChildren().add(0, filterContainer);
+            }
+        } else {
+            // Clear existing contents to prevent duplication
+            filterContainer.getChildren().clear();
+        }
+
+        // Initialize ComboBoxes only if they don't exist
+        if (typeComboBox == null) typeComboBox = new ComboBox<>();
+        if (colorComboBox == null) colorComboBox = new ComboBox<>();
+        if (materialComboBox == null) materialComboBox = new ComboBox<>();
+
+        // Add "All" option and populate with values
+        List<String> typeOptions = new ArrayList<>(types);
+        typeOptions.add(0, "Tous les types");
+
+        List<String> colorOptions = new ArrayList<>(colors.keySet());
+        colorOptions.add(0, "Toutes les couleurs");
+
+        List<String> materialOptions = new ArrayList<>(materials);
+        materialOptions.add(0, "Toutes les matières");
+
+        // Set items
+        typeComboBox.setItems(FXCollections.observableArrayList(typeOptions));
+        colorComboBox.setItems(FXCollections.observableArrayList(colorOptions));
+        materialComboBox.setItems(FXCollections.observableArrayList(materialOptions));
+
+        // Select default "All" options
+        typeComboBox.getSelectionModel().selectFirst();
+        colorComboBox.getSelectionModel().selectFirst();
+        materialComboBox.getSelectionModel().selectFirst();
+
+        // Style the ComboBoxes
+        String comboStyle = "-fx-background-color: white; " +
+                "-fx-border-color: #e0e0e0; " +
+                "-fx-border-radius: 4; " +
+                "-fx-padding: 5; " +
+                "-fx-pref-width: 180px;";
+
+        typeComboBox.setStyle(comboStyle);
+        colorComboBox.setStyle(comboStyle);
+        materialComboBox.setStyle(comboStyle);
+
+        // Add some prompt text
+        typeComboBox.setPromptText("Type");
+        colorComboBox.setPromptText("Couleur");
+        materialComboBox.setPromptText("Matière");
+
+        // Add listeners
+        typeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                currentFilter = newVal.equals("Tous les types") ? null : newVal;
+                applyAllFilters();
+            }
+        });
+
+        colorComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                currentColorFilter = newVal.equals("Toutes les couleurs") ? null : newVal;
+                applyAllFilters();
+            }
+        });
+
+        materialComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                currentMaterialFilter = newVal.equals("Toutes les matières") ? null : newVal;
+                applyAllFilters();
+            }
+        });
+
+        // Create labels for each filter
+        Label typeLabel = new Label("Type:");
+        Label colorLabel = new Label("Couleur:");
+        Label materialLabel = new Label("Matière:");
+
+        String labelStyle = "-fx-font-weight: bold; -fx-font-size: 13px;";
+        typeLabel.setStyle(labelStyle);
+        colorLabel.setStyle(labelStyle);
+        materialLabel.setStyle(labelStyle);
+
+        // Create HBoxes for each label+combobox pair
+        HBox typeBox = new HBox(10, typeLabel, typeComboBox);
+        HBox colorBox = new HBox(10, colorLabel, colorComboBox);
+        HBox materialBox = new HBox(10, materialLabel, materialComboBox);
+
+        typeBox.setAlignment(Pos.CENTER_LEFT);
+        colorBox.setAlignment(Pos.CENTER_LEFT);
+        materialBox.setAlignment(Pos.CENTER_LEFT);
+
+        // Add them to the filter container
+        filterContainer.getChildren().addAll(typeBox, colorBox, materialBox);
+
+        // Add a reset button
+        Button resetButton = new Button("Réinitialiser");
+        resetButton.setStyle("-fx-background-color: #f8f8f8; " +
+                "-fx-border-color: #e0e0e0; " +
+                "-fx-border-radius: 4; " +
+                "-fx-padding: 6 12;");
+
+        resetButton.setOnAction(e -> {
+            typeComboBox.getSelectionModel().selectFirst();
+            colorComboBox.getSelectionModel().selectFirst();
+            materialComboBox.getSelectionModel().selectFirst();
+            currentFilter = null;
+            currentColorFilter = null;
+            currentMaterialFilter = null;
+            applyAllFilters();
+        });
+
+        filterContainer.getChildren().add(resetButton);
+    }
+
 
 }

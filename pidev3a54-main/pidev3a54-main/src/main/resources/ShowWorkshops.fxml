@@ -1,24 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.WorkshopsController"
-            prefHeight="700.0" prefWidth="1100.0"
-            style="-fx-background-color: #f8f4e9;">
+            prefHeight="700.0" prefWidth="1100.0">
 
-    <ScrollPane fitToWidth="true"
-                hbarPolicy="NEVER"
-                AnchorPane.topAnchor="0"
+    <!-- Bandeau d'en-tête fixe -->
+    <VBox AnchorPane.topAnchor="0"
+          AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0"
+          style="-fx-background-color: linear-gradient(to bottom, #8A715E, #D6C6B1); -fx-padding: 10 20;">
+
+        <HBox alignment="CENTER_LEFT" spacing="20">
+            <!-- Emplacement pour un petit logo si nécessaire -->
+            <Region prefWidth="40" prefHeight="40"
+                    style="-fx-background-color: white; -fx-background-radius: 20; -fx-opacity: 0.9;" />
+
+            <Label text="ARTISFERA"
+                   style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white;" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button text="Gallery"
+                    onAction="#goToHome"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="Ajouter Workshop"
+                    style="-fx-background-color: white; -fx-text-fill: #8A715E; -fx-font-weight: bold; -fx-background-radius: 15;" />
+            <Button text="Collections"
+                    onAction="#goToCollections"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </VBox>
+
+    <!-- Zone de contenu défilante -->
+    <ScrollPane AnchorPane.topAnchor="60"
                 AnchorPane.bottomAnchor="0"
                 AnchorPane.leftAnchor="0"
                 AnchorPane.rightAnchor="0"
-                style="-fx-background: transparent;">
+                fitToWidth="true"
+                hbarPolicy="NEVER"
+                style="-fx-background: white; -fx-background-color: white; -fx-padding: 0;">
 
         <VBox fx:id="workshopsContainer"
               spacing="20"
-              style="-fx-padding: 40 60 40 60;"
+              style="-fx-padding: 30 60 60 60;"
               alignment="TOP_CENTER"/>
 
     </ScrollPane>
