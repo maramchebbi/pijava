@@ -17,7 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.control.TextField;
 
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,10 +33,46 @@ public class AfficherStyleController {
     private StyleService styleService;
 
     @FXML
+    private TextField searchField;
+
+
+    @FXML
     public void initialize() {
         styleService = new StyleService();
         loadStyles();
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterStyles(newValue);
+        });
     }
+
+    private void filterStyles(String query) {
+        try {
+            List<Style> styles = styleService.getAll(); // récupère tous les styles
+            affichageGrid.getChildren().clear();
+            int column = 0;
+            int row = 0;
+
+            for (Style style : styles) {
+                if (query == null || query.isEmpty() ||
+                        style.getType().toLowerCase().contains(query.toLowerCase())) {
+
+                    VBox card = createStyleCard(style);
+                    affichageGrid.add(card, column, row);
+                    GridPane.setMargin(card, new Insets(10));
+
+                    column++;
+                    if (column == 3) {
+                        column = 0;
+                        row++;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void loadStyles() {
         try {
@@ -63,12 +102,20 @@ public class AfficherStyleController {
         card.setPrefWidth(220);
         card.setMaxWidth(220);
         card.setMinWidth(220);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 12px; -fx-padding: 12; -fx-border-color: #ddd; -fx-border-radius: 12px;");
+        card.setPadding(new Insets(12));
+        card.setAlignment(Pos.TOP_CENTER);
+        card.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-background-radius: 12px; " +
+                        "-fx-border-color: #ddd; " +
+                        "-fx-border-radius: 12px; " +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0.2, 2, 2);"
+        );
 
         // Image
         ImageView imageView = new ImageView();
         if (style.getExtab() != null && !style.getExtab().isEmpty()) {
-            Image image = new Image("file:" + style.getExtab());
+            Image image = new Image("file:" + style.getExtab(), false);
             imageView.setImage(image);
         } else {
             imageView.setImage(new Image("path/to/placeholder/image.png"));
@@ -76,6 +123,24 @@ public class AfficherStyleController {
         imageView.setFitWidth(180);
         imageView.setFitHeight(180);
         imageView.setPreserveRatio(true);
+
+        // Clip arrondi
+        Rectangle clip = new Rectangle();
+        clip.setArcWidth(20);
+        clip.setArcHeight(20);
+        clip.widthProperty().bind(imageView.fitWidthProperty());
+        clip.heightProperty().bind(imageView.fitHeightProperty());
+        imageView.setClip(clip);
+
+        // Animation hover sur image
+        imageView.setOnMouseEntered(e -> {
+            imageView.setScaleX(1.05);
+            imageView.setScaleY(1.05);
+        });
+        imageView.setOnMouseExited(e -> {
+            imageView.setScaleX(1.0);
+            imageView.setScaleY(1.0);
+        });
 
         // Type
         Label typeLabel = new Label(style.getType());
@@ -91,11 +156,13 @@ public class AfficherStyleController {
         buttonsBox.setAlignment(Pos.CENTER);
 
         Button updateButton = new Button("Modifier");
-        updateButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8px; -fx-cursor: hand;");
+        updateButton.setPrefWidth(80);
+        updateButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8px;");
         updateButton.setOnAction(event -> openEditWindow(style));
 
         Button deleteButton = new Button("Supprimer");
-        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8px; -fx-cursor: hand;");
+        deleteButton.setPrefWidth(80);
+        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 12px; -fx-background-radius: 8px;");
         deleteButton.setOnAction(event -> {
             try {
                 styleService.delete(style.getId());
@@ -110,6 +177,7 @@ public class AfficherStyleController {
         card.getChildren().addAll(imageView, typeLabel, descriptionLabel, buttonsBox);
         return card;
     }
+
 
     private void openEditWindow(Style style) {
         try {

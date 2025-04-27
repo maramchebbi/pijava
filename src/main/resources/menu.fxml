@@ -2,27 +2,104 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 
 <BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/23.0.1"
             fx:controller="Controllers.MenuController"
-            prefWidth="1200" prefHeight="700">
+            prefWidth="1200" prefHeight="700"
+            styleClass="main-container">
+
+    <stylesheets>
+        <URL value="@/ss.css" />
+    </stylesheets>
+
+    <!-- Paneau principal avec marge -->
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15" />
+    </padding>
 
     <!-- Barre latérale -->
     <left>
-        <VBox spacing="20" styleClass="sidebar" alignment="TOP_CENTER" prefWidth="250" style="-fx-padding: 20;">
-            <Label text="🎨 Artisfera" styleClass="menu-title"/>
-            <Button text="➕ Ajouter Peinture" onAction="#goToAjouterPeinture" styleClass="menu-btn"/>
-            <Button text="🖼 Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn"/>
-            <Button text="🎨 Ajouter Style" onAction="#goToAjouterStyle" styleClass="menu-btn"/>
-            <Button text="📋 Afficher Styles" onAction="#goToAfficherStyles" styleClass="menu-btn"/>
-            <Button text="🗨 Chatbot" onAction="#goToChatbot" styleClass="menu-btn"/>
-            <Button text="✨ Ghibli Effect" onAction="#handleGhibliEffect" styleClass="menu-btn"/>
-        </VBox>
+        <AnchorPane>
+            <VBox fx:id="sidebarVBox" spacing="15" alignment="TOP_CENTER" prefWidth="250"
+                  styleClass="sidebar" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0">
+
+                <!-- Logo et titre de l'application -->
+                <HBox alignment="CENTER" spacing="12" styleClass="logo-container">
+                    <StackPane styleClass="logo-circle">
+                        <Label text="🎨" styleClass="logo-emoji" />
+                    </StackPane>
+                    <Label text="Artisfera" styleClass="menu-title" />
+                </HBox>
+
+                <!-- Séparateur -->
+                <Separator styleClass="menu-separator" />
+
+                <!-- Section Peintures -->
+                <Label text="GESTION PEINTURES" styleClass="menu-section-title" />
+
+                <Button text="➕ Ajouter Peinture" onAction="#goToAjouterPeinture" styleClass="menu-btn">
+                    <graphic>
+                        <Region prefWidth="10" />
+                    </graphic>
+                </Button>
+
+                <Button text="🖼 Afficher Peintures" onAction="#goToAfficherPeintures" styleClass="menu-btn">
+                    <graphic>
+                        <Region prefWidth="10" />
+                    </graphic>
+                </Button>
+
+                <!-- Section Styles -->
+                <Label text="GESTION STYLES" styleClass="menu-section-title" />
+
+                <Button text="🎨 Ajouter Style" onAction="#goToAjouterStyle" styleClass="menu-btn">
+                    <graphic>
+                        <Region prefWidth="10" />
+                    </graphic>
+                </Button>
+
+                <Button text="📋 Afficher Styles" onAction="#goToAfficherStyles" styleClass="menu-btn">
+                    <graphic>
+                        <Region prefWidth="10" />
+                    </graphic>
+                </Button>
+
+                <!-- Section Outils -->
+                <Label text="OUTILS" styleClass="menu-section-title" />
+
+                <Button text="🗨 Chatbot" onAction="#goToChatbot" styleClass="menu-btn">
+                    <graphic>
+                        <Region prefWidth="10" />
+                    </graphic>
+                </Button>
+
+                <Button text="✨ Ghibli Effect" onAction="#handleGhibliEffect" styleClass="menu-btn">
+                    <graphic>
+                        <Region prefWidth="10" />
+                    </graphic>
+                </Button>
+
+
+            </VBox>
+        </AnchorPane>
     </left>
 
-    <!-- Contenu principal -->
+    <!-- Contenu principal avec marge -->
     <center>
-        <AnchorPane fx:id="contentPane"/>
+        <AnchorPane>
+            <VBox styleClass="main-content-container"
+                  AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                  AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+
+                <!-- Contenu de la page -->
+                <StackPane VBox.vgrow="ALWAYS" styleClass="content-wrapper">
+                    <AnchorPane fx:id="contentPane" styleClass="content-pane" />
+                </StackPane>
+            </VBox>
+        </AnchorPane>
     </center>
 </BorderPane>

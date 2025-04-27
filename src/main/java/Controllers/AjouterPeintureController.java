@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Peinture;
 import Models.Style;
+import Services.EmailService;
 import Services.PeintureService;
 import Services.StyleService;
 import javafx.animation.PauseTransition;
@@ -133,17 +134,19 @@ public class AjouterPeintureController {
         lbTab.setText("");
         lbStyle.setText("");
 
+        // Validation du titre
         if (titre.isEmpty()) {
             lbTitre.setText("Titre requis.");
             valid = false;
         } else if (titre.trim().length() < 3) {
             lbTitre.setText("Le titre doit avoir au moins 3 caractères.");
             valid = false;
-        } else if (!titre.matches("[a-zA-Z]+")) {
+        } else if (!titre.matches("[a-zA-Z ]+")) { // Permettre les espaces dans le titre
             lbTitre.setText("Le titre doit contenir uniquement des lettres.");
             valid = false;
         }
 
+        // Validation de la date
         if (dateDeCreation == null) {
             lbDcr.setText("Date requise.");
             valid = false;
@@ -152,27 +155,31 @@ public class AjouterPeintureController {
             valid = false;
         }
 
+        // Validation du tableau
         if (tableau.isEmpty()) {
             lbTab.setText("Image requise.");
             valid = false;
         }
 
+        // Validation du style
         if (styleStr == null) {
             lbStyle.setText("Style requis.");
             valid = false;
         }
 
+        // Si une validation échoue, ne pas continuer
         if (!valid) return;
 
         try {
+            // Récupérer le style sélectionné
             Style selectedStyle = styleService.getByType(styleStr);
             if (selectedStyle == null) {
                 lbStyle.setText("Style non trouvé.");
                 return;
             }
 
+            // Création ou mise à jour de la peinture
             Peinture peinture = new Peinture(titre, dateDeCreation, tableau, selectedStyle, 5);
-
             if (isEditMode && peintureToEdit != null) {
                 peinture.setId(peintureToEdit.getId());
                 peintureService.update(peinture);
@@ -182,11 +189,16 @@ public class AjouterPeintureController {
                 afficherMessage("✅ Peinture ajoutée avec succès !");
             }
 
-            if (parentController != null) {
-                parentController.loadPeintures();
+            // Récupérer l'email de l'utilisateur
+            String userEmail = peintureService.getUserEmailById(5);  // Remplacer 5 par l'ID réel de l'utilisateur
+            if (userEmail != null) {
+                // Envoi de l'email
+                String subject = "Nouvelle peinture ajoutée";
+                String body = "Bonjour,\n\nUne nouvelle peinture a été ajoutée avec succès : " + titre + ".\n\nCordialement.";
+                EmailService.sendEmail("marwenjenane@gmail.com", subject, body);
             }
 
-            // Vider les champs après ajout (pas en édition)
+            // Vider les champs après ajout (si pas en mode édition)
             if (!isEditMode) {
                 titreTextField.clear();
                 tableauTextField.clear();
@@ -194,16 +206,17 @@ public class AjouterPeintureController {
                 dateDeCreationTextField.setValue(null);
             }
 
-            // Si tu veux laisser la fenêtre ouverte, garde comme ça.
-            // Sinon, décommente la ligne ci-dessous pour la fermer :
-            // Stage stage = (Stage) validerButton.getScene().getWindow();
-            // stage.close();
+            // Rafraîchir les peintures
+            if (parentController != null) {
+                parentController.loadPeintures();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Tu peux aussi ici afficher un message d'erreur si besoin
         }
     }
+
+
 
 
     private void afficherMessage(String message) {

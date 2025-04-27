@@ -40,7 +40,7 @@ public class ChatbotController {
         new Thread(() -> {
             try {
                 String reply = sendMessageToChatbot(message);
-                Platform.runLater(() -> addBubble("Bot : " + reply, false));
+                Platform.runLater(() -> addBubble("Lisa : " + reply, false));
             } catch (IOException e) {
                 Platform.runLater(() -> addBubble("Erreur : " + e.getMessage(), false));
             }

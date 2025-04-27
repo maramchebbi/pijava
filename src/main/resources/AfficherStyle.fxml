@@ -1,45 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #e0f5e9, #d0efdf);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherStyleController">
+<AnchorPane prefHeight="800.0" prefWidth="1247.0"
+            style="-fx-background-color: linear-gradient(to bottom right, #2c5877, #356d75); -fx-background-radius: 30; -fx-padding: 20;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.AfficherStyleController">
 
     <children>
 
-        <!-- En-tête alignée et stylée -->
-        <HBox alignment="CENTER_LEFT" layoutX="-9.0" spacing="10" style="-fx-padding: 20 30 10 30;">
-            <children>
-                <Text fx:id="titreText" style="-fx-fill: #2c3e50; -fx-font-weight: bold;" text="🎨 Liste des styles">
-                    <font>
-                        <Font size="28.0" />
-                    </font>
-                </Text>
-            </children>
-        </HBox>
+        <!-- Conteneur principal -->
+        <VBox layoutX="50.0" layoutY="30.0" spacing="25" prefWidth="1150">
 
-        <!-- ScrollPane contenant la grille de styles -->
-        <ScrollPane fx:id="scrollPane1" fitToWidth="true" layoutX="31.2" prefHeight="506.0" prefViewportHeight="450.0" prefWidth="853.0"
-                    style="-fx-background-color: transparent;" pannable="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-            <content>
-                <GridPane fx:id="affichageGrid" alignment="TOP_CENTER" hgap="25" vgap="25" style="-fx-padding: 25;">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
-                    </columnConstraints>
-                </GridPane>
-            </content>
-            <AnchorPane.topAnchor>70.0</AnchorPane.topAnchor>
-            <AnchorPane.leftAnchor>31.0</AnchorPane.leftAnchor>
-            <AnchorPane.rightAnchor>16.0</AnchorPane.rightAnchor>
-            <AnchorPane.bottomAnchor>24.0</AnchorPane.bottomAnchor>
-        </ScrollPane>
+            <!-- Titre -->
+            <HBox alignment="CENTER_LEFT">
+                <children>
+                    <Text fx:id="titreText" text="🎨 Liste des styles"
+                          style="-fx-fill: #ffffff; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, black, 2, 0.2, 1, 1);">
+                        <font>
+                            <Font size="28.0" />
+                        </font>
+                    </Text>
+                </children>
+            </HBox>
+
+            <!-- Carte contenant Recherche + Grid -->
+            <VBox spacing="20"
+                  style="-fx-background-color: rgba(255,255,255,0.93);
+                         -fx-background-radius: 20;
+                         -fx-padding: 25;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);">
+
+                <!-- Barre de recherche -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <children>
+                        <TextField fx:id="searchField"
+                                   prefWidth="450"
+                                   promptText="🔍 Rechercher par titre..."
+                                   style="-fx-background-radius: 12;
+                                          -fx-border-radius: 12;
+                                          -fx-border-color: #9575cd;
+                                          -fx-padding: 10;
+                                          -fx-font-size: 14px;" />
+                    </children>
+                </HBox>
+
+                <!-- ScrollPane contenant la grille -->
+                <ScrollPane fx:id="scrollPane1"
+                            fitToWidth="true"
+                            prefHeight="550.0"
+                            style="-fx-background-color: transparent;">
+                    <content>
+                        <GridPane fx:id="affichageGrid"
+                                  hgap="25" vgap="25"
+                                  style="-fx-padding: 20;"
+                                  alignment="TOP_CENTER">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33.3" />
+                            </columnConstraints>
+                        </GridPane>
+                    </content>
+                </ScrollPane>
+
+            </VBox>
+
+        </VBox>
 
     </children>
 </AnchorPane>

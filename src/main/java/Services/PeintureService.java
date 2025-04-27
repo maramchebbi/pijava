@@ -123,4 +123,17 @@ public class PeintureService {
         return peintures;
     }
 
+
+    public String getUserEmailById(int userId) throws SQLException {
+        String query = "SELECT email FROM user WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        }
+        return null;
+    }
+
 }

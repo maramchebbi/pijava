@@ -8,30 +8,51 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane style="-fx-background-color: #e6f0ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChatbotController">
+<AnchorPane prefHeight="800.0" prefWidth="1247.0" style="-fx-background-color: linear-gradient(to bottom right, #2c5877, #356d75); -fx-background-radius: 30; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChatbotController">
 
-    <!-- Fond animé avec nuages -->
-    <AnchorPane fx:id="chatContainer" prefHeight="600" prefWidth="670.0">
-        <!-- Avatar de l'utilisateur -->
-        <ImageView fx:id="userAvatar" fitHeight="50" fitWidth="50" layoutX="20" layoutY="20" />
-        <!-- Avatar du chatbot -->
-        <ImageView fx:id="botAvatar" fitHeight="50" fitWidth="50" layoutX="530" layoutY="20" />
+    <VBox layoutX="50.0" layoutY="30.0" prefWidth="1150" spacing="25">
 
-        <VBox layoutX="20.0" layoutY="20.0" prefHeight="518.0" prefWidth="640.0" spacing="10">
-            <ScrollPane fx:id="chatScrollPane" fitToWidth="true" prefHeight="418.0" prefWidth="546.0" style="-fx-background: transparent;">
-                <VBox fx:id="chatArea" spacing="10">
-                    <padding>
-                        <Insets bottom="10" left="10" right="10" top="10" />
-                    </padding>
-                </VBox>
+        <!-- Titre du Chatbot -->
+        <HBox alignment="CENTER_LEFT">
+            <children>
+                <Text style="-fx-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 28px; -fx-effect: dropshadow(gaussian, black, 2, 0.2, 1, 1);">
+                    ☁ Chatbot
+                </Text>
+            </children>
+        </HBox>
 
+        <!-- Carte contenant la conversation -->
+        <VBox prefHeight="621.0" prefWidth="1150.0" spacing="20" style="-fx-background-color: rgba(255,255,255,0.93);                      -fx-background-radius: 20;                      -fx-padding: 25;                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);">
+
+            <!-- Avatars en haut -->
+            <HBox alignment="CENTER" spacing="10">
+                <children>
+                    <ImageView fx:id="userAvatar" fitHeight="50" fitWidth="50" />
+                    <ImageView fx:id="botAvatar" fitHeight="50" fitWidth="50" />
+                </children>
+            </HBox>
+
+            <!-- Zone de chat -->
+            <ScrollPane fx:id="chatScrollPane" fitToWidth="true" prefHeight="500.0" style="-fx-background-color: transparent;">
+                <content>
+                    <VBox fx:id="chatArea" spacing="10">
+                        <padding>
+                            <Insets bottom="10" left="10" right="10" top="10" />
+                        </padding>
+                    </VBox>
+                </content>
             </ScrollPane>
 
+            <!-- Zone d'écriture -->
             <HBox spacing="10">
-                <TextField fx:id="inputField" promptText="Écris un message..." style="-fx-background-radius: 20; -fx-background-color: white; -fx-padding: 8 12; -fx-font-size: 14px;" HBox.hgrow="ALWAYS" />
-                <Button onAction="#handleSendMessage" style="-fx-background-radius: 20; -fx-background-color: #4fc3f7; -fx-text-fill: white; -fx-font-size: 14px;" text="Envoyer" />
+                <TextField fx:id="inputField" promptText="💬 Écris un message..." style="-fx-background-radius: 12;                                   -fx-border-radius: 12;                                   -fx-border-color: #9575cd;                                   -fx-padding: 10;                                   -fx-font-size: 14px;" HBox.hgrow="ALWAYS" />
+                <Button onAction="#handleSendMessage" style="-fx-background-radius: 12;                                -fx-background-color: #4fc3f7;                                -fx-text-fill: white;                                -fx-font-weight: bold;                                -fx-font-size: 14px;                                -fx-padding: 10 20;" text="Envoyer" />
             </HBox>
+
         </VBox>
-    </AnchorPane>
+
+    </VBox>
+
 </AnchorPane>

@@ -1,0 +1,287 @@
+/* forms.css - Styles spécifiques pour les formulaires d'Artisfera */
+
+/* Fond du contenu principal */
+.content-background {
+    -fx-background-color: transparent;
+}
+
+/* Container du formulaire */
+.form-container {
+    -fx-background-color: rgba(255,255,255,0.93);
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);
+    -fx-max-width: 600px;
+    -fx-min-width: 500px;
+}
+
+/* En-tête du formulaire */
+.form-header {
+    -fx-padding: 0 0 10 0;
+}
+
+/* Conteneur de l'icône */
+.form-icon-container {
+    -fx-background-color: #9575cd;
+    -fx-background-radius: 50%;
+    -fx-min-height: 48;
+    -fx-min-width: 48;
+    -fx-max-height: 48;
+    -fx-max-width: 48;
+    -fx-alignment: center;
+}
+
+/* Icône du formulaire */
+.form-icon {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+}
+
+/* Titre du formulaire */
+.form-title {
+    -fx-fill: #512da8;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Instructions du formulaire */
+.form-instructions {
+    -fx-text-fill: #757575;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Séparateur */
+.form-separator {
+    -fx-background-color: #9575cd;
+    -fx-opacity: 0.6;
+}
+
+/* Groupe de champs */
+.form-group {
+    -fx-spacing: 5;
+    -fx-padding: 5 0;
+}
+
+/* Étiquette de champ */
+.field-label {
+    -fx-text-fill: #512da8;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Champs de saisie */
+.form-field {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #9575cd;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-pref-width: 450px;
+}
+
+.form-field:focused {
+    -fx-border-color: #512da8;
+    -fx-border-width: 2px;
+    -fx-background-color: #f8f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(81, 45, 168, 0.2), 5, 0.1, 0, 0);
+}
+
+/* Bouton parcourir */
+.browse-button {
+    -fx-background-color: #7e57c2;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20;
+    -fx-cursor: hand;
+}
+
+.browse-button:hover {
+    -fx-background-color: #6a45b0;
+}
+
+/* Container de prévisualisation */
+.preview-container {
+    -fx-padding: 15 0;
+    -fx-spacing: 10;
+}
+
+/* Libellé de prévisualisation */
+.preview-label {
+    -fx-text-fill: #512da8;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Container de l'image de prévisualisation */
+.image-preview-container {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #9575cd;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-min-height: 150;
+    -fx-pref-height: 150;
+    -fx-min-width: 250;
+}
+
+/* Image de prévisualisation */
+.image-preview {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 2);
+}
+
+/* Étiquette quand il n'y a pas d'image */
+.no-image-label {
+    -fx-text-fill: #757575;
+    -fx-font-style: italic;
+    -fx-opacity: 0.8;
+}
+
+/* Container des boutons d'action */
+.action-buttons {
+    -fx-padding: 15 0 10 0;
+}
+
+/* Bouton de validation */
+.form-button {
+    -fx-background-color: #43a047;
+    -fx-background-radius: 12;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-min-width: 150;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.1, 0, 2);
+}
+
+.form-button:hover {
+    -fx-background-color: #388e3c;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.1, 0, 2);
+}
+
+/* Bouton d'annulation */
+.cancel-button {
+    -fx-background-color: #f5f5f5;
+    -fx-background-radius: 12;
+    -fx-text-fill: #e53935;
+    -fx-border-color: #e53935;
+    -fx-border-radius: 12;
+    -fx-border-width: 1.5;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-min-width: 150;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover {
+    -fx-background-color: rgba(229, 57, 53, 0.1);
+}
+
+/* Container pour les messages */
+.message-container {
+    -fx-padding: 15 0 0 0;
+    -fx-min-height: 30;
+}
+
+/* Message d'erreur */
+.error-message {
+    -fx-text-fill: #e53935;
+    -fx-font-size: 12px;
+}
+
+/* Message de succès */
+.success-message {
+    -fx-text-fill: #43a047;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(67, 160, 71, 0.1);
+    -fx-background-radius: 8;
+    -fx-padding: 8 15;
+    -fx-alignment: center;
+}
+
+/* forms.css - Styles basiques pour les formulaires */
+
+/* Style des champs */
+.form-field {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #9575cd;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+
+.form-field:focused {
+    -fx-border-color: #512da8;
+    -fx-border-width: 2px;
+    -fx-background-color: #f8f8ff;
+}
+
+/* Style des titres de section */
+.field-label {
+    -fx-text-fill: #512da8;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Style des boutons */
+.action-button {
+    -fx-background-color: #43a047;
+    -fx-background-radius: 12;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-min-width: 150;
+}
+
+.action-button:hover {
+    -fx-background-color: #388e3c;
+    -fx-cursor: hand;
+}
+
+.browse-button {
+    -fx-background-color: #7e57c2;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+}
+
+.browse-button:hover {
+    -fx-background-color: #6a45b0;
+    -fx-cursor: hand;
+}
+
+/* Style des messages */
+.error-message {
+    -fx-text-fill: #e53935;
+    -fx-font-size: 12px;
+}
+
+.success-message {
+    -fx-text-fill: #43a047;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(67, 160, 71, 0.1);
+    -fx-background-radius: 8;
+    -fx-padding: 8 15;
+}
+
+/* Style de la prévisualisation */
+.preview-container {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #9575cd;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+/* Style des séparateurs */
+.separator {
+    -fx-background-color: #9575cd;
+    -fx-opacity: 0.6;
+}

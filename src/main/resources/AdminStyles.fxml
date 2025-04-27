@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<AnchorPane prefWidth="900" prefHeight="640"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.AdminStylesController"
+            styleClass="admin-module">
+
+    <VBox spacing="15" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+
+        <!-- Filtres et recherche -->
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="admin-filters-bar">
+            <!-- Recherche -->
+            <TextField fx:id="searchStyleField" promptText="Rechercher un style..." styleClass="admin-search-field" HBox.hgrow="ALWAYS" />
+
+            <!-- Tri -->
+            <Label text="Trier par:" styleClass="admin-filter-label" />
+            <ComboBox fx:id="sortStylesComboBox" promptText="Alphabétique (A-Z)" styleClass="admin-combo-box" prefWidth="180" />
+
+            <!-- Bouton d'ajout -->
+            <Button text="➕ Nouveau style" onAction="#handleAddStyle" styleClass="admin-action-btn" />
+        </HBox>
+
+        <!-- Affichage des styles en grid -->
+        <ScrollPane fitToWidth="true" styleClass="admin-scrollpane" VBox.vgrow="ALWAYS">
+            <GridPane fx:id="stylesGrid" hgap="15" vgap="15" styleClass="admin-grid">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10" />
+                </padding>
+                <!-- Les cartes de style seront ajoutées dynamiquement ici -->
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33.33" />
+                    <ColumnConstraints percentWidth="33.33" />
+                    <ColumnConstraints percentWidth="33.33" />
+                </columnConstraints>
+            </GridPane>
+        </ScrollPane>
+
+        <!-- Barre de statut -->
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="admin-status-bar">
+            <Label text="Nombre total de styles:" styleClass="admin-status-label" />
+            <Label fx:id="totalStylesLabel" text="0" styleClass="admin-status-value" />
+        </HBox>
+
+        <!-- Panneau d'édition (visible en mode édition) -->
+        <VBox fx:id="editStylePanelVBox" visible="false" managed="false" styleClass="admin-edit-panel" spacing="15">
+            <HBox alignment="CENTER_LEFT" styleClass="admin-edit-header">
+                <Label fx:id="editStylePanelTitle" text="Modifier le style" styleClass="admin-edit-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="❌ Fermer" onAction="#closeStyleEditPanel" styleClass="admin-close-btn" />
+            </HBox>
+
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <!-- Formulaire d'édition -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <!-- Champ type -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Type de style" styleClass="admin-form-label" />
+                        <TextField fx:id="editTypeField" styleClass="admin-form-field" />
+                    </VBox>
+
+                    <!-- Champ description -->
+                    <VBox spacing="5" styleClass="admin-form-group" VBox.vgrow="ALWAYS">
+                        <Label text="Description" styleClass="admin-form-label" />
+                        <TextArea fx:id="editDescriptionArea"
+                                  styleClass="admin-form-field"
+                                  wrapText="true"
+                                  VBox.vgrow="ALWAYS"
+                                  prefHeight="150" />
+                    </VBox>
+
+
+                    <!-- Champ image d'exemple -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Image d'exemple" styleClass="admin-form-label" />
+                        <HBox spacing="10">
+                            <TextField fx:id="editExImagePathField" styleClass="admin-form-field" HBox.hgrow="ALWAYS" />
+                            <Button text="📁" onAction="#handleBrowseExImage" styleClass="admin-browse-btn" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Boutons d'action -->
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button text="❌ Annuler" onAction="#closeStyleEditPanel" styleClass="admin-cancel-btn" />
+                        <Button text="✅ Enregistrer" onAction="#handleSaveStyleEdits" styleClass="admin-save-btn" />
+                    </HBox>
+                </VBox>
+
+                <!-- Prévisualisation image -->
+                <VBox spacing="10" alignment="CENTER" prefWidth="250">
+                    <Label text="Prévisualisation" styleClass="admin-form-label" />
+                    <StackPane styleClass="admin-image-preview-container">
+                        <ImageView fx:id="editStyleImagePreview" fitHeight="180" fitWidth="220" preserveRatio="true" />
+                    </StackPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </VBox>
+</AnchorPane>
