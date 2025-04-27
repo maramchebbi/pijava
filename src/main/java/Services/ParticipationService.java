@@ -24,7 +24,7 @@ public class ParticipationService {
 
     public void addParticipation(int userId, int eventId, String nom, String email, int numtel) throws SQLException {
         String maxQuery = "SELECT nb_participant FROM event WHERE id = ?";
-        String countQuery = "SELECT COUNT(*) FROM participation WHERE event_id = ?";
+        String countQuery = "SELECT COUNT(*) FROM participation WHERE event_id = ? AND is_waiting = 0";
         String insertQuery = "INSERT INTO participation (user_id, event_id, nom_utilisateur, email_utilisateur, numtel, is_waiting, date_participation) VALUES (?, ?, ?, ?, ?, ?, NOW())";
 
         try (Connection conn = getConnection()) {

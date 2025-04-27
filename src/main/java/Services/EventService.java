@@ -124,10 +124,37 @@ public class EventService implements IService<Event> {
 
     @Override
     public void delete(Event event) throws SQLException {
-        String query = "DELETE FROM event WHERE id = ?";
-        PreparedStatement stmt = con.prepareStatement(query);
-        stmt.setInt(1, event.getId());
-        stmt.executeUpdate();
+        int eventId = event.getId();
+        System.out.println("Tentative de suppression de l'événement ID: " + eventId);
+
+        // D'abord supprimer les participations liées à cet événement
+        String deleteParticipations = "DELETE FROM participation WHERE event_id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(deleteParticipations)) {
+            pstmt.setInt(1, eventId);
+            int participationsDeleted = pstmt.executeUpdate();
+            System.out.println("Participations supprimées: " + participationsDeleted);
+        }
+
+        // Ensuite supprimer les relations sponsor_event
+        String deleteSponsorRelations = "DELETE FROM sponsor_event WHERE event_id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(deleteSponsorRelations)) {
+            pstmt.setInt(1, eventId);
+            int relationsDeleted = pstmt.executeUpdate();
+            System.out.println("Relations sponsor supprimées: " + relationsDeleted);
+        }
+
+        // Enfin supprimer l'événement
+        String deleteEvent = "DELETE FROM event WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(deleteEvent)) {
+            pstmt.setInt(1, eventId);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                System.out.println("Événement supprimé avec succès");
+            } else {
+                System.out.println("Aucun événement trouvé avec l'ID: " + eventId);
+                throw new SQLException("Aucun événement trouvé avec l'ID: " + eventId);
+            }
+        }
     }
 
     @Override

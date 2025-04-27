@@ -410,19 +410,12 @@ public class DetailsEvent {
                 try {
                     // Vérifier si l'événement est complet
                     int participantActuels = new Services.ParticipationService().getParticipationCountByEvent(event.getId());
-                    if (participantActuels >= event.getNbParticipant()) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setHeaderText(null);
-                        alert.setContentText("Cet événement est complet !");
-                        alert.showAndWait();
-                        return;
-                    }
+                    boolean isEventFull = participantActuels >= event.getNbParticipant();
 
                     TextInputDialog dialog = new TextInputDialog();
                     dialog.setTitle("Confirmation de participation");
                     dialog.setHeaderText("Confirmer votre numéro de téléphone");
                     dialog.setContentText("Numéro de téléphone :");
-
                     dialog.showAndWait().ifPresent(input -> {
                         try {
                             int numtel = Integer.parseInt(input);
@@ -497,16 +490,32 @@ public class DetailsEvent {
         );
         supprimerBtn.setOnAction(e -> {
             e.consume(); // Empêcher l'événement de se propager au container
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation de suppression");
-            alert.setHeaderText(null);
-            alert.setContentText("Voulez-vous vraiment supprimer cet événement ?");
-            if (alert.showAndWait().get() == ButtonType.OK) {
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Confirmation de suppression");
+            confirmAlert.setHeaderText(null);
+            confirmAlert.setContentText("Voulez-vous vraiment supprimer l'événement '" + event.getTitre() + "' ?");
+            if (confirmAlert.showAndWait().get() == ButtonType.OK) {
                 try {
+                    System.out.println("Suppression de l'événement: " + event.getId() + " - " + event.getTitre());
                     eventService.delete(event);
+
+                    // Afficher un message de succès
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Suppression réussie");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("L'événement a été supprimé avec succès.");
+                    successAlert.showAndWait();
+
+                    // Recharger la liste des événements
                     loadPagedEvents();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                    // Afficher un message d'erreur
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Erreur de suppression");
+                    errorAlert.setHeaderText(null);
+                    errorAlert.setContentText("Impossible de supprimer l'événement: " + ex.getMessage());
+                    errorAlert.showAndWait();
                 }
             }
         });

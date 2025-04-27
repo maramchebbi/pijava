@@ -1,4 +1,5 @@
 Controllers\MapViewer.class
+Services\ReminderService.class
 Controllers\FluxGeneratorController.class
 Controllers\DetailsSponsor.class
 Utils\SessionStorage.class
@@ -9,6 +10,7 @@ Utils\HashUtil.class
 Utils\EmailService$1.class
 Controllers\AjouterSponsor.class
 Main\Test.class
+Utils\EmailSender$1.class
 Utils\EmailService.class
 Controllers\DetailsEvent.class
 Services\EventService.class
@@ -36,3 +38,4 @@ Controllers\ParticipationDetails.class
 Controllers\ParticipationController.class
 Services\SponsorService.class
 Services\UserService.class
+Utils\EmailSender.class

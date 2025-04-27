@@ -1,5 +1,6 @@
 package Controllers;
 
+import Services.ReminderService;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,8 @@ public class Home extends Application {
         this.mainStage = stage;
         try {
             System.out.println("Tentative de chargement de Login.fxml");
+            ReminderService.startReminderService();
+
             URL loginUrl = getClass().getResource("/Login.fxml");
             if (loginUrl == null) {
                 throw new IOException("Impossible de trouver le fichier Login.fxml dans les ressources");

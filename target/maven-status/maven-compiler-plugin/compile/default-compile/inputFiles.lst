@@ -26,10 +26,12 @@ C:\Users\maram\pijava\src\main\java\Services\IService.java
 C:\Users\maram\pijava\src\main\java\Services\NotificationService.java
 C:\Users\maram\pijava\src\main\java\Services\ParticipationService.java
 C:\Users\maram\pijava\src\main\java\Services\RecommendationService.java
+C:\Users\maram\pijava\src\main\java\Services\ReminderService.java
 C:\Users\maram\pijava\src\main\java\Services\SponsorService.java
 C:\Users\maram\pijava\src\main\java\Services\TwilioService.java
 C:\Users\maram\pijava\src\main\java\Services\UserService.java
 C:\Users\maram\pijava\src\main\java\Utils\DataSource.java
+C:\Users\maram\pijava\src\main\java\Utils\EmailSender.java
 C:\Users\maram\pijava\src\main\java\Utils\EmailService.java
 C:\Users\maram\pijava\src\main\java\Utils\HashUtil.java
 C:\Users\maram\pijava\src\main\java\Utils\SessionManager.java
