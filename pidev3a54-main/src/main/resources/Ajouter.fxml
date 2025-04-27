@@ -1,97 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="650.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterTexile">
-   <children>
-      <AnchorPane prefHeight="80.0" prefWidth="700.0" style="-fx-background-color: #b29f94;">
-         <children>
-            <ImageView fx:id="Artisferaimage" fitHeight="80.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
-               <image>
+<BorderPane style="-fx-background-color: #f8f5f2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterTexile">
+    <stylesheets>
+        <URL value="@css_files/style.css" />
+    </stylesheets>
 
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <TextField fx:id="nomField" layoutX="238.0" layoutY="156.0" prefHeight="26.0" prefWidth="260.0" promptText="nom" />
-      <Button layoutX="475.0" layoutY="599.0" mnemonicParsing="false" onAction="#ajouterTextile" prefHeight="26.0" prefWidth="97.0" style="-fx-background-color: #b29f94;" text="Confirmer" />
-      <Accordion layoutX="124.0" layoutY="162.0" />
-    <TitledPane animated="false" layoutX="162.0" layoutY="-33.0" text="untitled 3" />
-      <TextField fx:id="typeField" layoutX="238.0" layoutY="195.0" prefHeight="26.0" prefWidth="260.0" promptText="type" />
-      <TextField fx:id="matiereField" layoutX="238.0" layoutY="283.0" prefHeight="26.0" prefWidth="260.0" promptText="matiere" />
-      <TextField fx:id="couleurField" layoutX="238.0" layoutY="319.0" prefHeight="26.0" prefWidth="260.0" promptText="couleur" />
-      <TextField fx:id="dimensionField" layoutX="238.0" layoutY="360.0" prefHeight="26.0" prefWidth="260.0" promptText="dimension" />
-      <TextField fx:id="createurField" layoutX="238.0" layoutY="402.0" prefHeight="26.0" prefWidth="260.0" promptText="createur" />
-      <TextField fx:id="techniquefield" layoutX="238.0" layoutY="490.0" prefHeight="26.0" prefWidth="260.0" promptText="technique" />
-      <Text layoutX="157.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="157.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="type :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="154.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="descrption :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="153.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="collection :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="153.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" text="technique :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="153.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="image :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="153.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="createur :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="153.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dimension :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="154.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="couleur :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="153.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="matiere :">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Text>
-      <Text fill="#603813" layoutX="291.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Textile">
-         <font>
-            <Font name="Arial Italic" size="24.0" />
-         </font>
-      </Text>
-      <TextArea fx:id="descriptionField" layoutX="238.0" layoutY="230.0" prefHeight="44.0" prefWidth="260.0" promptText="Description ...." />
-      <Button layoutX="588.0" layoutY="599.0" mnemonicParsing="false" onAction="#viewtextile" prefHeight="26.0" prefWidth="97.0" style="-fx-background-color: #b29f94;" text="Retour" />
-      <TextField fx:id="iduserfield" layoutX="570.0" layoutY="273.0" prefHeight="26.0" prefWidth="84.0" promptText="userid" />
-      <Button layoutX="238.0" layoutY="444.0" mnemonicParsing="false" onAction="#uploadimage" prefHeight="26.0" prefWidth="260.0" style="-fx-background-color: #DBDBDB;" text="choisir une image" />
-      <ImageView fx:id="textileimage" fitHeight="149.0" fitWidth="160.0" layoutX="515.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
-      <ComboBox fx:id="collectionIdField" layoutX="238.0" layoutY="533.0" prefHeight="26.0" prefWidth="260.0" promptText="collection" />
-   </children>
-</AnchorPane>
+    <top>
+        <HBox alignment="CENTER" style="-fx-background-color: #603813; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
+            <Label style="-fx-font-size: 28; -fx-text-fill: white; -fx-font-weight: bold;">
+                <font>
+                    <Font name="Segoe UI" size="28.0" />
+                </font>
+                AJOUTER UN TEXTILE
+            </Label>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+            <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 20; -fx-background-color: #f8f5f2;">
+                <!-- Progress Indicator -->
+                <HBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 15 0;">
+                    <StackPane>
+                        <Circle fx:id="step1Circle" fill="#603813" radius="15" />
+                        <Label fx:id="step1Label" style="-fx-text-fill: white; -fx-font-weight: bold;" text="1" />
+                    </StackPane>
+
+                    <Line endX="50" startX="0" stroke="#603813" strokeWidth="2" />
+
+                    <StackPane>
+                        <Circle fx:id="step2Circle" fill="#b29f94" radius="15" />
+                        <Label fx:id="step2Label" style="-fx-text-fill: #603813; -fx-font-weight: bold;" text="2" />
+                    </StackPane>
+                </HBox>
+
+                <!-- Conteneur principal pour les deux formulaires côte à côte -->
+                <HBox alignment="TOP_CENTER" spacing="20">
+                    <!-- Part 1 Form (Gauche) -->
+                    <VBox fx:id="part1Form" alignment="TOP_CENTER" spacing="15"
+                          style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+                          maxWidth="650" minWidth="400" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 20; -fx-text-fill: #603813; -fx-font-weight: bold;">
+                            INFORMATIONS DE BASE
+                        </Label>
+
+                        <GridPane alignment="CENTER" hgap="20" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" minWidth="150" />
+                                <ColumnConstraints halignment="LEFT" minWidth="200" />
+                            </columnConstraints>
+
+                            <!-- Nom -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Nom du textile :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <TextField fx:id="nomField" promptText="Ex: Robe traditionnelle" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <Label fx:id="nomError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                            <!-- Type -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Type :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <TextField fx:id="typeField" promptText="Ex: Vêtement, Accessoire" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label fx:id="typeError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                            <!-- Description -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Description :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <TextArea fx:id="descriptionField" promptText="Décrivez le textile en détail..." style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label fx:id="descriptionError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                            <!-- Matière -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Matière principale :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                            <TextField fx:id="matiereField" promptText="Ex: Coton, Soie" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                            <Label fx:id="matiereError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                            <!-- Couleur -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Couleur dominante :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                            <TextField fx:id="couleurField" promptText="Ex: Bleu, Rouge" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                            <Label fx:id="couleurError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        </GridPane>
+
+                        <!-- Buttons -->
+                        <HBox alignment="CENTER" spacing="15" style="-fx-padding: 15 0 0 0;">
+                            <Button onAction="#viewtextile" style="-fx-background-color: #b29f94; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand; -fx-font-size: 14;" text="Retour">
+                                <graphic>
+                                    <SVGPath content="M4 11h12v2H4zm8-4h4v2h-4zm0 8h4v2h-4z" fill="white" />
+                                </graphic>
+                            </Button>
+                            <Button onAction="#handleNextButton" style="-fx-background-color: #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand; -fx-font-size: 14;" text="Suivant">
+                                <graphic>
+                                    <SVGPath content="M4 11h12v2H4zm8-4h4v2h-4zm0 8h4v2h-4z" fill="white" />
+                                </graphic>
+                            </Button>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Part 2 Form (Droite) -->
+                    <!-- Partie 2 - Version corrigée avec le même style que la partie 1 -->
+                    <VBox fx:id="part2Form" alignment="TOP_CENTER" spacing="15"
+                          style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+                          visible="false" maxWidth="650">
+
+                        <Label style="-fx-font-size: 20; -fx-text-fill: #603813; -fx-font-weight: bold; -fx-padding: 0 0 10 0;">
+                            DÉTAILS SUPPLÉMENTAIRES
+                        </Label>
+
+                        <GridPane alignment="CENTER_LEFT" hgap="20" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" minWidth="150" />
+                                <ColumnConstraints halignment="LEFT" minWidth="300" />
+                            </columnConstraints>
+
+                            <!-- Dimension -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Dimensions :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <TextField fx:id="dimensionField" promptText="Ex: 30*50" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <Label fx:id="dimensionError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                            <!-- Créateur -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Créateur :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <TextField fx:id="createurField" promptText="Ex: Artisan local" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label fx:id="createurError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                            <!-- Technique -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Technique :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <TextField fx:id="techniquefield" promptText="Ex: Broderie, Tissage" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Label fx:id="techniqueError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                            <!-- Collection -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Collection :" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                            <ComboBox fx:id="collectionIdField" promptText="Sélectionner une collection" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                            <Label fx:id="collectionError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                            <!-- ID Utilisateur -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="ID Utilisateur :" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                            <TextField fx:id="iduserfield" promptText="Ex: 123" style="-fx-background-radius: 5; -fx-border-color: #b29f94; -fx-border-radius: 5; -fx-padding: 8; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                            <Label fx:id="userError" style="-fx-text-fill: #c62828; -fx-font-size: 12;" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+                            <!-- Image Upload -->
+                            <Label style="-fx-font-size: 14; -fx-text-fill: #333;" text="Image du textile :" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                            <VBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Button fx:id="uploadBtn" onAction="#uploadimage" style="-fx-background-color: #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand;" text="Parcourir..." />
+                                    <Label fx:id="imageNameLabel" style="-fx-font-style: italic; -fx-text-fill: #666;" />
+                                </HBox>
+                                <ImageView fx:id="textileimage" fitHeight="150" fitWidth="200" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);" />
+                            </VBox>
+                        </GridPane>
+
+                        <!-- Buttons -->
+                        <HBox alignment="CENTER" spacing="15" style="-fx-padding: 15 0 0 0;">
+                            <Button onAction="#handlePreviousButton" style="-fx-background-color: #b29f94; -fx-text-fill: #333; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand; -fx-font-size: 14;" text="Précédent" />
+                            <Button onAction="#ajouterTextile" style="-fx-background-color: #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand; -fx-font-size: 14;" text="CONFIRMER" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

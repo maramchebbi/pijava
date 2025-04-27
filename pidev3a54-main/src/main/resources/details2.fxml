@@ -8,7 +8,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.SVGPath?>
 
-<BorderPane style="-fx-background-color: #f8f5f2;" xmlns="http://javafx.com/javafx/17.0.14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.detail">
+<BorderPane style="-fx-background-color: #f8f5f2;" xmlns="http://javafx.com/javafx/17.0.14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.detail2">
 
     <!-- TOP HEADER -->
     <top>

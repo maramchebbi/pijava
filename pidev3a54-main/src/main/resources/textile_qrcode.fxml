@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane style="-fx-background-color: #f5f2f0;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TextileQRCodeController">
+    <!-- Style racine -->
+    <stylesheets>
+        <URL value="@css_files/style.css" />
+    </stylesheets>
+
+    <!-- TOP HEADER -->
+    <top>
+        <VBox>
+            <!-- Main Header -->
+            <HBox alignment="CENTER" style="-fx-background-color: #603813; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
+                <Label style="-fx-font-size: 28; -fx-text-fill: white; -fx-font-weight: bold;">
+                    <font>
+                        <Font name="Segoe UI" size="28.0" />
+                    </font>
+                    QR CODE DU TEXTILE
+                </Label>
+            </HBox>
+
+            <!-- Navigation Bar -->
+            <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+                <padding>
+                    <Insets left="30" right="30" />
+                </padding>
+
+                <!-- Bouton Retour -->
+                <Button fx:id="backButton" onAction="#handleBack" text="Retour"
+                        style="-fx-background-color: #b29f94; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 15;">
+                    <graphic>
+                        <SVGPath content="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" style="-fx-fill: white;"/>
+                    </graphic>
+                </Button>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- Titre textile -->
+                <Label fx:id="textileTitleLabel" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #603813;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- MAIN CONTENT CENTER -->
+    <center>
+        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 30;">
+            <!-- QR Code Card -->
+            <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                <!-- Description -->
+                <Label text="Scannez ce QR code avec votre téléphone pour accéder rapidement aux informations de ce textile"
+                       style="-fx-font-size: 16; -fx-text-fill: #555555; -fx-text-alignment: center;" wrapText="true"/>
+
+                <!-- QR Code Image -->
+                <ImageView fx:id="qrCodeImageView" fitWidth="300" fitHeight="300" preserveRatio="true"
+                           style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);"/>
+
+                <!-- URL Label -->
+                <Label fx:id="urlLabel" style="-fx-font-size: 14; -fx-text-fill: #603813; -fx-padding: 10;"/>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="20" alignment="CENTER">
+                    <Button fx:id="saveButton" text="Sauvegarder QR Code" onAction="#handleSaveQRCode"
+                            style="-fx-background-color: #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 20;">
+                        <graphic>
+                            <SVGPath content="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z" style="-fx-fill: white;"/>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="printButton" text="Imprimer QR Code" onAction="#handlePrintQRCode"
+                            style="-fx-background-color: #b29f94; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 20;">
+                        <graphic>
+                            <SVGPath content="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" style="-fx-fill: white;"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </VBox>
+
+            <!-- Instructions Card -->
+            <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                <Label text="Comment utiliser le QR Code"
+                       style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #603813;"/>
+
+                <VBox spacing="10">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                 style="-fx-fill: #603813;" scaleX="0.8" scaleY="0.8"/>
+                        <Label text="Imprimez et collez le QR code à côté du textile dans votre collection"
+                               style="-fx-font-size: 14; -fx-text-fill: #555555;" wrapText="true"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                 style="-fx-fill: #603813;" scaleX="0.8" scaleY="0.8"/>
+                        <Label text="Utilisez l'appareil photo de votre smartphone ou une application de scan de QR code"
+                               style="-fx-font-size: 14; -fx-text-fill: #555555;" wrapText="true"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                 style="-fx-fill: #603813;" scaleX="0.8" scaleY="0.8"/>
+                        <Label text="Accédez instantanément aux informations détaillées du textile sur votre téléphone"
+                               style="-fx-font-size: 14; -fx-text-fill: #555555;" wrapText="true"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+
+    <!-- BOTTOM FOOTER -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #603813; -fx-padding: 15;">
+            <Label style="-fx-font-size: 12; -fx-text-fill: white;">
+                <font>
+                    <Font name="Segoe UI" size="12.0" />
+                </font>
+                © 2023 Système de Gestion Textile - Tous droits réservés
+            </Label>
+        </HBox>
+    </bottom>
+</BorderPane>

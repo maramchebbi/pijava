@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.validation.ConstraintViolation;
@@ -103,16 +104,19 @@ public class AjouterCollectionT {
     @FXML
     public void ViewCollectionT(ActionEvent actionEvent) {
         try {
+            Screen screen = Screen.getPrimary();
+
+            double screenWidth = screen.getVisualBounds().getWidth(); // Screen width
+            double screenHeight = screen.getVisualBounds().getHeight();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/show1.fxml"));
             Parent root = loader.load();
 
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
         } catch (IOException e) {
-            System.out.println("Error loading the FXML file: " + e.getMessage());
+            e.printStackTrace();
         }
 }
 

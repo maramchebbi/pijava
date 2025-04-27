@@ -1,0 +1,219 @@
+/* Élimination complète du bleu système */
+.root {
+    -fx-accent: #b29f94;
+    -fx-focus-color: #b29f94;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Style des champs de formulaire */
+.text-field, .text-area, .combo-box {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #b29f94;
+    -fx-padding: 8;
+    -fx-background-color: white;
+}
+
+.text-field:focused, .text-area:focused, .combo-box:focused {
+    -fx-border-color: #b29f94;
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, #b29f94, 5, 0, 0, 2);
+}
+
+/* Style des labels d'erreur */
+.error-label {
+    -fx-text-fill: #c62828;
+    -fx-font-size: 12px;
+}
+
+/* Style pour le header */
+.header {
+    -fx-effect: dropshadow(three-pass-box,#b29f94, 10, 0, 0, 3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Stylesheet pour l'interface textiles */
+
+/* Imports de polices */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Styles globaux */
+{
+
+    -fx-font-family: 'Montserrat', sans-serif;
+}
+
+/* Effet de hover sur les cartes */
+.hover-overlay {
+    -fx-opacity: 0;
+    -fx-transition: -fx-opacity 0.3s;
+}
+
+StackPane:hover .hover-overlay {
+    -fx-opacity: 1;
+}
+
+/* Transitions et animations */
+Button {
+    -fx-transition: -fx-background-color 0.2s, -fx-scale-x 0.1s, -fx-scale-y 0.1s;
+}
+
+Button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Style des ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(134, 97, 70, 0.3);
+    -fx-background-radius: 6;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(134, 97, 70, 0.5);
+}
+
+/* Badges et étiquettes */
+.badge {
+    -fx-background-radius: 20;
+    -fx-padding: 5 10;
+    -fx-font-size: 12;
+}
+
+.badge-primary {
+    -fx-background-color: rgba(134, 97, 70, 0.8);
+    -fx-text-fill: white;
+}
+
+.badge-accent {
+    -fx-background-color: rgba(198, 40, 40, 0.8);
+    -fx-text-fill: white;
+}
+
+/* Boutons d'action */
+.action-button {
+    -fx-background-color: white;
+    -fx-padding: 10;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+
+.action-button:hover {
+    -fx-background-color: #f8f8f8;
+}
+
+/* Animation pour les cartes */
+.textile-card {
+    -fx-transition: -fx-effect 0.3s;
+}
+
+.textile-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 6);
+}
+
+/* Style pour ComboBox */
+.combo-box {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: #e6d5c5;
+    -fx-border-radius: 20;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #866146;
+}
+
+.combo-box .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+.combo-box .list-view .list-cell:hover {
+    -fx-background-color: #f5f0e8;
+}
+
+.combo-box .list-view .list-cell:filled:selected {
+    -fx-background-color: #e6d5c5;
+}
+
+/* Effet de transition pour la navigation */
+.navigation-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #866146;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: transparent;
+}
+
+.navigation-button:hover {
+    -fx-border-color: #866146;
+}
+
+.navigation-button.active {
+    -fx-border-color: #866146;
+    -fx-font-weight: bold;}
+
+
+
+/* Alert Dialog Styling */
+.custom-alert {
+    -fx-border-color: #e8e1d9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.custom-alert .content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-padding: 15px;
+}
+
+.custom-alert .button-bar {
+    -fx-padding: 10px;
+    -fx-background-color: #f9f6f3;
+    -fx-border-color: #e8e1d9;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.custom-alert .button {
+    -fx-min-width: 80px;
+    -fx-pref-width: 80px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}

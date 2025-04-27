@@ -10,10 +10,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.validation.ConstraintViolation;
@@ -37,7 +39,7 @@ public class edit {
     private TextField typeField;
 
     @FXML
-    private TextField descriptionField;
+    private TextArea descriptionField;
 
     @FXML
     private TextField matiereField;
@@ -79,35 +81,32 @@ public class edit {
 
     @FXML
     private void saveChanges(ActionEvent event) {
-        String nom = nomField.getText().trim();
-        String type = typeField.getText().trim();
-        String description = descriptionField.getText().trim();
-        String matiere = matiereField.getText().trim();
-        String couleur = couleurField.getText().trim();
-        String dimension = dimensionField.getText().trim();
-        String createur = createurField.getText().trim();
-        String technique = techniqueField.getText().trim();
-
-        if (nom.isEmpty() || type.isEmpty() || description.isEmpty() || matiere.isEmpty() ||
-                couleur.isEmpty() || dimension.isEmpty() || createur.isEmpty() || technique.isEmpty()) {
+        // Validation des champs obligatoires
+        if (nomField.getText().isEmpty() || typeField.getText().isEmpty() ||
+                descriptionField.getText().isEmpty() || matiereField.getText().isEmpty() ||
+                couleurField.getText().isEmpty() || dimensionField.getText().isEmpty() ||
+                createurField.getText().isEmpty() || techniqueField.getText().isEmpty()) {
             showAlert(AlertType.ERROR, "Champs manquants", "Veuillez remplir tous les champs obligatoires.");
             return;
         }
 
-        String imagePath = (selectedImageFile != null) ? selectedImageFile.getAbsolutePath() : currentTextile.getImage();
-        if (imagePath == null || imagePath.isEmpty()) {
-            showAlert(AlertType.ERROR, "Image manquante", "Veuillez choisir une image.");
-            return;
-        }
-
+        // Préparation de l'objet textile modifié
         textile updatedTextile = new textile(
                 currentTextile.getCollectionId(),
-                nom, type, description, matiere, couleur,
-                dimension, createur, imagePath, technique,
+                nomField.getText().trim(),
+                typeField.getText().trim(),
+                descriptionField.getText().trim(),
+                matiereField.getText().trim(),
+                couleurField.getText().trim(),
+                dimensionField.getText().trim(),
+                createurField.getText().trim(),
+                (selectedImageFile != null) ? selectedImageFile.getAbsolutePath() : currentTextile.getImage(),
+                techniqueField.getText().trim(),
                 currentTextile.getUserId()
         );
         updatedTextile.setId(currentTextile.getId());
 
+        // Validation avec Hibernate Validator
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<textile>> violations = validator.validate(updatedTextile);
@@ -121,40 +120,56 @@ public class edit {
             return;
         }
 
-        try {
-            textileService.update(updatedTextile);
-            refreshUI(updatedTextile);
 
-            showAlert(AlertType.INFORMATION, "Succès", "Le textile a été modifié avec succès.");
+                try {
+                    textileService.update(updatedTextile);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Succès");
+                    alert.setHeaderText("Textile modifié avec succès !");
+                    alert.show();
+                    Screen screen = Screen.getPrimary();
+
+                    double screenWidth = screen.getVisualBounds().getWidth(); // Screen width
+                    double screenHeight = screen.getVisualBounds().getHeight();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
+                    Parent root = loader.load();
+
+                    Scene scene = new Scene(root,screenWidth,screenHeight);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException | SQLException e) {
+                    e.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur lors de la Modification");
+                    alert.show();
+                }
 
 
 
-        } catch (SQLException e) {
-            showAlert(AlertType.ERROR, "Erreur", "Impossible de modifier le textile.");
-            e.printStackTrace();
-        }
+
     }
 
 
 
-
-    private void refreshUI(textile updatedTextile) {
-        Image newImage = new Image("file:" + updatedTextile.getImage());
-        imageView.setImage(newImage);
-
-        nomField.setText(updatedTextile.getNom());
-        typeField.setText(updatedTextile.getType());
-        descriptionField.setText(updatedTextile.getDescription());
-        matiereField.setText(updatedTextile.getMatiere());
-        couleurField.setText(updatedTextile.getCouleur());
-        dimensionField.setText(updatedTextile.getDimension());
-        createurField.setText(updatedTextile.getCreateur());
-        techniqueField.setText(updatedTextile.getTechnique());
-    }
     @FXML
     private void cancelChanges(ActionEvent event) {
-        Stage stage = (Stage) nomField.getScene().getWindow();
-        stage.close();
+        try {
+            Screen screen = Screen.getPrimary();
+
+            double screenWidth = screen.getVisualBounds().getWidth(); // Screen width
+            double screenHeight = screen.getVisualBounds().getHeight();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root,screenWidth,screenHeight);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
@@ -8,20 +9,24 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.SVGPath?>
 
-<BorderPane style="-fx-background-color: #f8f5f2;" xmlns="http://javafx.com/javafx/17.0.14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.detail">
+<BorderPane style="-fx-background-color: #f8f5f2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.edit2">
+    <!-- Style racine -->
+    <stylesheets>
+        <URL value="@css_files/style.css" />
+    </stylesheets>
 
     <!-- TOP HEADER -->
     <top>
         <VBox>
             <HBox alignment="CENTER" style="-fx-background-color: #603813; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
                 <Label style="-fx-font-size: 24; -fx-text-fill: white; -fx-font-weight: bold;">
-                    DÉTAILS DU TEXTILE
+                    MODIFIER UN TEXTILE
                 </Label>
             </HBox>
 
             <!-- Navigation bar -->
             <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 10 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);">
-
+                <!-- Navigation content if needed -->
             </HBox>
         </VBox>
     </top>
@@ -33,7 +38,7 @@
                 <!-- Main content card -->
                 <HBox spacing="30" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-padding: 25;">
 
-                    <!-- Left Column - Image and Rating -->
+                    <!-- Left Column - Image -->
                     <VBox spacing="20" alignment="TOP_CENTER" prefWidth="320" style="-fx-padding: 10 0;">
                         <!-- Image with frame -->
                         <StackPane>
@@ -42,25 +47,22 @@
                             </VBox>
                         </StackPane>
 
-                        <!-- Rating Display -->
-                        <VBox spacing="10" alignment="CENTER">
-                            <Label text="Évaluation" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #603813;"/>
-                            <HBox fx:id="ratingContainer" alignment="CENTER" spacing="5" style="-fx-padding: 5 0;"/>
-
-                            <!-- Rate Button -->
-                            <Button onAction="#handleRate" text="Noter ce textile"
-                                    style="-fx-background-color: #FFC107; -fx-text-fill: #603813; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-font-size: 14;">
-                                <graphic>
-                                    <SVGPath content="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24z" style="-fx-fill: #603813;"/>
-                                </graphic>
-                            </Button>
-                        </VBox>
+                        <!-- Image Upload Button -->
+                        <Button fx:id="chooseImage" onAction="#chooseImage"
+                                style="-fx-background-color: #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-font-size: 14;"
+                                text="Changer l'image">
+                            <graphic>
+                                <SVGPath content="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" style="-fx-fill: white;"/>
+                            </graphic>
+                        </Button>
                     </VBox>
 
-                    <!-- Right Column - Details -->
+                    <!-- Right Column - Edit Form -->
                     <VBox spacing="20" HBox.hgrow="ALWAYS" style="-fx-padding: 10 0;">
-                        <!-- Textile Name (Larger) -->
-                        <Label fx:id="nameLabel" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #603813;"/>
+                        <!-- Textile Name -->
+                        <Label text="NOM DU TEXTILE" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #603813;"/>
+                        <TextField fx:id="nomField" promptText="Ex: Robe traditionnelle"
+                                   style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"/>
 
                         <!-- Section: Info générales -->
                         <VBox spacing="15" style="-fx-background-color: #f9f6f3; -fx-background-radius: 8; -fx-padding: 15; -fx-border-color: #e8e1d9; -fx-border-radius: 8;">
@@ -73,23 +75,23 @@
                                 </columnConstraints>
 
                                 <Label text="Type:" style="-fx-font-weight: bold; -fx-text-fill: #666;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                                <TextField fx:id="typeField" editable="false"
-                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                <TextField fx:id="typeField" promptText="Ex: Vêtement, Accessoire"
+                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"
                                            GridPane.rowIndex="0" GridPane.columnIndex="1" />
 
                                 <Label text="Matière:" style="-fx-font-weight: bold; -fx-text-fill: #666;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                                <TextField fx:id="matiereField" editable="false"
-                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                <TextField fx:id="matiereField" promptText="Ex: Coton, Soie"
+                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"
                                            GridPane.rowIndex="1" GridPane.columnIndex="1" />
 
                                 <Label text="Couleur:" style="-fx-font-weight: bold; -fx-text-fill: #666;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                                <TextField fx:id="couleurField" editable="false"
-                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                <TextField fx:id="couleurField" promptText="Ex: Bleu, Rouge"
+                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"
                                            GridPane.rowIndex="2" GridPane.columnIndex="1" />
 
                                 <Label text="Dimension:" style="-fx-font-weight: bold; -fx-text-fill: #666;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                                <TextField fx:id="dimensionField" editable="false"
-                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                <TextField fx:id="dimensionField" promptText="Ex: 150x200 cm"
+                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"
                                            GridPane.rowIndex="3" GridPane.columnIndex="1" />
                             </GridPane>
                         </VBox>
@@ -105,13 +107,13 @@
                                 </columnConstraints>
 
                                 <Label text="Créateur:" style="-fx-font-weight: bold; -fx-text-fill: #666;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                                <TextField fx:id="createurField" editable="false"
-                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                <TextField fx:id="createurField" promptText="Ex: Artisan local"
+                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"
                                            GridPane.rowIndex="0" GridPane.columnIndex="1" />
 
                                 <Label text="Technique:" style="-fx-font-weight: bold; -fx-text-fill: #666;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                                <TextField fx:id="techniqueField" editable="false"
-                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"
+                                <TextField fx:id="techniqueField" promptText="Ex: Broderie, Tissage"
+                                           style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"
                                            GridPane.rowIndex="1" GridPane.columnIndex="1" />
                             </GridPane>
                         </VBox>
@@ -119,33 +121,22 @@
                         <!-- Section: Description -->
                         <VBox spacing="10" style="-fx-background-color: #f9f6f3; -fx-background-radius: 8; -fx-padding: 15; -fx-border-color: #e8e1d9; -fx-border-radius: 8;">
                             <Label text="DESCRIPTION" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #603813;"/>
-
-                            <TextArea fx:id="descriptionField" wrapText="true" editable="false" prefRowCount="4"
-                                      style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;"/>
+                            <TextArea fx:id="descriptionField" promptText="Décrivez le textile en détail..." wrapText="true"
+                                      style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4; -fx-padding: 8;"/>
                         </VBox>
 
                         <!-- Action Buttons -->
                         <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10 0;">
-
-                            <Button onAction="#handleBack" text="Retour"
+                            <Button onAction="#cancelChanges" text="Annuler"
                                     style="-fx-background-color: #b29f94; -fx-text-fill: #333; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-font-size: 14;">
                                 <graphic>
                                     <SVGPath content="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" style="-fx-fill: #333;"/>
                                 </graphic>
                             </Button>
-                            <Button onAction="#modifiertextile" text="Modifier"
-                                    style="-fx-background-color:  #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-font-size: 14;">
+                            <Button onAction="#saveChanges" text="Enregistrer"
+                                    style="-fx-background-color: #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-font-size: 14;">
                                 <graphic>
-                                    <SVGPath content="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                                             style="-fx-fill: white;"/>
-                                </graphic>
-                            </Button>
-
-                            <Button onAction="#supprimerTextile" text="Supprimer"
-                                    style="-fx-background-color:  #603813; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-font-size: 14;">
-                                <graphic>
-                                    <SVGPath content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                                             style="-fx-fill: white;"/>
+                                    <SVGPath content="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" style="-fx-fill: white;"/>
                                 </graphic>
                             </Button>
                         </HBox>

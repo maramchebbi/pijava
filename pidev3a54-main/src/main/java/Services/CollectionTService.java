@@ -62,4 +62,28 @@ public class CollectionTService implements IService<collection_t> {
 
         return collections;
     }
+
+    public List<collection_t> searchCollections(String query) throws SQLException {
+        String sql = "SELECT * FROM collection_t WHERE nom LIKE ? OR description LIKE ?";
+        List<collection_t> collections = new ArrayList<>();
+
+        try (
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    collection_t c = new collection_t();
+                    c.setId(rs.getInt("id"));
+                    c.setNom(rs.getString("nom"));
+                    c.setDescription(rs.getString("description"));
+                    c.setUserId(rs.getInt("user_id"));
+                    collections.add(c);
+                }
+            }
+        }
+        return collections;
+    }
 }

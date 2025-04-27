@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.validation.ConstraintViolation;
@@ -69,22 +70,49 @@ public class edit1 {
             return;
         }
 
+
         try {
             if (collectionTService != null) {
                 collectionTService.update(currentCollection);
                 showAlert(Alert.AlertType.INFORMATION, "Succès", "Collection mise à jour avec succès !");
+                Screen screen = Screen.getPrimary();
 
+                double screenWidth = screen.getVisualBounds().getWidth(); // Screen width
+                double screenHeight = screen.getVisualBounds().getHeight();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/show1.fxml"));
+                Parent root = loader.load();
+
+                Scene scene = new Scene(root,screenWidth,screenHeight);
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
             }
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la mise à jour.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de la Modification");
+            alert.show();
         }
     }
 
     @FXML
     public void cancelChanges(ActionEvent actionEvent) {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.close();
+        try {
+            Screen screen = Screen.getPrimary();
+
+            double screenWidth = screen.getVisualBounds().getWidth(); // Screen width
+            double screenHeight = screen.getVisualBounds().getHeight();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/show1.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root,screenWidth,screenHeight);
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
