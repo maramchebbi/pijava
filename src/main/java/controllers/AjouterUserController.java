@@ -136,7 +136,9 @@ public class AjouterUserController {
         UserService userService = new UserService();
         try {
             userService.add(user);
-
+            if (userAddedCallback != null) {
+                userAddedCallback.onUserAdded(user);
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailUser.fxml"));
             Parent root = loader.load();
             DetailUserController detailUserController = loader.getController();
@@ -215,4 +217,15 @@ public class AjouterUserController {
         EmailErrorLabel.setText("");
         PasswordErrorLabel.setText("");
     }
+    public interface UserAddedCallback {
+        void onUserAdded(User user);
+    }
+
+    private UserAddedCallback userAddedCallback;
+
+    public void setOnUserAddedCallback(UserAddedCallback callback) {
+        this.userAddedCallback = callback;
+    }
+
+
 }

@@ -61,5 +61,36 @@ public class ModifierReclamationController {
             e.printStackTrace();
         }
     }
+    /**
+     * Gère l'action du bouton retour.
+     * Ferme la fenêtre actuelle pour revenir à l'écran précédent.
+     */
+    @FXML
+    private void handleBack() {
+        // Fermer la fenêtre de modification
+        ((Stage) statusLabel.getScene().getWindow()).close();
+    }
+
+    /**
+     * Gère l'action du bouton annuler.
+     * Demande confirmation avant de fermer la fenêtre.
+     */
+    @FXML
+    private void handleCancel() {
+        // Afficher une boîte de dialogue de confirmation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Annuler les modifications");
+        alert.setContentText("Êtes-vous sûr de vouloir annuler vos modifications ?");
+
+        // Si l'utilisateur clique sur OK, fermer la fenêtre
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                ((Stage) statusLabel.getScene().getWindow()).close();
+            }
+        });
+    }
+
 
 }
+

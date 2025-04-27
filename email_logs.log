@@ -1,0 +1,284 @@
+Apr 24, 2025 2:07:45 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 2:07:47 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 2:09:13 AM utils.EmailSender sendVerificationEmail
+INFO: Préparation de l'envoi d'un email de vérification à mariem2015sassi@gmail.com
+Apr 24, 2025 2:09:17 AM utils.EmailSender sendVerificationEmail
+INFO: Email de vérification envoyé avec succès à mariem2015sassi@gmail.com
+Apr 24, 2025 2:12:50 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 24, 2025 2:12:51 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 24, 2025 2:13:59 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à farah.mannoubi@esprit.tn
+Apr 24, 2025 2:14:00 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à farah.mannoubi@esprit.tn
+Apr 24, 2025 2:18:17 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à bien@jouer.com
+Apr 24, 2025 2:18:27 AM utils.EmailSender sendLoginNotification
+SEVERE: Erreur lors de l'envoi de l'email de notification: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 10000
+Apr 24, 2025 2:18:29 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à bien@jouer.com
+Apr 24, 2025 2:18:39 AM utils.EmailSender sendLoginNotification
+SEVERE: Erreur lors de l'envoi de l'email de notification: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 10000
+Apr 24, 2025 2:18:45 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 2:18:55 AM utils.EmailSender sendLoginNotification
+SEVERE: Erreur lors de l'envoi de l'email de notification: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 10000
+Apr 24, 2025 2:18:55 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 2:19:05 AM utils.EmailSender sendLoginNotification
+SEVERE: Erreur lors de l'envoi de l'email de notification: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 10000
+Apr 24, 2025 2:19:10 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 2:19:11 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:22:08 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 24, 2025 11:22:10 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 24, 2025 11:22:20 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 11:22:21 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 11:22:42 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:22:44 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:23:01 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:23:03 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:23:17 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:23:18 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:23:46 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à maram@gmail.com
+Apr 24, 2025 11:23:47 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à maram@gmail.com
+Apr 24, 2025 11:23:56 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 11:23:57 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 11:34:16 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:34:17 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:34:28 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:34:29 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:38:37 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 11:38:38 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 11:39:00 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 11:39:02 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 11:39:38 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 24, 2025 11:39:39 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 24, 2025 11:39:42 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:39:43 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:39:58 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à mariem@gmail.com
+Apr 24, 2025 11:39:59 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à mariem@gmail.com
+Apr 24, 2025 11:41:20 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:41:22 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:50:50 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:50:52 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:51:00 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:51:01 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:52:58 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:52:59 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 11:53:59 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:54:00 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 12:15:04 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 12:15:05 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 4:58:15 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 4:58:16 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 4:59:00 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 24, 2025 4:59:01 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 24, 2025 4:59:10 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 4:59:12 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 4:59:41 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 4:59:43 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 5:00:10 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à skon@gmail.com
+Apr 24, 2025 5:00:11 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à skon@gmail.com
+Apr 24, 2025 5:01:23 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 5:01:25 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 24, 2025 5:02:18 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à rayen20000ca@gmail.com
+Apr 24, 2025 5:02:20 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à rayen20000ca@gmail.com
+Apr 24, 2025 5:56:53 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 5:56:54 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 6:09:42 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 6:09:43 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 6:11:06 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 6:11:07 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 6:29:53 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 6:29:54 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 10:42:17 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 10:42:20 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 10:42:30 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 10:42:31 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 10:51:44 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 24, 2025 10:51:46 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 24, 2025 11:04:49 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:04:51 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 24, 2025 11:07:52 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 11:07:54 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 11:11:00 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 24, 2025 11:11:03 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 24, 2025 11:12:45 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 24, 2025 11:12:46 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 24, 2025 11:13:41 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 24, 2025 11:13:43 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 25, 2025 1:00:23 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 25, 2025 1:00:26 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 25, 2025 1:02:56 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 25, 2025 1:02:59 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 25, 2025 1:13:36 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 25, 2025 1:13:38 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 25, 2025 1:14:27 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin@gmail.com
+Apr 25, 2025 1:14:30 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin@gmail.com
+Apr 25, 2025 1:15:39 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 25, 2025 1:15:41 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 25, 2025 1:17:00 AM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 25, 2025 1:17:01 AM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 25, 2025 12:39:26 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 25, 2025 12:39:28 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 25, 2025 2:27:31 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sarra.haddej2004@gmail.com
+Apr 25, 2025 2:27:34 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sarra.haddej2004@gmail.com
+Apr 25, 2025 11:02:50 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 25, 2025 11:02:54 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 25, 2025 11:47:29 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 25, 2025 11:47:31 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 26, 2025 12:44:06 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à amin2003sassi@gmail.com
+Apr 26, 2025 12:44:08 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à amin2003sassi@gmail.com
+Apr 26, 2025 1:07:07 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à tik20000tok@gmail.com
+Apr 26, 2025 1:07:09 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à tik20000tok@gmail.com
+Apr 26, 2025 1:22:34 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 26, 2025 1:22:35 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 26, 2025 1:23:01 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 26, 2025 1:23:03 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 26, 2025 1:23:09 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à 1234@gmail.com
+Apr 26, 2025 1:23:11 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à 1234@gmail.com
+Apr 26, 2025 1:23:24 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à 1234@gmail.com
+Apr 26, 2025 1:23:26 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à 1234@gmail.com
+Apr 26, 2025 1:23:57 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 26, 2025 1:23:58 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 26, 2025 3:05:54 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à sassi@gmail.com
+Apr 26, 2025 3:05:57 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à sassi@gmail.com
+Apr 26, 2025 3:06:21 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à mariem@gmail.com
+Apr 26, 2025 3:06:22 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à mariem@gmail.com
+Apr 26, 2025 3:06:37 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à mariem@gmail.com
+Apr 26, 2025 3:06:39 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à mariem@gmail.com
+Apr 26, 2025 7:34:46 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à hazard@gmail.com
+Apr 26, 2025 7:34:58 PM utils.EmailSender sendLoginNotification
+SEVERE: Erreur lors de l'envoi de l'email de notification: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 10000
+Apr 26, 2025 7:47:49 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à nunez@hhh.com
+Apr 26, 2025 7:47:51 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à nunez@hhh.com
+Apr 26, 2025 7:50:57 PM utils.EmailSender sendLoginNotification
+INFO: Préparation de l'envoi d'une notification de connexion à done@gmail.com
+Apr 26, 2025 7:50:59 PM utils.EmailSender sendLoginNotification
+INFO: Email de notification de connexion envoyé avec succès à done@gmail.com

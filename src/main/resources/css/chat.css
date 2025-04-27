@@ -25,3 +25,168 @@
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
 }
+/* Dans votre fichier CSS principal */
+.draggable-button {
+    -fx-cursor: move;
+}
+
+.draggable-button:pressed {
+    -fx-effect: dropshadow(gaussian, #000000, 10, 0.5, 0, 0);
+}
+/* Dans votre fichier CSS */
+#chatButton {
+    -fx-cursor: hand;
+}
+/* Style personnalisé pour les messages */
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+}
+
+/* Message entrant */
+.message-in {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15 15 15 0;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+/* Message sortant */
+.message-out {
+    -fx-background-color: #6a11cb;
+    -fx-background-radius: 15 15 0 15;
+    -fx-padding: 10px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+/* Effet de survol pour les boutons */
+.button:hover {
+    -fx-opacity: 0.8;
+}
+.context-menu {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}
+
+.menu-item {
+    -fx-padding: 5 15 5 15;
+    -fx-cursor: hand;
+}
+
+.menu-item:hover {
+    -fx-background-color: #f0f0f0;
+}
+.message-option-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #555;
+    -fx-font-size: 10px;
+    -fx-cursor: hand;
+    -fx-padding: 2 5;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.message-option-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #333;
+}
+
+.edit-mode {
+    -fx-background-color: #f0ad4e !important;
+}
+
+
+
+
+
+
+/* Rendre les boutons d'options visibles au survol */
+.message-container:hover .message-option-button {
+    -fx-opacity: 1;
+}
+/* Add this to your chat.css file */
+
+/* Styling for drag and drop */
+.drag-over {
+    -fx-border-color: #0084ff;
+    -fx-border-width: 2;
+    -fx-border-style: dashed;
+    -fx-border-radius: 10;
+    -fx-background-color: rgba(0, 132, 255, 0.1);
+}
+
+/* Message bubbles */
+.message-bubble {
+    -fx-background-radius: 15;
+    -fx-padding: 8;
+    -fx-max-width: 300;
+}
+
+.message-bubble-sent {
+    -fx-background-color: #0084ff;
+    -fx-text-fill: white;
+}
+
+.message-bubble-received {
+    -fx-background-color: #34c759;
+    -fx-text-fill: white;
+}
+
+.message-bubble-admin {
+    -fx-background-color: #ff3b30;
+    -fx-text-fill: white;
+}
+
+/* Attachment preview */
+.attachment-preview-box {
+    -fx-background-color: #e6f3ff;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-spacing: 5;
+    -fx-alignment: center-left;
+}
+
+/* Message options */
+.message-option-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0084ff;
+    -fx-cursor: hand;
+    -fx-padding: 2 5;
+    -fx-font-size: 11px;
+}
+
+.message-option-button:hover {
+    -fx-underline: true;
+}
+
+/* File attachment links */
+.file-link {
+    -fx-text-fill: #0084ff;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+/* Drop overlay animation */
+.drop-overlay {
+    -fx-background-color: rgba(0, 132, 255, 0.3);
+    -fx-border-color: #0084ff;
+    -fx-border-width: 2;
+    -fx-border-style: dashed;
+    -fx-border-radius: 10;
+}
+
+/* Send button animation */
+.send-button-animation {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,132,255,0.4), 10, 0, 0, 0);
+}
+
+/* Timestamp display */
+.message-timestamp {
+    -fx-font-size: 10px;
+    -fx-text-fill: #999999;
+    -fx-padding: 0 0 0 5;
+}

@@ -3,6 +3,9 @@ package utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import static com.itextpdf.text.Annotation.URL;
 
 public class MyDataBase {
  private final   String url="jdbc:mysql://localhost:3306/projetpi";
@@ -17,6 +20,11 @@ private MyDataBase(){
         System.out.println("connecter a la base de données");
     } catch (SQLException e) {
         System.err.println(e.getMessage());    }
+    Properties properties = new Properties();
+    properties.setProperty("useUnicode", "true");
+    properties.setProperty("characterEncoding", "utf8mb4");
+    properties.setProperty("connectionCollation", "utf8mb4_unicode_ci");
+
 }
 public static MyDataBase getInstance(){
     if (instance==null){

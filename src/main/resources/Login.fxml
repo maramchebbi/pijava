@@ -17,10 +17,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="782.0" prefWidth="1138.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
 
     <!-- Background Image with Overlay -->
-    <ImageView fitHeight="782.0" fitWidth="1138.0" preserveRatio="false">
+    <ImageView fitHeight="800.0" fitWidth="1550.0" preserveRatio="false">
         <image>
             <Image url="@/image/dd.PNG" />
         </image>
@@ -30,66 +30,86 @@
     </ImageView>
 
     <!-- Semi-transparent overlay -->
-    <Pane prefHeight="782.0" prefWidth="1138.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
+    <Pane prefHeight="800.0" prefWidth="1550.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
         <children>
             <!-- Login Container -->
-            <StackPane layoutX="396.0" layoutY="136.0" prefHeight="486.0" prefWidth="346.0">
-                <Pane prefHeight="412.0" prefWidth="315.0" style="-fx-background-color: rgba(255, 255, 255, 0.9);                             -fx-background-radius: 15;                             -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 0);" />
+            <StackPane layoutX="550.0" layoutY="93.0" prefHeight="582.0" prefWidth="450.0">
+                <Pane prefHeight="582.0" prefWidth="450.0" style="-fx-background-color: rgba(255, 255, 255, 0.9);                              -fx-background-radius: 15;                              -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 20, 0, 0, 0);" />
 
-                <VBox alignment="CENTER" prefHeight="425.0" prefWidth="300.0" spacing="20" style="-fx-padding: 0 25 0 25;">
+                <VBox alignment="CENTER" prefHeight="582.0" prefWidth="380.0" spacing="15" style="-fx-padding: 20 35 20 35;">
 
                     <!-- Logo/Title -->
                     <Text style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #2193b0;" text="Artisfera" />
 
                     <!-- Email Field -->
-                    <TextField fx:id="emailField" prefHeight="42.0" prefWidth="247.0" promptText="Email" style="-fx-font-size: 14px; -fx-padding: 10px;                                     -fx-background-color: #ffffff;                                     -fx-border-color: #6dd5ed;                                     -fx-border-radius: 5px;                                     -fx-focus-color: #2193b0;">
+                    <TextField fx:id="emailField" prefHeight="42.0" prefWidth="320.0" promptText="Email" style="-fx-font-size: 14px; -fx-padding: 10px;                                      -fx-background-color: #ffffff;                                      -fx-border-color: #6dd5ed;                                      -fx-border-radius: 5px;                                      -fx-focus-color: #2193b0;">
                         <effect>
                             <DropShadow color="rgba(33,147,176,0.3)" offsetX="2" offsetY="2" radius="5" />
                         </effect>
                     </TextField>
 
                     <!-- Password Container -->
-                    <VBox spacing="5">
-                        <HBox alignment="CENTER_LEFT" spacing="5">
-                            <!-- PasswordField (masqué par défaut) -->
-                            <PasswordField fx:id="passwordField" promptText="Mot de passe" style="-fx-font-size: 14px; -fx-padding: 10px;                                                -fx-background-color: #ffffff;                                                -fx-border-color: #6dd5ed;                                                -fx-border-radius: 5px;                                                -fx-focus-color: #2193b0;">
+                    <VBox prefWidth="350" spacing="5">
+                        <!-- Un seul StackPane contenant les deux champs superposés -->
+                        <StackPane prefHeight="42" prefWidth="350">
+                            <!-- Champ masqué -->
+                            <PasswordField fx:id="passwordField" prefWidth="350" promptText="Mot de passe" style="-fx-font-size: 14px;                                            -fx-background-color: white;                                            -fx-border-color: #6dd5ed;                                            -fx-border-radius: 5px;                                            -fx-padding: 10px 35px 10px 10px;                                            -fx-focus-color: #2193b0;">
                                 <effect>
                                     <DropShadow color="rgba(33,147,176,0.3)" offsetX="2" offsetY="2" radius="5" />
                                 </effect>
                             </PasswordField>
 
-                            <!-- TextField (visible quand on clique) -->
-                            <TextField fx:id="visiblePasswordField" promptText="Mot de passe" style="-fx-font-size: 14px; -fx-padding: 10px;                                             -fx-background-color: #ffffff;                                             -fx-border-color: #6dd5ed;                                             -fx-border-radius: 5px;                                             -fx-focus-color: #2193b0;" visible="false">
+                            <!-- Champ visible superposé au même endroit -->
+                            <TextField fx:id="visiblePasswordField" prefWidth="350" promptText="Mot de passe" style="-fx-font-size: 14px;                                        -fx-background-color: white;                                        -fx-border-color: #6dd5ed;                                        -fx-border-radius: 5px;                                        -fx-padding: 10px 35px 10px 10px;                                        -fx-focus-color: #2193b0;" visible="false">
                                 <effect>
                                     <DropShadow color="rgba(33,147,176,0.3)" offsetX="2" offsetY="2" radius="5" />
                                 </effect>
                             </TextField>
 
-                            <!-- Toggle Button -->
-                            <Button fx:id="toggleVisibilityBtn" onAction="#togglePasswordVisibility" style="-fx-background-color: transparent;                                           -fx-font-size: 24px;                                           -fx-cursor: hand;                                           -fx-padding: 5px;                                           -fx-min-width: 30px;                                           -fx-min-height: 30px;" text="👁" />
-                        </HBox>
+                            <!-- Bouton visible par-dessus les deux champs -->
+                            <Button fx:id="toggleVisibilityBtn" onAction="#togglePasswordVisibility" style="-fx-background-color: transparent;                                     -fx-font-size: 18px;                                     -fx-cursor: hand;                                     -fx-padding: 0;                                     -fx-min-width: 30px;                                     -fx-min-height: 30px;                                     -fx-translate-x: 160;" text="👁" />
+                        </StackPane>
 
-                        <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPasswordLink" style="-fx-text-fill: #2193b0;                                          -fx-font-size: 12px;                                          -fx-alignment: CENTER_RIGHT;" text="Mot de passe oublié ?" />
+                        <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPasswordLink" style="-fx-text-fill: #2193b0;                                    -fx-font-size: 12px;                                    -fx-alignment: CENTER_RIGHT;" text="Mot de passe oublié ?" />
                     </VBox>
 
+                    <!-- reCAPTCHA Container
+                    <VBox alignment="CENTER" spacing="5">
+                        <WebView fx:id="recaptchaWebView" prefHeight="78.0" prefWidth="304.0"
+                                 style="-fx-background-color: transparent;"/>
+                        <Label fx:id="recaptchaStatusLabel" style="-fx-text-fill: #666666; -fx-font-size: 12px;" />
+                    </VBox>-->
+
                     <!-- Login Button -->
-                    <Button onAction="#handleLogin" style="-fx-font-size: 16px;                                   -fx-font-weight: bold;                                   -fx-background-color: linear-gradient(to right, #2193b0, #6dd5ed);                                   -fx-text-fill: white;                                   -fx-padding: 12px;                                   -fx-background-radius: 5px;                                   -fx-cursor: hand;" text="Se connecter">
+                    <Button onAction="#handleLogin" style="-fx-font-size: 16px;                                  -fx-font-weight: bold;                                  -fx-background-color: linear-gradient(to right, #2193b0, #6dd5ed);                                  -fx-text-fill: white;                                  -fx-padding: 12px;                                  -fx-background-radius: 5px;                                  -fx-cursor: hand;                                  -fx-min-width: 320px;" text="Se connecter">
                         <effect>
                             <DropShadow color="rgba(33,147,176,0.5)" offsetX="0" offsetY="4" radius="10" />
                         </effect>
                     </Button>
 
                     <!-- Separator -->
-                    <Separator prefWidth="200" style="-fx-padding: 5px 0;" />
+                    <Separator prefWidth="320" style="-fx-padding: 5px 0;" />
+
+                    <!-- Google Login Button -->
+                    <Button fx:id="googleLoginBtn" style="-fx-font-size: 14px;                            -fx-font-weight: 500;                            -fx-background-color: white;                            -fx-text-fill: #3C4043;                            -fx-padding: 10px 10px 10px 45px;                            -fx-background-radius: 4px;                            -fx-border-color: #DADCE0;                            -fx-border-radius: 4px;                            -fx-min-width: 320px;                            -fx-alignment: CENTER_LEFT;                            -fx-background-image: url('/image/download.png');                            -fx-background-repeat: no-repeat;                            -fx-background-position: 15 center;                            -fx-background-size: 20px 20px;                            -fx-cursor: hand;" text="Se connecter avec Google">
+                        <effect>
+                            <DropShadow color="rgba(0,0,0,0.1)" offsetY="1" radius="1" />
+                        </effect>
+                    </Button>
+                    <Button fx:id="facebookLoginBtn" style="-fx-font-size: 14px;        -fx-font-weight: 500;        -fx-background-color: #1877F2;        -fx-text-fill: white;        -fx-padding: 10px 10px 10px 45px;        -fx-background-radius: 4px;        -fx-border-radius: 4px;        -fx-min-width: 320px;        -fx-alignment: CENTER_LEFT;        -fx-background-image: url('/image/Facebook_Logo.png');        -fx-background-repeat: no-repeat;        -fx-background-position: 15 center;        -fx-background-size: 20px 20px;        -fx-cursor: hand;" text="Se connecter avec Facebook">
+                        <effect>
+                            <DropShadow color="rgba(0,0,0,0.2)" offsetY="1" radius="1" />
+                        </effect>
+                    </Button>
 
                     <!-- Register Link -->
                     <HBox alignment="CENTER" spacing="5">
                         <Label style="-fx-text-fill: #666666; -fx-font-size: 12px;" text="Pas de compte ?" />
-                        <Hyperlink fx:id="registerLink" onAction="#handleRegisterLinkAction" style="-fx-text-fill: #2193b0;                                          -fx-font-size: 12px;                                          -fx-font-weight: bold;" text="S'inscrire" />
+                        <Hyperlink fx:id="registerLink" onAction="#handleRegisterLinkAction" style="-fx-text-fill: #2193b0;                                         -fx-font-size: 12px;                                         -fx-font-weight: bold;" text="S'inscrire" />
                     </HBox>
 
                     <!-- Error Message -->
-                    <Label fx:id="errorLabel" style="-fx-text-fill: #e74c3c;                                  -fx-font-size: 12px;                                  -fx-font-weight: bold;                                  -fx-wrap-text: true;" text="" />
+                    <Label fx:id="errorLabel" style="-fx-text-fill: #e74c3c;                                                   -fx-font-size: 12px;                                                   -fx-font-weight: bold;                                                   -fx-wrap-text: true;" text="" />
                 </VBox>
             </StackPane>
         </children>

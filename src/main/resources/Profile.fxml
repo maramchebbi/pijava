@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -42,60 +41,53 @@
     <!-- Carte de profil -->
     <VBox layoutY="70" spacing="20" style="-fx-padding: 25;" AnchorPane.leftAnchor="25" AnchorPane.rightAnchor="25">
         <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 4); -fx-padding: 30;">
-            <!-- Photo de profil + infos basiques -->
-            <HBox alignment="TOP_LEFT" spacing="30">
-                <!-- Photo de profil -->
-                <VBox alignment="CENTER" spacing="10">
-                    <ImageView fitHeight="120" fitWidth="151.0" style="-fx-background-radius: 60;">
-                        <image>
-                            <Image url="@image/logo.png" />
-                        </image>
-                        <clip>
-                            <Circle centerX="60" centerY="60" radius="60" />
-                        </clip>
-                    </ImageView>
-                </VBox>
-
-                <!-- Infos utilisateur -->
-                <VBox prefWidth="400" spacing="15">
-                    <Label style="-fx-text-fill: #64748b; -fx-font-size: 12; -fx-font-weight: bold;" text="INFORMATIONS PERSONNELLES" />
-
-                    <GridPane hgap="15" vgap="15">
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="50" />
-                            <ColumnConstraints percentWidth="50" />
-                        </columnConstraints>
-
-                        <!-- Nom -->
-                        <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Nom" />
-                            <TextField fx:id="NomDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
-                        </VBox>
-
-                        <!-- Prénom -->
-                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Prénom" />
-                            <TextField fx:id="PrenomDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
-                        </VBox>
-
-                        <!-- Genre -->
-                        <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Genre" />
-                            <TextField fx:id="GenreDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
-                        </VBox>
-
-                        <!-- Rôle -->
-                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Rôle" />
-                            <TextField fx:id="RoleDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
-                        </VBox>
-                  <rowConstraints>
-                     <RowConstraints />
-                     <RowConstraints />
-                  </rowConstraints>
-                    </GridPane>
-                </VBox>
+            <!-- Dernière connexion -->
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Label fx:id="derniereConnexionLabel" style="-fx-text-fill: #64748b; -fx-font-size: 12;" text="Dernière connexion: --/--/---- à --:--" />
             </HBox>
+
+            <!-- Infos utilisateur -->
+            <VBox prefWidth="400" spacing="15">
+                <Label style="-fx-text-fill: #64748b; -fx-font-size: 12; -fx-font-weight: bold;" text="INFORMATIONS PERSONNELLES" />
+
+                <GridPane hgap="15" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" />
+                        <ColumnConstraints percentWidth="50" />
+                    </columnConstraints>
+
+                    <!-- Nom -->
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Nom" />
+                        <TextField fx:id="NomDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+                    </VBox>
+
+                    <!-- Prénom -->
+                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Prénom" />
+                        <TextField fx:id="PrenomDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+                    </VBox>
+
+                    <!-- Genre -->
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Genre" />
+                        <TextField fx:id="GenreDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+                    </VBox>
+
+                    <!-- Rôle -->
+                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Rôle" />
+                        <TextField fx:id="RoleDetailTextField" editable="false" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+                    </VBox>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                </GridPane>
+
+                <!-- Message d'erreur pour la validation -->
+                <Label fx:id="erreurMessageLabel" style="-fx-text-fill: #e11d48;" text="Message d'erreur" visible="false" />
+            </VBox>
 
             <!-- Section compte -->
             <VBox spacing="15">
@@ -116,19 +108,25 @@
                     <!-- Mot de passe -->
                     <VBox prefHeight="58.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <Label style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" text="Mot de passe" />
-                         <TextField fx:id="PasswordDetailTextField" alignment="CENTER" editable="false" prefHeight="38.0" prefWidth="198.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-pref-width: 180;" />
+                        <TextField fx:id="PasswordDetailTextField" alignment="CENTER" editable="false" prefHeight="38.0" prefWidth="198.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-pref-width: 180;" />
                     </VBox>
-               <rowConstraints>
-                  <RowConstraints />
-               </rowConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                    </rowConstraints>
                 </GridPane>
+
+                <!-- Bouton pour changer le mot de passe -->
+                <HBox alignment="CENTER_RIGHT">
+                    <Button fx:id="changerMotDePasseBtn" onAction="#handleChangerMotDePasse" style="-fx-background-color: transparent; -fx-text-fill: #4f46e5; -fx-font-weight: bold; -fx-cursor: hand;" text="Changer le mot de passe" />
+                </HBox>
             </VBox>
         </VBox>
 
         <!-- Boutons d'action -->
         <HBox alignment="CENTER_RIGHT" spacing="15">
+            <Button fx:id="supprimerCompteBtn" onAction="#handleSupprimerCompte" style="-fx-background-color: #e11d48; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 25; -fx-cursor: hand;" text="Supprimer mon compte" />
+            <Button fx:id="exporterProfilBtn" onAction="#handleExporterProfil" style="-fx-background-color: #475569; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 25; -fx-cursor: hand;" text="Exporter profil" />
             <Button fx:id="modifierBtn" onAction="#handleModifier" style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 25; -fx-cursor: hand;" text="Modifier le profil" />
-
             <Button fx:id="sauvegarderBtn" onAction="#handleSauvegarder" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 25; -fx-cursor: hand;" text="Enregistrer les modifications" visible="false" />
         </HBox>
     </VBox>

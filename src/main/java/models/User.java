@@ -1,4 +1,5 @@
 package models;
+import java.time.LocalDateTime;
 
 public class User {
     private int id;
@@ -10,6 +11,10 @@ public class User {
     private String role;
     private boolean isVerified;
     private String verificationCode;
+    private boolean googleAccount;
+    private boolean facebookAccount;  // Nouvelle propriété pour les comptes Facebook
+
+
 
     public User() {
     }
@@ -34,7 +39,21 @@ public class User {
         this.role = role;
         this.isVerified = isVerified;
     }
-
+    public User(int id, String nom, String prenom, String genre, String email, String password,
+                String role, boolean isVerified, String verificationCode,
+                boolean googleAccount, boolean facebookAccount) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.genre = genre;
+        this.email = email;
+        this.password = password;
+        this.role = role != null ? role : "membre";
+        this.isVerified = isVerified;
+        this.verificationCode = verificationCode != null ? verificationCode : "";
+        this.googleAccount = googleAccount;
+        this.facebookAccount = facebookAccount;
+    }
     public int getId() {
         return id;
     }
@@ -102,6 +121,23 @@ public class User {
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
+    public boolean isGoogleAccount() {
+        return googleAccount;
+    }
+
+    public void setGoogleAccount(boolean googleAccount) {
+        this.googleAccount = googleAccount;
+    }
+
+    public boolean isFacebookAccount() {
+        return facebookAccount;
+    }
+
+    public void setFacebookAccount(boolean facebookAccount) {
+        this.facebookAccount = facebookAccount;
+    }
+
+
 
 
     @Override

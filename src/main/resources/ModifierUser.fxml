@@ -1,83 +1,279 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.ModifierUserController"
-      alignment="TOP_CENTER"
-      spacing="20"
-      style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 25 35 30 35;"
-      prefWidth="400">
+<StackPane prefHeight="650.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom right, #f0f9ff, #e0f2fe);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierUserController">
 
-    <!-- Header with back button -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Button onAction="#annulerAction" style="-fx-background-color: transparent; -fx-cursor: hand;">
-            <graphic>
-                <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
-                    <image>
-                        <Image url="@image/9068678.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Text text="Modifier l'utilisateur" style="-fx-fill: #1e293b; -fx-font-weight: bold;">
-            <font>
-                <Font name="Segoe UI Semibold" size="20"/>
-            </font>
-        </Text>
-    </HBox>
+    <!-- Conteneur principal avec fond décoratif -->
+    <StackPane alignment="CENTER">
+        <!-- Cercles décoratifs en arrière-plan -->
+        <Circle fill="#4f46e510" radius="120" translateX="-220" translateY="-180" />
+        <Circle fill="#10b98110" radius="80" translateX="220" translateY="150" />
+        <Circle fill="#4f46e515" radius="50" translateX="180" translateY="-200" />
+        <Circle fill="#4f46e508" radius="100" translateX="-180" translateY="180" />
 
-    <!-- User icon -->
-    <ImageView fitHeight="80" fitWidth="80" style="-fx-background-radius: 40;">
-        <image>
-            <Image url="@image/logo.png"/>
-        </image>
-        <clip>
-            <Circle centerX="40" centerY="40" radius="40"/>
-        </clip>
-    </ImageView>
+        <!-- ScrollPane pour gérer les écrans de différentes tailles -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <StackPane alignment="CENTER" style="-fx-background-color: transparent;">
+                <padding>
+                    <Insets bottom="20" left="20" right="20" top="20" />
+                </padding>
 
-    <!-- Form fields -->
-    <VBox spacing="15" style="-fx-padding: 10 0 20 0;">
-        <!-- Nom -->
-        <VBox spacing="5">
-            <Label text="NOM" style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;"/>
-            <TextField fx:id="nomField" promptText="Entrez le nom"
-                       style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;"/>
-        </VBox>
+                <!-- Conteneur principal du formulaire -->
+                <VBox alignment="TOP_CENTER" maxWidth="500" prefWidth="440" spacing="22" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 25, 0, 0, 8); -fx-padding: 25 35 35 35;">
 
-        <!-- Prénom -->
-        <VBox spacing="5">
-            <Label text="PRÉNOM" style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;"/>
-            <TextField fx:id="prenomField" promptText="Entrez le prénom"
-                       style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;"/>
-        </VBox>
+                    <!-- Header avec animation au survol -->
+                    <HBox alignment="CENTER" spacing="10" style="-fx-padding: 0 0 10 0;">
+                        <Button fx:id="backButton" onAction="#annulerAction" style="-fx-background-color: #f1f5f9; -fx-background-radius: 50%; -fx-padding: 10; -fx-cursor: hand; -fx-border-color: #e2e8f0; -fx-border-radius: 50%; -fx-border-width: 1;">
+                            <graphic>
+                                <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                                    <image>
+                                        <Image url="@image/9068678.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <effect>
+                                <DropShadow color="#00000025" radius="5" spread="0.05" />
+                            </effect>
+                        </Button>
+                        <Text style="-fx-fill: #1e293b; -fx-font-weight: bold; -fx-font-smoothing-type: lcd;" text="Modifier l'utilisateur">
+                            <font>
+                                <Font name="Segoe UI Semibold" size="22" />
+                            </font>
+                            <effect>
+                                <DropShadow color="#00000020" offsetY="1" radius="2" spread="0.05" />
+                            </effect>
+                        </Text>
+                        <!-- Icône d'édition avec animation de rotation au survol -->
+                        <StackPane minHeight="42" minWidth="42" style="-fx-background-color: #4f46e520; -fx-background-radius: 50%;">
+                            <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@image/edit-icon.png" />
+                                </image>
+                            </ImageView>
+                        </StackPane>
+                    </HBox>
 
-        <!-- Email -->
-        <VBox spacing="5">
-            <Label text="EMAIL" style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;"/>
-            <TextField fx:id="emailField" promptText="Entrez l'email"
-                       style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;"/>
-        </VBox>
+                    <!-- Séparateur élégant avec dégradé -->
+                    <HBox alignment="CENTER" prefHeight="2">
+                        <Line endX="380" startX="0" strokeWidth="2">
+                            <stroke>
+                                <LinearGradient cycleMethod="NO_CYCLE" endX="1" startX="0">
+                                    <stops>
+                                        <Stop color="transparent" offset="0.0" />
+                                        <Stop color="#4f46e550" offset="0.5" />
+                                        <Stop color="transparent" offset="1.0" />
+                                    </stops>
+                                </LinearGradient>
+                            </stroke>
+                        </Line>
+                    </HBox>
+                    <!-- Avatar de l'utilisateur avec animation de surbrillance -->
+                    <StackPane>
+                        <!-- Cercle de fond avec bordure -->
+                        <Circle fill="#f8fafc" radius="48" stroke="#e2e8f0" strokeWidth="2" />
+                        <!-- Effet de brillance de l'avatar -->
+                        <Circle fill="white" opacity="0.5" radius="45" translateY="-2" />
+                        <!-- Image de l'avatar -->
+                        <ImageView fitHeight="85" fitWidth="85">
+                            <image>
+                                <Image url="@image/logo.png" />
+                            </image>
+                            <clip>
+                                <Circle centerX="42.5" centerY="42.5" radius="42.5" />
+                            </clip>
+                        </ImageView>
+                        <!-- Bouton pour changer l'avatar avec effet de survol -->
+                        <Button fx:id="changeAvatarBtn" onAction="#handleChangeAvatar" prefHeight="13.0" prefWidth="0.0" style="-fx-background-color: #4f46e5; -fx-background-radius: 50%; -fx-padding: 8; -fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 50%;" StackPane.alignment="BOTTOM_RIGHT">
+                            <graphic>
+                                <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                                    <image>
+                                        <Image url="@image/camera-icon.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <effect>
+                                <DropShadow color="#00000040" radius="6" spread="0.1" />
+                            </effect>
+                        </Button>
+                    </StackPane>
 
-        <!-- Verification status -->
-        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 5 0;">
-            <CheckBox fx:id="verifiedCheckBox" text="Compte vérifié"
-                      style="-fx-text-fill: #475569; -fx-font-size: 14;"/>
-        </HBox>
-    </VBox>
+                    <!-- Champs du formulaire avec effets visuels améliorés -->
+                    <VBox spacing="18" style="-fx-padding: 15 0 25 0;">
+                        <!-- Nom avec animation au focus -->
+                        <VBox spacing="6">
+                            <HBox alignment="CENTER_LEFT" spacing="6">
+                                <StackPane style="-fx-background-color: #4f46e520; -fx-background-radius: 4;">
+                                    <padding>
+                                        <Insets bottom="4" left="4" right="4" top="4" />
+                                    </padding>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/user-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="NOM" />
+                            </HBox>
+                            <TextField fx:id="nomField" promptText="Entrez le nom" style="-fx-background-color: #f8fafc; -fx-background-radius: 10; -fx-padding: 12; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                        </VBox>
 
-    <!-- Status message -->
-    <Label fx:id="messageLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 13; -fx-alignment: CENTER;" maxWidth="Infinity" wrapText="true"/>
+                        <!-- Prénom -->
+                        <VBox spacing="6">
+                            <HBox alignment="CENTER_LEFT" spacing="6">
+                                <StackPane style="-fx-background-color: #4f46e520; -fx-background-radius: 4;">
+                                    <padding>
+                                        <Insets bottom="4" left="4" right="4" top="4" />
+                                    </padding>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/user-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="PRÉNOM" />
+                            </HBox>
+                            <TextField fx:id="prenomField" promptText="Entrez le prénom" style="-fx-background-color: #f8fafc; -fx-background-radius: 10; -fx-padding: 12; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                        </VBox>
 
-    <!-- Save button -->
-    <Button text="Enregistrer les modifications" onAction="#handleSave"
-            style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 30; -fx-cursor: hand; -fx-font-size: 14;"/>
-</VBox>
+                        <!-- Email -->
+                        <VBox spacing="6">
+                            <HBox alignment="CENTER_LEFT" spacing="6">
+                                <StackPane style="-fx-background-color: #4f46e520; -fx-background-radius: 4;">
+                                    <padding>
+                                        <Insets bottom="4" left="4" right="4" top="4" />
+                                    </padding>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/email-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="EMAIL" />
+                            </HBox>
+                            <TextField fx:id="emailField" promptText="Entrez l'email" style="-fx-background-color: #f8fafc; -fx-background-radius: 10; -fx-padding: 12; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                        </VBox>
+
+                        <!-- Statut de vérification avec animation de switch -->
+                        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 8 0;">
+                            <VBox>
+                                <HBox alignment="CENTER_LEFT" spacing="6" />
+                                <CheckBox fx:id="verifiedCheckBox" style="-fx-text-fill: #475569; -fx-font-size: 14;" text="Compte vérifié" />
+                            </VBox>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <StackPane fx:id="statusIndicator" minHeight="30" minWidth="80" style="-fx-background-color: #10b981; -fx-background-radius: 30;">
+                                <effect>
+                                    <DropShadow color="#10b98140" radius="5" spread="0.1" />
+                                </effect>
+                                <Label style="-fx-text-fill: white; -fx-font-size: 12; -fx-font-weight: bold;" text="Actif" />
+                            </StackPane>
+                        </HBox>
+
+                        <!-- Sélection de rôle avec style amélioré et options limitées -->
+                        <VBox spacing="6">
+                            <HBox alignment="CENTER_LEFT" spacing="6">
+                                <StackPane style="-fx-background-color: #4f46e520; -fx-background-radius: 4;">
+                                    <padding>
+                                        <Insets bottom="4" left="4" right="4" top="4" />
+                                    </padding>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/role-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="RÔLE" />
+                            </HBox>
+                            <ComboBox fx:id="roleComboBox" maxWidth="Infinity" promptText="Sélectionnez un rôle" style="-fx-background-color: #f8fafc; -fx-background-radius: 10; -fx-padding: 4; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Message de statut avec animation de fade -->
+                    <VBox fx:id="messageBox" style="-fx-background-color: #fee2e2; -fx-background-radius: 12; -fx-padding: 12 15; -fx-border-color: #fecaca; -fx-border-radius: 12; -fx-border-width: 1;" visible="false">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                                <image>
+                                    <Image url="@image/warning-icon.png" />
+                                </image>
+                            </ImageView>
+                            <Label fx:id="messageLabel" style="-fx-text-fill: #b91c1c; -fx-font-size: 13;" wrapText="true" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Historique des activités avec style amélioré -->
+                    <TitledPane expanded="false" style="-fx-text-fill: #1e293b; -fx-font-weight: bold;" text="Historique des activités">
+                        <VBox spacing="12" style="-fx-padding: 15 5;">
+                            <!-- Entrées d'historique stylisées -->
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <StackPane minHeight="30" minWidth="30" style="-fx-background-color: #4f46e515; -fx-background-radius: 50%;">
+                                    <ImageView fitHeight="14" fitWidth="14" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/clock-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #64748b;" text="Dernière connexion: 24/04/2023 à 15:42" />
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <StackPane minHeight="30" minWidth="30" style="-fx-background-color: #4f46e515; -fx-background-radius: 50%;">
+                                    <ImageView fitHeight="14" fitWidth="14" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/calendar-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #64748b;" text="Compte créé le: 10/01/2023" />
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <StackPane minHeight="30" minWidth="30" style="-fx-background-color: #4f46e515; -fx-background-radius: 50%;">
+                                    <ImageView fitHeight="14" fitWidth="14" preserveRatio="true">
+                                        <image>
+                                            <Image url="@image/edit-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </StackPane>
+                                <Label style="-fx-text-fill: #64748b;" text="Dernière modification: 19/03/2023" />
+                            </HBox>
+                        </VBox>
+                    </TitledPane>
+
+                    <!-- Séparateur avant les boutons d'action -->
+                    <HBox alignment="CENTER" prefHeight="1" style="-fx-padding: 5 0;">
+                        <Separator prefWidth="380" />
+                    </HBox>
+
+                    <!-- Boutons d'action avec effets avancés -->
+                    <HBox alignment="CENTER" spacing="15" style="-fx-padding: 10 0 0 0;">
+                        <Button onAction="#annulerAction" style="-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 12 30; -fx-cursor: hand; -fx-font-size: 14; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-border-width: 1;" text="Annuler" />
+                        <Button fx:id="saveButton" onAction="#handleSave" style="-fx-background-color: linear-gradient(to right, #4f46e5, #6366f1); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 12 30; -fx-cursor: hand; -fx-font-size: 14;" text="Enregistrer">
+                            <effect>
+                                <DropShadow color="#4f46e580" radius="10" spread="0.1" />
+                            </effect>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </StackPane>
+</StackPane>

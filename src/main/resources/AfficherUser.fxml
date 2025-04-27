@@ -1,103 +1,441 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1030.0" style="-fx-background-color: #ecf0f1; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherUserController">
-
+<?import javafx.scene.control.Slider?>
+<?import javafx.geometry.Insets?>
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" style="-fx-background-color: linear-gradient(to bottom right, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherUserController">
     <children>
+        <ImageView fx:id="backgroundImage" opacity="0.2" preserveRatio="false"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <!-- Formes d'arrière-plan animées -->
+        <Circle fx:id="bgCircle1" layoutX="100.0" layoutY="400.0" opacity="0.05" radius="150.0" stroke="#3498db" strokeWidth="5.0" style="-fx-fill: #3498db;" />
+        <Circle fx:id="bgCircle2" layoutX="900.0" layoutY="200.0" opacity="0.05" radius="100.0" stroke="#e74c3c" strokeWidth="5.0" style="-fx-fill: #e74c3c;" />
+        <Polygon fx:id="bgPolygon" layoutX="500.0" layoutY="650.0" opacity="0.05" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" stroke="#2ecc71" strokeWidth="3.0" style="-fx-fill: #2ecc71;" />
 
-        <!-- 🔙 Déconnexion avec effet de survol -->
-        <Button fx:id="btnLogout" layoutX="20.0" layoutY="14.0" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 10, 0.5, 1, 1);">
-            <graphic>
-                <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
-                    <image>
-                        <Image url="@image/4400828.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <!-- ✅ Barre des boutons d'action -->
-        <HBox alignment="CENTER_LEFT" layoutX="190.0" layoutY="114.0" prefHeight="67.0" prefWidth="638.0" spacing="20" style="-fx-background-color: #3498db; -fx-padding: 10; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, #000000, 15, 0.3, 0, 5);">
+        <!-- Top navigation bar with glass effect -->
+        <HBox alignment="CENTER_LEFT" layoutX="0.0" layoutY="0.0" prefHeight="90.0" prefWidth="1030.0" spacing="15.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db); -fx-padding: 0 20;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <!-- Bouton Ajouter avec effet et icône -->
-                <Button fx:id="addButton" onAction="#handleAddButtonAction" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3); -fx-transition: all 0.3s ease-in-out;">
-                    <graphic>
-                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                <!-- Logo with glass effect -->
+                <StackPane prefWidth="97.0">
+                    <children>
+                        <ImageView fx:id="logoImage" fitHeight="64.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/738882.png" />
+                                <Image url="@image/logo.png" />
+                            </image>
+                        </ImageView>
+                        <Circle fill="WHITE" radius="36.0" stroke="WHITE" style="-fx-fill: rgba(255,255,255,0.2);" />
+                    </children>
+                </StackPane>
+
+                <!-- App Title with better typography -->
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-weight: bold;" text="User Management System">
+                    <font>
+                        <Font name="Segoe UI Semibold" size="22.0" />
+                    </font>
+                    <effect>
+                        <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Text>
+
+                <HBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS" />
+
+                <!-- History Button with Popup positioned below -->
+                <StackPane>
+                    <children>
+                        <StackPane fx:id="historyIndicator" styleClass="notification-indicator">
+                            <children>
+                                <Circle radius="20.0" style="-fx-fill: rgba(255,255,255,0.15); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);" />
+                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@image/history_icon.png" />
+                                    </image>
+                                </ImageView>
+                                <Button fx:id="btnHistory" onAction="#handleShowHistory" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+                            </children>
+                        </StackPane>
+
+                        <!-- History Popup positioned below button -->
+                        <StackPane fx:id="historyPopup" visible="false" opacity="0"
+                                   style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);"
+                                   translateY="65.0">
+                            <children>
+                                <VBox fx:id="historyContainer" spacing="10" maxWidth="400" maxHeight="450" minWidth="350">
+                                    <padding>
+                                        <Insets top="10" right="15" bottom="10" left="15" />
+                                    </padding>
+                                </VBox>
+                            </children>
+                        </StackPane>
+                    </children>
+                </StackPane>
+
+                <!-- Notifications Button with Popup positioned below -->
+                <StackPane>
+                    <children>
+                        <StackPane fx:id="notificationsCenter" styleClass="notification-indicator">
+                            <children>
+                                <Circle radius="20.0" style="-fx-fill: rgba(255,255,255,0.15); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);" />
+                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@image/bell_icon.png" />
+                                    </image>
+                                </ImageView>
+                                <Circle fx:id="notificationCountBadge" layoutX="7.0" layoutY="-7.0" radius="8.0" style="-fx-fill: #e74c3c;" translateX="7.0" translateY="-7.0" />
+                                <Text fx:id="notificationCount" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" translateX="7.0" translateY="-7.0">
+                                    <font>
+                                        <Font name="System Bold" size="10.0" />
+                                    </font>
+                                </Text>
+                                <Button fx:id="btnNotifications" onAction="#handleShowNotifications" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+                            </children>
+                        </StackPane>
+
+                        <!-- Notifications Popup positioned below button -->
+                        <StackPane fx:id="notificationsPopup" visible="false" opacity="0"
+                                   style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);"
+                                   translateY="65.0">
+                            <children>
+                                <VBox fx:id="notificationsContainer" spacing="10" maxWidth="400" maxHeight="450" minWidth="350">
+                                    <padding>
+                                        <Insets top="10" right="15" bottom="10" left="15" />
+                                    </padding>
+                                </VBox>
+                            </children>
+                        </StackPane>
+                    </children>
+                </StackPane>
+
+                <!-- Username with better styling -->
+                <Label fx:id="userNameLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="John Doe">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                    <effect>
+                        <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Label>
+
+                <!-- User Avatar with modern design -->
+                <StackPane>
+                    <children>
+                        <Circle fx:id="userAvatar" radius="27.0" style="-fx-fill: rgba(255,255,255,0.2); -fx-stroke: white; -fx-stroke-width: 2; -fx-cursor: hand;" />
+                        <Text fx:id="userInitials" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="JD">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                            <effect>
+                                <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+                            </effect>
+                        </Text>
+                        <Button fx:id="btnMonProfil1" onAction="#handleVoirMonProfil" prefHeight="58.0" prefWidth="63.0" style="-fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" text="" />
+                    </children>
+                </StackPane>
+
+                <!-- Logout Button with modern design -->
+                <Button fx:id="btnLogout" onAction="#handleLogout" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 50%; -fx-min-width: 40px; -fx-min-height: 40px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                            <image>
+                                <Image url="@image/4400828.png" />
                             </image>
                         </ImageView>
                     </graphic>
-                    Ajouter
                 </Button>
+            </children>
+            <effect>
+                <DropShadow color="rgba(0,0,0,0.3)" height="10.0" radius="4.5" width="10.0" />
+            </effect>
+        </HBox>        <!-- Page title with animated gradient -->
+        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="85.0" spacing="15.0">
+            <children>
+                <!-- Indicateur de mise à jour -->
+                <StackPane fx:id="updateIndicator" visible="false">
+                    <children>
+                        <Circle radius="10.0" style="-fx-fill: #e74c3c;" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="!">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </StackPane>
+            </children>
+        </HBox>
 
-                <!-- Bouton Modifier Mot de passe -->
-                <Button fx:id="modifierPasswordButton" onAction="#ouvrirModifierMotDePasse" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
-                    <graphic>
-                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+        <!-- Search and action buttons -->
+        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="150.0" spacing="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <children>
+                <!-- Search bar with animation -->
+                <HBox fx:id="searchContainer" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #e6e6e6; -fx-border-width: 1; -fx-padding: 0 15;">
+                    <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@image/6195699.png" />
+                                <Image url="@image/search_icon.png" />
+                            </image>
+                        </ImageView>
+                        <TextField fx:id="searchField" onKeyReleased="#handleSearchAction" prefHeight="38.0" prefWidth="250.0" promptText="Search users..." style="-fx-background-color: transparent; -fx-padding: 0 10 0 10; -fx-focus-color: transparent;" />
+                    </children>
+                    <effect>
+                        <DropShadow color="rgba(0,0,0,0.05)" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- Bouton Statistiques -->
+                <Button fx:id="statsButton" onAction="#handleShowStats" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #9b59b6; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <image>
+                                <Image url="@image/stats_icon.png" />
                             </image>
                         </ImageView>
                     </graphic>
-                    Modifier MDP
+                    <text>Statistiques</text>
                 </Button>
 
-                <!-- Bouton Réclamations -->
-                <Button onAction="#handleAfficherReclamations" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+                <!-- Bouton Tri -->
+                <MenuButton fx:id="sortButton" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #27ae60; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
                     <graphic>
-                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <image>
+                                <Image url="@image/sort_icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <items>
+                        <MenuItem fx:id="sortByNameAsc" mnemonicParsing="false" onAction="#handleSortByNameAsc" text="Nom (A-Z)" />
+                        <MenuItem fx:id="sortByNameDesc" mnemonicParsing="false" onAction="#handleSortByNameDesc" text="Nom (Z-A)" />
+                        <MenuItem fx:id="sortByRole" mnemonicParsing="false" onAction="#handleSortByRole" text="Rôle" />
+                        <MenuItem fx:id="sortByGender" mnemonicParsing="false" onAction="#handleSortByGender" text="Genre" />
+                    </items>
+                    <text>Trier par</text>
+                </MenuButton>
+
+                <Button fx:id="claimsButton" onAction="#handleAfficherReclamations" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #e67e22; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                             <image>
                                 <Image url="@image/2253934.png" />
                             </image>
                         </ImageView>
                     </graphic>
-                    Réclamations
+                    <text>Claims</text>
                 </Button>
-
-                <!-- Bouton Mon Profil -->
-                <Button fx:id="btnMonProfil" onAction="#handleVoirMonProfil" style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+                <Button fx:id="customizeButton" onAction="#handleCustomizeBackground" prefHeight="38.0" prefWidth="150.0"
+                        style="-fx-background-color: white; -fx-text-fill: #16a085; -fx-font-size: 13px; -fx-background-radius: 20;
+               -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
                     <graphic>
-                        <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                             <image>
-                                <Image url="@image/7093729.png" />
+                                <Image url="@image/customize_icon.png" />
                             </image>
                         </ImageView>
                     </graphic>
-                    Profil
+                    <text>Personnaliser</text>
+                </Button>
+                <Button fx:id="translationButton" onAction="#handleShowTranslation" prefHeight="38.0" prefWidth="150.0"
+                        style="-fx-background-color: white; -fx-text-fill: #9b59b6; -fx-font-size: 13px; -fx-background-radius: 20;
+               -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <image>
+                                <Image url="@image/translate_icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <text>Traduction</text>
+                </Button>
+
+                <Button fx:id="addButton" onAction="#handleAddButtonAction" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to right, #3498db, #2980b9); -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.4), 10, 0, 0, 0);">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <image>
+                                <Image url="@image/add_icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <text>Ajouter</text>
                 </Button>
             </children>
         </HBox>
 
-        <!-- 📜 Grille d'utilisateurs -->
-        <ScrollPane layoutX="28.8" layoutY="220.0" prefHeight="550.0" prefWidth="971.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="50.0">
+        <!-- Pills de filtrage rapide -->
+
+        <!-- User cards grid with scroll -->
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutX="20.0" layoutY="240.0" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0">
             <content>
-                <GridPane fx:id="userGrid" hgap="40" style="-fx-padding: 30;" vgap="30">
+                <GridPane fx:id="userGrid" hgap="25" vgap="25">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints halignment="CENTER" percentWidth="33" />
+                        <ColumnConstraints halignment="CENTER" percentWidth="33" />
+                        <ColumnConstraints halignment="CENTER" percentWidth="33" />
                     </columnConstraints>
                 </GridPane>
             </content>
         </ScrollPane>
-        <Text fontSmoothingType="LCD" layoutX="237.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #2c3e50; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 4, 0.3, 1, 1);" text="Liste des Utilisateurs" wrappingWidth="556.0">
-            <font>
-                <Font name="Segoe UI Semibold" size="48.0" />
-            </font>
-        </Text>
-        <Button layoutX="952.0" layoutY="20.0" onAction="#handleOpenChat" style="-fx-background-color: #8e44ad;                -fx-background-radius: 50%;                -fx-border-radius: 50%;                -fx-min-width: 50px;                -fx-min-height: 50px;                -fx-max-width: 50px;                -fx-max-height: 50px;                -fx-cursor: hand;                -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 3);">
+
+        <!-- Loading spinner (hidden initially) -->
+        <StackPane fx:id="loadingPane" layoutX="515.0" layoutY="400.0" visible="false">
+            <children>
+                <Circle radius="40.0" style="-fx-fill: rgba(255,255,255,0.9);">
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </Circle>
+                <ProgressIndicator prefHeight="50.0" prefWidth="50.0" style="-fx-progress-color: #3498db;" />
+            </children>
+        </StackPane>
+
+        <!-- Popup de statistiques (initialement invisible) -->
+        <StackPane fx:id="statsPopup" layoutX="300.0" layoutY="300.0" visible="false"
+                   AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0">
+            <children>
+                <VBox alignment="CENTER" maxWidth="450.0" style="-fx-background-color: white;
+              -fx-background-radius: 20; -fx-padding: 25; -fx-spacing: 20;
+              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 20, 0, 0, 7);">
+                    <children>
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                      style="-fx-font-weight: bold; -fx-fill: #2c3e50;" text="Statistiques des Utilisateurs">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                </Text>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="closeStatsBtn" mnemonicParsing="false" onAction="#handleCloseStats"
+                                        prefHeight="32.0" prefWidth="32.0"
+                                        style="-fx-background-color: #f1f2f6; -fx-background-radius: 16; -fx-padding: 0;">
+                                    <graphic>
+                                        <Text fill="#95a5a6" strokeType="OUTSIDE" strokeWidth="0.0" text="✕">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Text>
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </HBox>
+
+                        <!-- Total Users Count Card -->
+                        <HBox alignment="CENTER" style="-fx-background-color: #f8fafc; -fx-background-radius: 15;
+                      -fx-padding: 15; -fx-spacing: 15;">
+                            <children>
+                                <StackPane minWidth="50" maxWidth="50" minHeight="50" maxHeight="50"
+                                           style="-fx-background-color: #3498db; -fx-background-radius: 25;">
+                                    <children>
+                                        <Text fill="WHITE" text="👥" style="-fx-font-size: 22px;"/>
+                                    </children>
+                                </StackPane>
+                                <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"
+                                              text="Nombre total d'utilisateurs"/>
+                                        <Text fx:id="totalUsersText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #2c3e50;" text="0"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <!-- Gender distribution chart and stats -->
+                        <HBox spacing="20" alignment="CENTER">
+                            <children>
+                                <!-- Chart container -->
+                                <StackPane minWidth="180" maxWidth="180" minHeight="180" maxHeight="180" fx:id="chartContainer"/>
+
+                                <!-- Gender stats -->
+                                <VBox spacing="15" alignment="CENTER_LEFT">
+                                    <children>
+                                        <!-- Male stats -->
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <children>
+                                                <Circle radius="8" fill="#3498db"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16px;" text="Hommes"/>
+                                                <Text fx:id="malePercentText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                                      style="-fx-font-size: 16px; -fx-font-weight: bold;" text="0%"/>
+                                            </children>
+                                        </HBox>
+
+                                        <!-- Female stats -->
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <children>
+                                                <Circle radius="8" fill="#e74c3c"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16px;" text="Femmes"/>
+                                                <Text fx:id="femalePercentText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                                      style="-fx-font-size: 16px; -fx-font-weight: bold;" text="0%"/>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+        <!-- Notification Toast (initialement invisible) -->
+        <StackPane fx:id="toastNotification" layoutX="515.0" layoutY="730.0" opacity="0.0" visible="false" AnchorPane.bottomAnchor="30.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="400.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-padding: 0 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);">
+                    <children>
+                        <StackPane prefHeight="40.0" prefWidth="40.0">
+                            <children>
+                                <Circle radius="20.0" style="-fx-fill: #3498db;" />
+                                <Text fx:id="toastIcon" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="✓">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </StackPane>
+                        <VBox alignment="CENTER_LEFT">
+                            <children>
+                                <Text fx:id="toastTitle" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-fill: #2c3e50;" text="Succès!">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Text>
+                                <Text fx:id="toastMessage" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #7f8c8d;" text="L'action a été effectuée avec succès.">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </StackPane>
+
+        <!-- Floating chat button with pulse effect -->
+        <Button fx:id="chatButton" layoutX="1500.0" layoutY="710.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 50%; -fx-min-width: 60px; -fx-min-height: 60px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);">
             <graphic>
-                <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                <ImageView fitHeight="28" fitWidth="28" preserveRatio="true">
                     <image>
                         <Image url="@image/chat_icon.png" />
                     </image>
@@ -105,5 +443,76 @@
             </graphic>
         </Button>
 
+        <!-- Badge de notification sur le bouton chat -->
+        <StackPane layoutX="975.0" layoutY="710.0" />
+          <Text fx:id="pageTitle" layoutX="14.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des utilisateurs">
+              <font>
+                  <Font name="System Bold" size="24.0" />
+              </font>
+          </Text>
     </children>
+    <StackPane fx:id="customizePopup" layoutX="300.0" layoutY="300.0" visible="false"
+               AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="200.0">
+        <children>
+            <VBox alignment="CENTER" maxWidth="400.0" style="-fx-background-color: white;
+              -fx-background-radius: 20; -fx-padding: 25; -fx-spacing: 20;
+              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 20, 0, 0, 7);">
+                <children>
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <children>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                  style="-fx-font-weight: bold; -fx-fill: #2c3e50;" text="Personnaliser l'arrière-plan">
+                                <font>
+                                    <Font name="System Bold" size="18.0" />
+                                </font>
+                            </Text>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button fx:id="closeCustomizeBtn" mnemonicParsing="false" onAction="#handleCloseCustomize"
+                                    prefHeight="32.0" prefWidth="32.0"
+                                    style="-fx-background-color: #f1f2f6; -fx-background-radius: 16; -fx-padding: 0;">
+                                <graphic>
+                                    <Text fill="#95a5a6" strokeType="OUTSIDE" strokeWidth="0.0" text="✕">
+                                        <font>
+                                            <Font name="System Bold" size="14.0" />
+                                        </font>
+                                    </Text>
+                                </graphic>
+                            </Button>
+                        </children>
+                    </HBox>
+
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #7f8c8d;"
+                          text="Choisissez une image pour personnaliser l'arrière-plan de votre interface" textAlignment="CENTER" wrappingWidth="300.0"/>
+
+                    <Button fx:id="chooseImageBtn" mnemonicParsing="false" onAction="#handleChooseImage"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 20;
+                               -fx-padding: 10 20; -fx-font-weight: bold;">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@image/image_icon.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                        <text>Sélectionner une image</text>
+                    </Button>
+
+                    <HBox spacing="15.0" alignment="CENTER">
+                        <children>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #7f8c8d;" text="Opacité:"/>
+                            <Slider fx:id="opacitySlider" min="0.1" max="1.0" value="0.2" prefWidth="200.0"/>
+                            <Text fx:id="opacityValue" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #2c3e50;" text="20%"/>
+                        </children>
+                    </HBox>
+
+                    <Button fx:id="resetBackgroundBtn" mnemonicParsing="false" onAction="#handleResetBackground"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 20;
+                               -fx-padding: 10 20; -fx-font-weight: bold;">
+                        <text>Réinitialiser</text>
+                    </Button>
+                </children>
+            </VBox>
+        </children>
+    </StackPane>
+
 </AnchorPane>

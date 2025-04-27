@@ -174,6 +174,27 @@ public class UserService implements IService<User> {
         ps.setString(2, email);
         ps.executeUpdate();
     }
+    public User findByEmail(String email) throws SQLException {
+        String query = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setGenre(rs.getString("genre"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("role"));
+                // Correction ici: utilisez "is_verified" au lieu de "isVerified"
+                user.setVerified(rs.getBoolean("is_verified"));
+                return user;
+            }
+        }
+        return null;
+    }
 }
 
 

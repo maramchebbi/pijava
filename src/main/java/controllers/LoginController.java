@@ -1,5 +1,8 @@
 package controllers;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
@@ -7,7 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import models.User;
+import service.FacebookSimpleAuthService;
+import service.GoogleAuthService;
 import service.UserService;
 import utils.EmailSender;
 import utils.SessionManager;
@@ -18,22 +24,78 @@ import java.sql.SQLException;
 
 public class LoginController {
 
-    @FXML
-    private TextField emailField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private Label errorLabel;
+    @FXML private TextField visiblePasswordField;
+    @FXML private Button toggleVisibilityBtn;
+    @FXML private Button googleLoginBtn;
+    @FXML private Button facebookLoginBtn;
+    private final GoogleAuthService googleAuthService = new GoogleAuthService();
+    private final FacebookSimpleAuthService facebookAuthService = new FacebookSimpleAuthService();
+
+    private boolean passwordVisible = false;
 
     @FXML
-    private PasswordField passwordField;
+    public void initialize() {
+        // Lier les propriétés textuelles entre les deux champs
+        visiblePasswordField.textProperty().bindBidirectional(passwordField.textProperty());
+
+        // Configurer l'état initial
+        visiblePasswordField.setVisible(false);
+        passwordField.setVisible(true);
+        googleLoginBtn.setOnAction(this::handleGoogleLogin);
+        facebookLoginBtn.setOnAction(this::handleFacebookLogin);
+    }
 
     @FXML
-    private Label errorLabel;
+    private void togglePasswordVisibility(ActionEvent event) {
+        passwordVisible = !passwordVisible;
 
-    @FXML
-    private TextField VisiblePasswordField;  // Champ pour afficher le mot de passe en texte clair
+        if (passwordVisible) {
+            // Passage au mode visible
+            visiblePasswordField.setText(passwordField.getText());
 
-    @FXML
-    private Button toggleVisibilityBtn;  // Bouton pour basculer la visibilité
+            // Animation de transition
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(150), passwordField);
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
 
-    private boolean passwordVisible = false;  // Variable pour suivre l'état de visibilité du mot de passe
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(150), visiblePasswordField);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+
+            ParallelTransition transition = new ParallelTransition(fadeOut, fadeIn);
+            transition.setOnFinished(e -> {
+                passwordField.setVisible(false);
+                visiblePasswordField.setVisible(true);
+            });
+            transition.play();
+
+            toggleVisibilityBtn.setText("🙈");
+        } else {
+            // Retour au mode masqué
+            passwordField.setText(visiblePasswordField.getText());
+
+            // Animation de transition
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(150), visiblePasswordField);
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(150), passwordField);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+
+            ParallelTransition transition = new ParallelTransition(fadeOut, fadeIn);
+            transition.setOnFinished(e -> {
+                visiblePasswordField.setVisible(false);
+                passwordField.setVisible(true);
+            });
+            transition.play();
+
+            toggleVisibilityBtn.setText("👁");
+        }
+    }
 
     @FXML
     private void handleLogin(ActionEvent event) {
@@ -50,26 +112,14 @@ public class LoginController {
             User user = userService.login(email, password);
 
             if (user != null) {
-                // Vérifier d'abord si l'utilisateur est vérifié
                 if (!user.isVerified()) {
                     errorLabel.setText("Veuillez vérifier votre adresse e-mail avant de vous connecter.");
                     return;
                 }
 
-                // Si l'utilisateur est vérifié, continuer avec la connexion
                 SessionManager.setCurrentUser(user);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherUser.fxml"));
-                Parent root = loader.load();
-
-                Stage stage = (Stage) emailField.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Bienvenue " + user.getPrenom());
-                SessionManager.setCurrentUser(user);
-                SessionStorage.saveSession(user); // Sauvegarde la session
-                EmailSender.sendLoginNotification(user.getEmail(), user.getPrenom());
-                stage.show();
+                loadMainView(user, event);
             } else {
-                // Si l'utilisateur n'existe pas ou les informations sont incorrectes
                 errorLabel.setText("Email ou mot de passe incorrect.");
             }
         } catch (SQLException | IOException e) {
@@ -77,76 +127,100 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-    public void handleRegisterLinkAction(ActionEvent event) {
-        try {
-            // Charger le fichier FXML de la page d'inscription
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Register.fxml"));
-            Parent root = loader.load();
 
-            // Créer une nouvelle scène pour la page d'inscription
+    private void loadMainView(User user, ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherUser.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) emailField.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Bienvenue " + user.getPrenom());
+        SessionStorage.saveSession(user);
+        EmailSender.sendLoginNotification(user.getEmail(), user.getPrenom());
+        stage.show();
+    }
+
+    @FXML
+    private void handleRegisterLinkAction(ActionEvent event) {
+        navigateToView("/Register.fxml", "Inscription", event);
+    }
+
+    @FXML
+    private void handleForgotPasswordLink(ActionEvent event) {
+        navigateToView("/ForgotPassword.fxml", "Mot de passe oublié", event);
+    }
+
+    private void navigateToView(String fxmlPath, String title, ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Inscription");
+            stage.setScene(new Scene(root));
+            stage.setTitle(title);
             stage.show();
         } catch (IOException e) {
-            System.out.println("Erreur lors de la redirection vers la page d'inscription : " + e.getMessage());
+            System.out.println("Erreur lors de la redirection: " + e.getMessage());
         }
     }
 
     public void prefillLogin(String email, String password) {
         emailField.setText(email);
         passwordField.setText(password);
-        SessionStorage.clearSession(); // Supprime le fichier
-        SessionManager.logout(); // Vide la session en RAM
-    }
-    @FXML
-    private TextField visiblePasswordField; // Champ de texte visible temporairement pour afficher le mot de passe
-
-    @FXML
-    private void togglePasswordVisibility(ActionEvent event) {
-        passwordVisible = !passwordVisible;
-
-        if (passwordVisible) {
-            // Afficher en clair
-            visiblePasswordField.setVisible(true);
-            visiblePasswordField.setManaged(true);
-            passwordField.setVisible(false);
-            passwordField.setManaged(false);
-            toggleVisibilityBtn.setText("🙈");
-        } else {
-            // Afficher masqué
-            passwordField.setVisible(true);
-            passwordField.setManaged(true);
-            visiblePasswordField.setVisible(false);
-            visiblePasswordField.setManaged(false);
-            toggleVisibilityBtn.setText("👁");
-        }
-    }
-    @FXML
-    private void handleForgotPasswordLink(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ForgotPassword.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) emailField.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Mot de passe oublié");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    @FXML
-    public void initialize() {
-        // Lier les propriétés textuelles
-        visiblePasswordField.textProperty().bindBidirectional(passwordField.textProperty());
-
-        // Configurer l'état initial
-        visiblePasswordField.setVisible(false);
-        visiblePasswordField.setManaged(false);
-        passwordField.setVisible(true);
-        passwordField.setManaged(true);
+        SessionStorage.clearSession();
+        SessionManager.logout();
     }
 
+    private void handleGoogleLogin(ActionEvent event) {
+        googleAuthService.startGoogleAuth()
+                .thenAccept(user -> {
+                    // Sur le thread JavaFX
+                    Platform.runLater(() -> {
+                        try {
+                            // Stocker l'utilisateur en session
+                            SessionManager.setCurrentUser(user);
+                            // Rediriger vers la page principale
+                            loadMainView(user, event);
+                        } catch (IOException e) {
+                            errorLabel.setText("Erreur lors de la redirection: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+                })
+                .exceptionally(ex -> {
+                    // Gérer les erreurs sur le thread JavaFX
+                    Platform.runLater(() -> {
+                        errorLabel.setText("Erreur d'authentification Google: " + ex.getMessage());
+                        ex.printStackTrace();
+                    });
+                    return null;
+                });
+    }
 
+    private void handleFacebookLogin(ActionEvent event) {
+        errorLabel.setText("Connexion à Facebook en cours...");
+
+        facebookAuthService.startFacebookAuth()
+                .thenAccept(user -> {
+                    // Sur le thread JavaFX
+                    Platform.runLater(() -> {
+                        try {
+                            // Stocker l'utilisateur en session
+                            SessionManager.setCurrentUser(user);
+                            // Rediriger vers la page principale
+                            loadMainView(user, event);
+                        } catch (IOException e) {
+                            errorLabel.setText("Erreur lors de la redirection: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+                })
+                .exceptionally(ex -> {
+                    // Gérer les erreurs sur le thread JavaFX
+                    Platform.runLater(() -> {
+                        errorLabel.setText("Erreur d'authentification Facebook: " + ex.getMessage());
+                        ex.printStackTrace();
+                    });
+                    return null;
+                });
+    }
 }

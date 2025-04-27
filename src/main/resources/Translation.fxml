@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" style="-fx-background-color: linear-gradient(to bottom right, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TranslationController">
+    <children>
+        <!-- Top navigation bar with glass effect -->
+        <HBox alignment="CENTER_LEFT" layoutX="0.0" layoutY="0.0" prefHeight="90.0" prefWidth="800.0" spacing="15.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db); -fx-padding: 0 20;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <!-- Logo with glass effect -->
+                <StackPane prefWidth="97.0">
+                    <children>
+                        <ImageView fx:id="logoImage" fitHeight="64.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@image/logo.png" />
+                            </image>
+                        </ImageView>
+                        <Circle fill="WHITE" radius="36.0" stroke="WHITE" style="-fx-fill: rgba(255,255,255,0.2);" />
+                    </children>
+                </StackPane>
+
+                <!-- App Title with better typography -->
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-weight: bold;" text="Service de Traduction">
+                    <font>
+                        <Font name="Segoe UI Semibold" size="22.0" />
+                    </font>
+                    <effect>
+                        <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Text>
+
+                <!-- Return Button -->
+                <Button fx:id="returnButton" onAction="#handleReturn" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 50%; -fx-min-width: 40px; -fx-min-height: 40px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                            <image>
+                                <Image url="@image/back_arrow.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+            <effect>
+                <DropShadow color="rgba(0,0,0,0.3)" height="10.0" radius="4.5" width="10.0" />
+            </effect>
+        </HBox>
+
+        <!-- Translation Container -->
+        <VBox alignment="CENTER" layoutX="40.0" layoutY="120.0" spacing="20.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="110.0">
+            <children>
+                <!-- Source Language Selection -->
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <ComboBox fx:id="sourceLanguageComboBox" prefHeight="40.0" prefWidth="200.0" promptText="Langue source" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" />
+
+                        <!-- Swap Button -->
+                        <Button fx:id="swapLanguagesButton" onAction="#handleSwapLanguages" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #3498db; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@image/swap_icon.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+
+                        <ComboBox fx:id="targetLanguageComboBox" prefHeight="40.0" prefWidth="200.0" promptText="Langue cible" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" />
+                    </children>
+                </HBox>
+
+                <!-- Text Areas -->
+                <HBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- Source Text Area -->
+                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Texte source">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="sourceTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Entrez le texte à traduire..." style="-fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" VBox.vgrow="ALWAYS" />
+                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <children>
+                                        <Button fx:id="clearSourceButton" onAction="#handleClearSource" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #e74c3c; -fx-background-radius: 15; -fx-text-fill: white;">
+                                            <graphic>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="✕">
+                                                    <font>
+                                                        <Font name="System Bold" size="14.0" />
+                                                    </font>
+                                                </Text>
+                                            </graphic>
+                                        </Button>
+                                        <Button fx:id="pasteButton" onAction="#handlePaste" prefHeight="30.0" text="Coller" style="-fx-background-color: #95a5a6; -fx-background-radius: 15; -fx-text-fill: white;" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Target Text Area -->
+                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Traduction">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="targetTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="La traduction apparaîtra ici..." style="-fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" VBox.vgrow="ALWAYS" />
+                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                    <children>
+                                        <Button fx:id="copyButton" onAction="#handleCopy" prefHeight="30.0" text="Copier" style="-fx-background-color: #2ecc71; -fx-background-radius: 15; -fx-text-fill: white;" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Translate Button -->
+                <Button fx:id="translateButton" onAction="#handleTranslate" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db, #2980b9); -fx-background-radius: 25; -fx-text-fill: white; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.4), 10, 0, 0, 0);">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <image>
+                                <Image url="@image/translate_icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <text>Traduire</text>
+                </Button>
+
+                <!-- API Status -->
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Circle fx:id="apiStatusIndicator" radius="6.0" style="-fx-fill: #95a5a6;" />
+                        <Label fx:id="apiStatusLabel" text="API Status: En attente">
+                            <font>
+                                <Font size="12.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
