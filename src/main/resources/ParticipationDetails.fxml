@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.ParticipationDetails"
+            prefWidth="800" prefHeight="600"
+            style="-fx-background-color: linear-gradient(to bottom, #fdfbfb, #ebedee);">
+
+    <HBox prefWidth="800" prefHeight="60"
+          alignment="CENTER"
+          spacing="20"
+          style="-fx-background-color: #3E3E3E;">
+        <Label text="Mes Participations"
+               style="-fx-font-size: 22px; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-family: 'Roboto', sans-serif;" />
+        <Region fx:id="spacer" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="refreshButton" text="Rafraîchir" onAction="#refreshParticipations"
+                style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 14px;" >
+            <HBox.margin>
+                <Insets right="20.0" />
+            </HBox.margin>
+        </Button>
+    </HBox>
+
+    <Label layoutX="230" layoutY="70" text="🧾 Liste des Participations"
+           style="-fx-font-size: 24px; -fx-text-fill: #2d3436; -fx-font-weight: bold; -fx-font-family: 'Roboto', sans-serif;" />
+
+    <FlowPane fx:id="participationsFlowPane"
+              layoutX="20" layoutY="120"
+              prefWidth="760" prefHeight="420"
+              vgap="20" hgap="20"
+              alignment="CENTER"
+              style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
+        <effect>
+            <DropShadow color="#dfe6e9" radius="15" />
+        </effect>
+    </FlowPane>
+</AnchorPane>

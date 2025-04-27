@@ -68,7 +68,8 @@ public class EventService implements IService<Event> {
             throw new IllegalArgumentException("Le nombre de participants doit être positif.");
         }
 
-        String query = "INSERT INTO event (titre, localisation, date, heure, nb_participant, image) VALUES (?, ?, ?, ?, ?, ?)";
+        // Modifier la requête pour inclure latitude et longitude
+        String query = "INSERT INTO event (titre, localisation, date, heure, nb_participant, image, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, event.getTitre());
         ps.setString(2, event.getLocalisation());
@@ -76,6 +77,21 @@ public class EventService implements IService<Event> {
         ps.setTime(4, event.getHeure());
         ps.setInt(5, event.getNbParticipant());
         ps.setString(6, event.getImage());
+
+        // Ajouter les paramètres pour latitude et longitude
+        if (event.getLatitude() != null) {
+            ps.setBigDecimal(7, event.getLatitude());
+        } else {
+            ps.setNull(7, java.sql.Types.DECIMAL);
+        }
+
+        if (event.getLongitude() != null) {
+            ps.setBigDecimal(8, event.getLongitude());
+        } else {
+            ps.setNull(8, java.sql.Types.DECIMAL);
+        }
+
+        System.out.println("Requête SQL avec coordonnées - Latitude: " + event.getLatitude() + ", Longitude: " + event.getLongitude());
         ps.executeUpdate();
 
         ResultSet rs = ps.getGeneratedKeys();
@@ -89,6 +105,8 @@ public class EventService implements IService<Event> {
             psRelation.executeUpdate();
         }
     }
+
+
     @Override
     public void update(Event event) throws SQLException {
         String query = "UPDATE event SET titre = ?, localisation = ?, date = ?, heure = ?, nb_participant = ?, image = ? WHERE id = ?";
@@ -128,9 +146,58 @@ public class EventService implements IService<Event> {
             event.setHeure(rs.getTime("heure"));
             event.setNbParticipant(rs.getInt("nb_participant"));
             event.setImage(rs.getString("image"));
+
+            // Récupérer latitude et longitude
+            event.setLatitude(rs.getBigDecimal("latitude"));
+            event.setLongitude(rs.getBigDecimal("longitude"));
+
+            // Débogage pour voir ce qui est chargé (maintenant à l'intérieur de la boucle)
+            System.out.println("Event ID: " + event.getId());
+            System.out.println("Chargement latitude: " + rs.getBigDecimal("latitude"));
+            System.out.println("Chargement longitude: " + rs.getBigDecimal("longitude"));
+
             events.add(event);
         }
 
         return events;
     }
+
+
+    public Event findById(int id) {
+        String query = "SELECT * FROM event WHERE id = ?";
+
+        try (Connection conn = DataSource.getDataSource().getConnection();
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setInt(1, id);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    Event event = new Event();
+                    event.setId(rs.getInt("id"));
+                    event.setTitre(rs.getString("titre"));
+                    event.setLocalisation(rs.getString("localisation"));
+                    event.setDate(rs.getDate("date"));
+                    event.setHeure(rs.getTime("heure"));
+                    event.setNbParticipant(rs.getInt("nb_participant"));
+                    event.setImage(rs.getString("image"));
+
+                    // Récupérer latitude et longitude (maintenant que nous savons qu'elles existent)
+                    event.setLatitude(rs.getBigDecimal("latitude"));
+                    event.setLongitude(rs.getBigDecimal("longitude"));
+
+                    // Débogage
+                    System.out.println("Event ID: " + event.getId() + ", Latitude: " + event.getLatitude() + ", Longitude: " + event.getLongitude());
+
+                    return event;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche de l'événement avec ID " + id + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null; // Retourne null si aucun événement trouvé avec cet ID
+    }
+
 }

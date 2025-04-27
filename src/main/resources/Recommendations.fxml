@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<?import java.net.URL?>
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.RecommendationController" styleClass="main-container">
+    <stylesheets>
+        <URL value="@/styles/recommendation.css" />
+    </stylesheets>
+    <children>
+        <VBox spacing="15.0" styleClass="main-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" styleClass="header-container">
+                    <children>
+                        <Rectangle width="5" height="30" fill="#4e85f4" styleClass="accent-bar"/>
+                        <Label styleClass="header-label" text="Recommandations Personnalisées">
+                            <font>
+                                <Font name="Montserrat Bold" size="26.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="15.0" />
+                    </VBox.margin>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="search-box">
+                    <children>
+                        <Label text="ID Utilisateur" styleClass="field-label">
+                            <font>
+                                <Font name="Montserrat Medium" size="14.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="userIdField" prefHeight="40.0" prefWidth="120.0" promptText="Entrez ID" styleClass="modern-field" />
+                        <Button fx:id="getRecommendationsButton" mnemonicParsing="false" onAction="#handleGetRecommendations" prefHeight="40.0" styleClass="primary-button" text="Obtenir Recommandations">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="SEARCH" size="16" />
+                            </graphic>
+                            <effect>
+                                <DropShadow height="5.0" radius="2.0" width="5.0" color="#00000033" />
+                            </effect>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                    </padding>
+                    <effect>
+                        <DropShadow height="8.0" radius="3.5" width="8.0" color="#00000022" />
+                    </effect>
+                </HBox>
+
+                <Separator styleClass="modern-separator" />
+
+                <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" HBox.hgrow="ALWAYS" styleClass="content-panel">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <FontAwesomeIconView glyphName="CALENDAR" size="18" styleClass="section-icon" />
+                                    <Label styleClass="section-label" text="Événements Recommandés">
+                                        <font>
+                                            <Font name="Montserrat Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" styleClass="hint-container">
+                                    <FontAwesomeIconView glyphName="INFO_CIRCLE" size="14" styleClass="hint-icon" />
+                                    <Label text="Double-cliquez sur un événement pour voir tous les détails" styleClass="hint-label" />
+                                </HBox>
+                                <ScrollPane fitToWidth="true" styleClass="transparent-scroll-pane" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <FlowPane fx:id="recommendationsCardsPane" hgap="15.0" vgap="15.0" prefWrapLength="600.0" styleClass="cards-container">
+                                            <!-- Les cartes seront ajoutées dynamiquement ici -->
+                                        </FlowPane>
+                                    </content>
+                                    <effect>
+                                        <DropShadow height="5.0" radius="2.0" width="5.0" color="#00000022" />
+                                    </effect>
+                                </ScrollPane>
+                            </children>
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow height="10.0" radius="4.5" width="10.0" color="#00000015" />
+                            </effect>
+                        </VBox>
+
+                        <VBox fx:id="detailsPanel" prefHeight="200.0" prefWidth="300.0" spacing="15.0" styleClass="details-panel">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <FontAwesomeIconView glyphName="EYE" size="18" styleClass="section-icon" />
+                                    <Label styleClass="section-label" text="Aperçu">
+                                        <font>
+                                            <Font name="Montserrat Bold" size="18.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+
+                                <VBox spacing="8.0" styleClass="event-info-card">
+                                    <children>
+                                        <Label text="Titre" styleClass="card-label">
+                                            <font>
+                                                <Font name="Montserrat SemiBold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="selectedEventTitle" styleClass="info-value" text="Titre de l'événement" wrapText="true">
+                                            <font>
+                                                <Font name="Montserrat" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                                    </padding>
+                                    <effect>
+                                        <DropShadow height="5.0" radius="2.0" width="5.0" color="#00000022" />
+                                    </effect>
+                                </VBox>
+
+                                <VBox spacing="8.0" styleClass="event-info-card">
+                                    <children>
+                                        <Label text="Score de pertinence" styleClass="card-label">
+                                            <font>
+                                                <Font name="Montserrat SemiBold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <Label fx:id="selectedEventScore" styleClass="info-value" text="85.5%">
+                                                <font>
+                                                    <Font name="Montserrat Bold" size="16.0" />
+                                                </font>
+                                            </Label>
+                                            <ProgressBar prefWidth="150.0" progress="0.855" styleClass="modern-progress" />
+                                        </HBox>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                                    </padding>
+                                    <effect>
+                                        <DropShadow height="5.0" radius="2.0" width="5.0" color="#00000022" />
+                                    </effect>
+                                </VBox>
+
+                                <HBox alignment="CENTER_LEFT" styleClass="hint-container">
+                                    <FontAwesomeIconView glyphName="LIGHTBULB_O" size="14" styleClass="hint-icon" />
+                                    <Label styleClass="hint-label" text="Double-cliquez sur un événement pour voir tous les détails dans un popup animé" wrapText="true" />
+                                </HBox>
+
+                                <VBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="230.0" styleClass="accent-button" text="Voir les détails complets" onAction="#showSelectedEventDetails">
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="EXTERNAL_LINK" size="16" />
+                                            </graphic>
+                                            <effect>
+                                                <DropShadow height="8.0" radius="3.5" width="8.0" color="#00000033" />
+                                            </effect>
+                                        </Button>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow height="10.0" radius="4.5" width="10.0" color="#00000015" />
+                            </effect>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="status-bar">
+                    <children>
+                        <ProgressBar fx:id="loadingBar" prefWidth="200.0" progress="0.0" styleClass="modern-progress" />
+                        <Label fx:id="statusLabel" text="Prêt à charger les recommandations" styleClass="status-label" />
+                    </children>
+                    <padding>
+                        <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
+                    </padding>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

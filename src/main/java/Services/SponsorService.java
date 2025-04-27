@@ -86,7 +86,9 @@ public class SponsorService implements IService<Sponsor> {
 
     @Override
     public List<Sponsor> getAll() throws SQLException {
-        String query = "SELECT * FROM sponsor";
+        String query = "SELECT s.*, " +
+                "(SELECT COUNT(*) FROM sponsor_event se WHERE se.sponsor_id = s.id) as event_count " +
+                "FROM sponsor s";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         List<Sponsor> sponsors = new ArrayList<>();
@@ -101,7 +103,44 @@ public class SponsorService implements IService<Sponsor> {
             sponsor.setSiteWeb(rs.getString("site_web"));
             sponsor.setLogo(rs.getString("logo"));
             sponsor.setMontant(rs.getDouble("montant"));
+            sponsor.setEventCount(rs.getInt("event_count"));
             sponsors.add(sponsor);
+        }
+
+        return sponsors;
+    }
+
+    /**
+     * Récupère les 3 sponsors qui participent au plus grand nombre d'événements
+     * @return Liste des 3 sponsors les plus actifs
+     * @throws SQLException En cas d'erreur SQL
+     */
+    public List<Sponsor> getTop3Sponsors() throws SQLException {
+        List<Sponsor> sponsors = new ArrayList<>();
+
+        String query = "SELECT s.*, COUNT(se.event_id) as event_count " +
+                "FROM sponsor s " +
+                "JOIN sponsor_event se ON s.id = se.sponsor_id " +
+                "GROUP BY s.id " +
+                "ORDER BY event_count DESC " +
+                "LIMIT 3";
+
+        try (PreparedStatement statement = con.prepareStatement(query);
+             ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                Sponsor sponsor = new Sponsor();
+                sponsor.setId(rs.getInt("id"));
+                sponsor.setNom(rs.getString("nom"));
+                sponsor.setType(rs.getString("type"));
+                sponsor.setEmail(rs.getString("email"));
+                sponsor.setTelephone(rs.getString("telephone"));
+                sponsor.setSiteWeb(rs.getString("site_web"));
+                sponsor.setLogo(rs.getString("logo"));
+                sponsor.setMontant(rs.getDouble("montant"));
+                sponsor.setEventCount(rs.getInt("event_count"));
+                sponsors.add(sponsor);
+            }
         }
 
         return sponsors;

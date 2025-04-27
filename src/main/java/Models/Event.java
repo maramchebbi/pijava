@@ -17,6 +17,7 @@ public class Event {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private List<Sponsor> sponsors = new ArrayList<>();
+    private List<Participation> participations;
 
 
     @Override
@@ -65,5 +66,28 @@ public class Event {
 
     public List<Sponsor> getSponsors() { return sponsors; }
     public void setSponsors(List<Sponsor> sponsors) { this.sponsors = sponsors; }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+    public void addParticipation(Participation participation) {
+        this.participations.add(participation);
+        participation.setEvent(this);
+    }
+
+    public void removeParticipation(Participation participation) {
+        this.participations.remove(participation);
+        participation.setEvent(null);
+    }
+
+    public boolean isComplet() {
+        int confirmedCount = 0;
+        for (Participation p : participations) {
+            if (!p.isWaiting()) {
+                confirmedCount++;
+            }
+        }
+        return confirmedCount >= nbParticipant;
+    }
 
 }

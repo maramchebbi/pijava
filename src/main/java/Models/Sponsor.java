@@ -1,6 +1,5 @@
 package Models;
 
-
 public class Sponsor {
 
     private int id;
@@ -11,6 +10,7 @@ public class Sponsor {
     private String siteWeb;
     private String logo;
     private double montant;
+    private int eventCount; // Nombre d'événements associés
 
     // Constructeur
     public Sponsor() {
@@ -25,7 +25,7 @@ public class Sponsor {
         this.siteWeb = siteWeb;
         this.logo = logo;
         this.montant = montant;
-
+        this.eventCount = 0;
     }
 
     // Getters et Setters
@@ -93,7 +93,13 @@ public class Sponsor {
         this.montant = montant;
     }
 
+    public int getEventCount() {
+        return eventCount;
+    }
 
+    public void setEventCount(int eventCount) {
+        this.eventCount = eventCount;
+    }
 
     @Override
     public String toString() {

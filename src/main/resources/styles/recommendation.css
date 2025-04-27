@@ -1,0 +1,235 @@
+/* modern-style.css */
+.root {
+    -fx-background-color: #f5f7fa;
+    -fx-font-family: "Montserrat", sans-serif;
+}
+
+.main-container {
+    -fx-background-color: #f5f7fa;
+}
+
+.header-container {
+    -fx-padding: 5 0 5 0;
+}
+
+.accent-bar {
+    -fx-arc-height: 15;
+    -fx-arc-width: 15;
+    -fx-margin: 0 10 0 0;
+}
+
+.header-label {
+    -fx-text-fill: #333333;
+    -fx-padding: 0 0 0 10;
+}
+
+.search-box {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e0e6ed;
+    -fx-border-width: 1;
+}
+
+.field-label {
+    -fx-text-fill: #555555;
+}
+
+.modern-field {
+    -fx-background-color: #f0f3f8;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-width: 0;
+    -fx-padding: 10;
+    -fx-font-size: 13px;
+}
+
+.modern-field:focused {
+    -fx-background-color: #e8edf5;
+    -fx-effect: dropshadow(gaussian, #4e85f433, 3, 0, 0, 0);
+}
+
+.primary-button {
+    -fx-background-color: #c99b56;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 15 8 15;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #49320b;
+}
+
+.primary-button .glyph-icon {
+    -fx-fill: white;
+    -fx-padding: 0 5 0 0;
+}
+
+.modern-separator {
+    -fx-opacity: 0.5;
+}
+
+.content-panel, .details-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #e0e6ed;
+    -fx-border-width: 1;
+}
+
+.section-label {
+    -fx-text-fill: #333333;
+}
+
+.section-icon {
+    -fx-fill: #49320b;
+}
+
+.hint-container {
+    -fx-background-color: #f0f3f8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+    -fx-spacing: 8;
+}
+
+.hint-icon {
+    -fx-fill: #49320b;
+}
+
+.hint-label {
+    -fx-text-fill: #666666;
+    -fx-font-size: 12px;
+}
+
+.transparent-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.transparent-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+}
+
+.transparent-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #ab9182;
+    -fx-background-radius: 5;
+}
+
+.cards-container {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.event-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #e0e6ed;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, #00000015, 10, 0, 0, 2);
+    -fx-min-width: 250;
+    -fx-max-width: 300;
+    -fx-min-height: 180;
+    -fx-cursor: hand;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+.event-card:hover {
+    -fx-effect: dropshadow(gaussian, #00000033, 15, 0, 0, 3);
+    -fx-background-color: #fafbfd;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-scale-z: 1.02;
+}
+
+.event-card .card-id {
+    -fx-font-size: 12;
+    -fx-text-fill: #888888;
+    -fx-padding: 3 8 3 8;
+    -fx-background-color: #f0f3f8;
+    -fx-background-radius: 15;
+}
+
+.event-card .card-title {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-wrap-text: true;
+}
+
+.event-card .card-score {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+
+.event-card .score-bar {
+    -fx-background-color: #e0e6ed;
+    -fx-background-radius: 5;
+    -fx-accent: #49320b;
+    -fx-min-height: 8;
+    -fx-max-height: 8;
+}
+
+.event-info-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e0e6ed;
+    -fx-border-width: 1;
+}
+
+.card-label {
+    -fx-text-fill: #888888;
+    -fx-font-size: 12px;
+}
+
+.info-value {
+    -fx-text-fill: #333333;
+}
+
+.modern-progress {
+    -fx-background-color: #e0e6ed;
+    -fx-background-radius: 10;
+    -fx-accent: #ab9182;
+}
+
+.accent-button {
+    -fx-background-color: #c59c57;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-padding: 12 20 12 20;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.accent-button:hover {
+    -fx-background-color: #c99b56;
+}
+
+.accent-button .glyph-icon {
+    -fx-fill: white;
+    -fx-padding: 0 5 0 0;
+}
+
+.status-bar {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e0e6ed;
+    -fx-border-width: 1;
+}
+
+.status-label {
+    -fx-text-fill: #666666;
+    -fx-font-size: 13px;
+}

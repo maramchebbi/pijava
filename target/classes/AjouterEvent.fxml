@@ -1,56 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom, #ffecd2, #f7d9cf);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterEvent">
-   <effect>
-      <DropShadow radius="15" color="#c7b198"/>
-   </effect>
-   <children>
-      <VBox alignment="CENTER" spacing="12.0" layoutX="200.0" layoutY="30.0" prefWidth="400" style="-fx-background-color: rgba(255,255,255,0.85); -fx-background-radius: 20; -fx-padding: 20;">
-         <Label text="✨ Ajouter un Événement ✨" style="-fx-font-size: 22px; -fx-text-fill: #333; -fx-font-family: 'Segoe UI Semibold';" />
+<!-- Pas de conteneur racine StackPane ici pour faciliter l'intégration -->
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.AjouterEvent" styleClass="content-pane"
+            AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
 
-         <Label text="Titre :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <TextField fx:id="EventTitre" prefWidth="300.0" />
-         <Label fx:id="errorTitre" textFill="red" />
+   <!-- Fond dégradé qui remplit tout l'espace disponible -->
+   <VBox alignment="CENTER" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+         style="-fx-background-color: linear-gradient(to bottom right, #F5F0E6, #EEEBDD);">
 
-         <Label text="Localisation :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <TextField fx:id="EventLocalisation" prefWidth="300.0" />
-         <Label fx:id="errorLocalisation" textFill="red" />
+      <!-- Carte de formulaire centrée -->
+      <VBox fx:id="formCard" spacing="15" maxWidth="720" minHeight="500" maxHeight="700"
+            style="-fx-background-color: linear-gradient(to bottom right, #E8D8C4, #EEEBDD);
+                     -fx-background-radius: 20; -fx-border-radius: 20;
+                     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);">
+         <padding>
+            <Insets top="25" right="30" bottom="25" left="30" />
+         </padding>
 
-         <Label text="Date :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <DatePicker fx:id="EventDate" prefWidth="300.0" />
-         <Label fx:id="errorDate" textFill="red" />
-
-         <Label text="Heure (HH:mm:ss) :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <TextField fx:id="EventHeure" prefWidth="300.0" />
-         <Label fx:id="errorHeure" textFill="red" />
-
-         <Label text="Nombre de Participants :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <TextField fx:id="EventNbParticipants" prefWidth="300.0" />
-         <Label fx:id="errorNbParticipants" textFill="red" />
-
-         <Label text="Image :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <HBox spacing="10" alignment="CENTER">
-            <TextField fx:id="EventImage" prefWidth="200.0" editable="false" />
-            <Button fx:id="parcourirButton" text="Parcourir" onAction="#handleParcourir"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 12px; -fx-font-size: 13px;" />
+         <!-- En-tête avec titre stylisé -->
+         <HBox alignment="CENTER">
+            <Label text="Ajouter un nouvel événement"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #6D4C3D;">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow height="3.0" radius="1.0" width="3.0" color="#00000033" />
+               </effect>
+            </Label>
          </HBox>
 
-         <Label text="Sponsor :" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-         <ComboBox fx:id="sponsorComboBox" prefWidth="300.0" promptText="Sélectionnez un sponsor" />
-         <Label fx:id="errorSponsor" textFill="red" />
+         <!-- Ligne de séparation stylisée -->
+         <HBox style="-fx-background-color: #6D4C3D; -fx-opacity: 0.6; -fx-min-height: 2; -fx-max-height: 2;" />
 
-         <Button text="Valider l'Événement" onAction="#ajouterEvent"
-                 style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 20px; -fx-padding: 10 30;" />
+         <!-- Contenu qui s'adapte à la taille disponible -->
+         <GridPane hgap="15" vgap="10" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+               <ColumnConstraints hgrow="NEVER" minWidth="120" prefWidth="150" />
+               <ColumnConstraints hgrow="ALWAYS" minWidth="250" />
+            </columnConstraints>
+            <rowConstraints>
+               <!-- Définir des contraintes de ligne pour permettre une hauteur dynamique -->
+               <RowConstraints vgrow="NEVER" /> <!-- Titre -->
+               <RowConstraints vgrow="NEVER" /> <!-- Error Titre -->
+               <RowConstraints vgrow="NEVER" /> <!-- Localisation -->
+               <RowConstraints vgrow="NEVER" /> <!-- Error Localisation -->
+               <RowConstraints vgrow="NEVER" /> <!-- Date/Heure -->
+               <RowConstraints vgrow="NEVER" /> <!-- Error Date/Heure -->
+               <RowConstraints vgrow="NEVER" /> <!-- Participants/Sponsor -->
+               <RowConstraints vgrow="NEVER" /> <!-- Error Participants/Sponsor -->
+               <RowConstraints vgrow="NEVER" /> <!-- Image -->
+               <RowConstraints vgrow="NEVER" /> <!-- Coordonnées -->
+               <RowConstraints vgrow="ALWAYS" /> <!-- Espace flexible -->
+               <RowConstraints vgrow="NEVER" /> <!-- Bouton Ajouter -->
+            </rowConstraints>
+
+            <!-- Titre -->
+            <Label text="Titre:" style="-fx-font-weight: bold; -fx-text-fill: #6D4C3D;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="EventTitre" promptText="Titre de l'événement"
+                       style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="errorTitre" style="-fx-text-fill: #CD5C5C; -fx-font-size: 11px;"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <!-- Localisation -->
+            <Label text="Localisation:" style="-fx-font-weight: bold; -fx-text-fill: #6D4C3D;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="EventLocalisation" promptText="Lieu de l'événement"
+                       style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                       GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="errorLocalisation" style="-fx-text-fill: #CD5C5C; -fx-font-size: 11px;"
+                   GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <!-- Date et Heure (sur la même ligne) -->
+            <Label text="Date/Heure:" style="-fx-font-weight: bold; -fx-text-fill: #6D4C3D;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <DatePicker fx:id="EventDate" promptText="Date"
+                           style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                           HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+               <TextField fx:id="EventHeure" promptText="Heure (HH:mm:ss)"
+                          style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                          prefWidth="150" />
+            </HBox>
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <Label fx:id="errorDate" style="-fx-text-fill: #CD5C5C; -fx-font-size: 11px;" HBox.hgrow="ALWAYS" />
+               <Label fx:id="errorHeure" style="-fx-text-fill: #CD5C5C; -fx-font-size: 11px;" prefWidth="150" />
+            </HBox>
+
+            <!-- Nombre de participants et Sponsor (sur la même ligne) -->
+            <Label text="Participants:" style="-fx-font-weight: bold; -fx-text-fill: #6D4C3D;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <TextField fx:id="EventNbParticipants" promptText="Max participants"
+                          style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                          prefWidth="150" />
+               <ComboBox fx:id="sponsorComboBox" promptText="Sponsor"
+                         style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                         HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+            </HBox>
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <Label fx:id="errorNbParticipants" style="-fx-text-fill: #CD5C5C; -fx-font-size: 11px;" prefWidth="150" />
+               <Label fx:id="errorSponsor" style="-fx-text-fill: #CD5C5C; -fx-font-size: 11px;" HBox.hgrow="ALWAYS" />
+            </HBox>
+
+            <!-- Image -->
+            <Label text="Image:" style="-fx-font-weight: bold; -fx-text-fill: #6D4C3D;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <TextField fx:id="EventImage" promptText="Chemin d'accès à l'image"
+                          style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                          HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+               <Button text="Parcourir" onAction="#handleParcourir"
+                       style="-fx-background-color: #A68B7C; -fx-text-fill: white; -fx-background-radius: 8; -fx-cursor: hand;">
+                  <effect>
+                     <DropShadow color="#00000040" radius="4.0" spread="0.05" />
+                  </effect>
+               </Button>
+            </HBox>
+
+            <!-- Coordonnées GPS -->
+            <Label text="Coordonnées:" style="-fx-font-weight: bold; -fx-text-fill: #6D4C3D;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <TextField fx:id="EventLatitude" promptText="Latitude"
+                          style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                          prefWidth="120" />
+               <TextField fx:id="EventLongitude" promptText="Longitude"
+                          style="-fx-background-color: #F8F4EA; -fx-background-radius: 8; -fx-border-color: #C8B6A6; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 8;"
+                          prefWidth="120" />
+               <Button text="Sélectionner sur carte" onAction="#openMapCoordinatePicker"
+                       style="-fx-background-color: #7D5A50; -fx-text-fill: white; -fx-background-radius: 8; -fx-cursor: hand;"
+                       HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                  <effect>
+                     <DropShadow color="#00000040" radius="4.0" spread="0.05" />
+                  </effect>
+               </Button>
+            </HBox>
+
+            <!-- Espace flexible -->
+            <Region GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="2" />
+
+            <!-- Bouton d'ajout -->
+            <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.columnSpan="2">
+               <padding>
+                  <Insets top="10" />
+               </padding>
+               <Button text="Ajouter l'événement" onAction="#ajouterEvent"
+                       style="-fx-background-color: linear-gradient(to bottom, #6D4C3D, #4F3222); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10 20;">
+                  <effect>
+                     <DropShadow color="#00000040" radius="5.0" spread="0.1" />
+                  </effect>
+               </Button>
+            </HBox>
+         </GridPane>
       </VBox>
-   </children>
+   </VBox>
 </AnchorPane>
