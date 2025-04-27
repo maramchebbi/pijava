@@ -55,7 +55,8 @@ public class AjouterCollectionController {
     public void initialize() {
         try {
             // Try to load the intended image
-            Image image = new Image(getClass().getResourceAsStream("/images/close-up-hands-working-pottery.jpg"));
+            File file = new File("src/main/resources/images/2.jpg");
+            Image image = new Image(file.toURI().toString());
             if (image.isError()) {
                 throw new IOException("Image failed to load properly");
             }
@@ -66,7 +67,7 @@ public class AjouterCollectionController {
             // Try to load a backup image or a placeholder
             try {
                 // You could use a simpler placeholder image or one that's definitely in your resources
-                Image fallbackImage = new Image(getClass().getResourceAsStream("/images/close-up-hands-working-pottery.jpg"));
+                Image fallbackImage = new Image(getClass().getResourceAsStream("/images/2.jpg"));
                 ceramicImageView.setImage(fallbackImage);
             } catch (Exception ex) {
                 // If all else fails, create a small blank image

@@ -46,7 +46,9 @@ public class Oeuvre {
     @JoinColumn(name = "ceramic_collection_id")
 
     private CeramicCollection collection;
-    public Oeuvre() {}
+
+    public Oeuvre() {
+    }
 
     public CeramicCollection getCollection() {
         return collection;
@@ -69,10 +71,10 @@ public class Oeuvre {
         this.user_id = user_id;
         this.collection = collection;
 
-       // this.ceramic_collection_id = ceramic_collection_id;
+        // this.ceramic_collection_id = ceramic_collection_id;
     }
 
-    public Oeuvre(int id, String nom, String type, String description, String matiere, String couleur, String dimensions, String image, String categorie, int user_id ) {
+    public Oeuvre(int id, String nom, String type, String description, String matiere, String couleur, String dimensions, String image, String categorie, int user_id) {
         this.id = id;
         this.nom = nom;
         this.type = type;
@@ -84,7 +86,7 @@ public class Oeuvre {
         this.categorie = categorie;
         this.user_id = user_id;
         this.collection = collection;
-      //  this.ceramic_collection_id = ceramic_collection_id;
+        //  this.ceramic_collection_id = ceramic_collection_id;
     }
 
     public Oeuvre(String nom, String type, String description, String matiere, String couleur, String dimension, String idUser, String image, String categorie, int userId) {
@@ -170,7 +172,6 @@ public class Oeuvre {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
-
 
 
     @Override

@@ -1,21 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="848.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Detailco">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #f9f9f9;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Detailco">
     <children>
+        <!-- En-tête de la page -->
+        <HBox alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" style="-fx-background-color: #D2B48C; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
+            <Label fx:id="collectionTitleLabel" text="Œuvres de la Collection" textFill="WHITE">
+                <font>
+                    <Font name="Arial Bold" size="24.0" />
+                </font>
+            </Label>
+        </HBox>
 
-        <!-- Conteneur défilant pour les images -->
-        <ScrollPane layoutX="74.0" layoutY="56.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background: #f8f5f2; -fx-border-color: #d9d1c7; -fx-border-radius: 5; -fx-background-radius: 5;">
-            <content>
-                <FlowPane fx:id="imageContainer" alignment="CENTER" hgap="20" vgap="20">
-                    <!-- Les ImageView seront ajoutées dynamiquement ici -->
-                </FlowPane>
-            </content>
-          
-        </ScrollPane>
+        <!-- Conteneur principal avec marge -->
+        <VBox alignment="TOP_CENTER" layoutX="0.0" layoutY="80.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" spacing="15.0">
+            <padding>
+                <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+            </padding>
+
+            <!-- Description optionnelle de la collection -->
+            <Label fx:id="collectionDescriptionLabel" text="Explorez les œuvres de cette collection" textFill="#666666">
+                <font>
+                    <Font name="Arial" size="16.0" />
+                </font>
+            </Label>
+
+            <!-- Conteneur défilant pour les œuvres -->
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                <content>
+                    <FlowPane fx:id="imageContainer" alignment="CENTER" columnHalignment="CENTER" hgap="30" style="-fx-background-color: transparent;" vgap="30">
+                        <!-- Les œuvres seront ajoutées dynamiquement ici -->
+                    </FlowPane>
+                </content>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+            </ScrollPane>
+        </VBox>
+
+        <!-- Pied de page -->
+        <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" prefHeight="40.0" style="-fx-background-color: #F5F5F5;">
+            <Label text="© 2025 Collections Céramiques" textFill="#888888">
+                <font>
+                    <Font name="Arial" size="12.0" />
+                </font>
+            </Label>
+        </HBox>
     </children>
-
 </AnchorPane>

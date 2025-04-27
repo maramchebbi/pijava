@@ -5,17 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterCollectionController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AjouterCollectionController">
     <top>
-        <HBox alignment="CENTER" prefHeight="70.0" style="-fx-background-color: #D2B48C; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
+        <HBox alignment="CENTER" prefHeight="60.0" style="-fx-background-color: #D2B48C; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
             <Label text="Créer une Nouvelle Collection" textFill="WHITE">
                 <font>
                     <Font name="Arial Bold" size="24.0" />
@@ -25,13 +23,14 @@
     </top>
 
     <center>
-        <HBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
-            <!-- Left side - Ceramic image -->
-            <ImageView fx:id="ceramicImageView" fitHeight="350.0" fitWidth="350.0" preserveRatio="true" />
-            <!-- Right side - Form -->
-            <VBox alignment="CENTER" prefWidth="350.0" spacing="15.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #E8DCC7; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+        <HBox alignment="CENTER" prefHeight="500.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <!-- Left side - Ceramic image with fixed width -->
+            <ImageView fx:id="ceramicImageView" fitHeight="450.0" fitWidth="389.0" preserveRatio="true" />
+
+            <!-- Right side - Form with reduced padding -->
+            <VBox alignment="CENTER" maxHeight="480.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #E8DCC7; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
                 <padding>
-                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                 </padding>
 
                 <Label style="-fx-font-family: 'Arial'; -fx-font-size: 16;" text="Créateur:">
@@ -55,7 +54,10 @@
                 </Label>
                 <TextArea fx:id="descriptionCollectionField" prefHeight="100.0" promptText="Décrivez votre collection" style="-fx-background-color: #FFFFFF; -fx-border-color: #E8DCC7; -fx-border-radius: 5;" wrapText="true" />
 
-                <HBox alignment="CENTER" spacing="20.0" prefHeight="50.0">
+                <HBox alignment="CENTER" prefHeight="40.0" spacing="20.0">
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
                     <Button fx:id="ajouterButton" onAction="#ajoutercollectionaction" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #D2B48C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Ajouter">
                         <font>
                             <Font name="Arial Bold" size="14.0" />
