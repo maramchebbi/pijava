@@ -1,0 +1,66 @@
+@echo off
+REM ==================================================
+REM Script batch pour lancer une application JavaFX
+REM Version : 1.2
+REM ==================================================
+
+REM --------------------------
+REM Configuration des chemins
+REM --------------------------
+set JDK_PATH="C:\Program Files\java\jbr-17.0.12\bin\java.exe"
+set JAVAFX_LIB="C:\Users\user\Downloads\openjfx-17.0.14_windows-x64_bin-sdk\javafx-sdk-17.0.14\lib"
+set APP_JAR="C:\chemin\vers\votre\application.jar"
+
+REM --------------------------
+REM Vérifications initiales
+REM --------------------------
+echo Vérification des dépendances...
+where java > nul 2>&1
+if %errorlevel% neq 0 (
+    echo Erreur: Java n'est pas trouvé dans le PATH
+    goto :error
+)
+
+if not exist %JDK_PATH% (
+    echo Erreur: JDK introuvable à %JDK_PATH%
+    goto :error
+)
+
+if not exist %JAVAFX_LIB%\javafx.controls.jar (
+    echo Erreur: JavaFX introuvable à %JAVAFX_LIB%
+    goto :error
+)
+
+if not exist %APP_JAR% (
+    echo Erreur: Fichier JAR introuvable à %APP_JAR%
+    goto :error
+)
+
+REM --------------------------
+REM Lancement de l'application
+REM --------------------------
+echo Lancement de l'application...
+%JDK_PATH% ^
+    --module-path %JAVAFX_LIB% ^
+    --add-modules javafx.controls,javafx.fxml ^
+    -jar %APP_JAR% %*
+
+if %errorlevel% neq 0 (
+    echo Erreur: L'application a quitté avec le code %errorlevel%
+    goto :error
+)
+
+goto :eof
+
+REM --------------------------
+REM Gestion des erreurs
+REM --------------------------
+:error
+echo.
+echo Correctifs possibles :
+echo 1. Verifiez que Java 17 est installé à C:\Program Files\java\
+echo 2. Téléchargez JavaFX 17 depuis https://gluonhq.com/products/javafx/
+echo 3. Compilez votre projet avec 'mvn clean package'
+echo.
+pause
+exit /b 1
