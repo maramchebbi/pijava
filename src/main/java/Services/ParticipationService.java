@@ -167,19 +167,17 @@ public class ParticipationService {
                     String eventTitre = waitingRs.getString("titre");
                     int numtel = waitingRs.getInt("numtel");
 
-                    // Maintenant, effectuer les mises à jour avec une nouvelle ressource PreparedStatement
+                    // Mise à jour du statut de is_waiting de 1 à 0
                     String updateQuery = "UPDATE participation SET is_waiting = 0 WHERE id = ?";
                     try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
                         updateStmt.setInt(1, waitingParticipationId);
                         updateStmt.executeUpdate();
                     }
 
-                    // Envoi du SMS
+                    // Envoi du SMS à la personne qui n'est plus sur liste d'attente
                     TwilioService smsService = new TwilioService();
                     String msg = "Bonjour " + nom + ", une place s'est libérée pour l'événement '" + eventTitre + "'. Vous êtes maintenant inscrit.";
                     smsService.sendSms("+216" + numtel, msg);
-
-                    // Pas de notification par email, uniquement par SMS
                 }
             } catch (SQLException e) {
                 System.out.println("Erreur lors de l'exécution de la requête pour la liste d'attente");
@@ -187,7 +185,6 @@ public class ParticipationService {
             }
         }
     }
-
     /**
      * Méthode corrigée pour récupérer les participations d'un utilisateur
      * @param userId ID de l'utilisateur
