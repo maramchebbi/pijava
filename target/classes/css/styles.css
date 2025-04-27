@@ -1,0 +1,126 @@
+/* Style général */
+.root {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-background-color: #f5f7fa;
+}
+
+/* Header */
+.header {
+    -fx-background-color: linear-gradient(to right, #2c3e50, #4a6491);
+    -fx-padding: 15 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0, 0, 1);
+}
+
+/* Boutons */
+.action-btn {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-text-fill: white;
+    -fx-transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+    -fx-translate-y: -2px;
+}
+
+.add-btn {
+    -fx-background-color: #27ae60;
+}
+
+.add-btn:hover {
+    -fx-background-color: #2ecc71;
+}
+
+.password-btn {
+    -fx-background-color: #3498db;
+}
+
+.password-btn:hover {
+    -fx-background-color: #2980b9;
+}
+
+.reclamation-btn {
+    -fx-background-color: #e67e22;
+}
+
+.reclamation-btn:hover {
+    -fx-background-color: #d35400;
+}
+
+.profile-btn {
+    -fx-background-color: #9b59b6;
+}
+
+.profile-btn:hover {
+    -fx-background-color: #8e44ad;
+}
+
+.logout-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-padding: 5 15;
+}
+
+.logout-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+/* Toolbar */
+.toolbar {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 3);
+}
+
+/* Titres */
+.section-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-fill: #2c3e50;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+/* ScrollPane */
+.user-scrollpane {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+    -fx-fit-to-width: true;
+}
+
+.user-scrollpane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Cartes utilisateur (à utiliser dans le contrôleur) */
+.user-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 3);
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+}
+
+.user-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 4);
+    -fx-translate-y: -3px;
+    -fx-border-color: #3498db;
+}

@@ -20,17 +20,35 @@ public class Home extends Application {
         if (user != null) {
             // L'utilisateur est déjà connecté
             SessionManager.setCurrentUser(user);
-            loader = new FXMLLoader(getClass().getResource("/Afficheruser.fxml"));
+
+            // Vérifier le rôle de l'utilisateur
+            if ("admin".equalsIgnoreCase(user.getRole())) {
+                // Si c'est un administrateur, rediriger vers AfficherUser.fxml
+                loader = new FXMLLoader(getClass().getResource("/AfficherUser.fxml"));
+            } else {
+                // Si c'est un membre normal, rediriger vers Home.fxml
+                loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
+            }
         } else {
-            // Aucun utilisateur connecté
-            loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            // Aucun utilisateur connecté, rediriger vers la page de connexion
+            loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
         }
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
 
-        primaryStage.setTitle("Gestion Utilisateur");
+        // Définir le titre en fonction de la page chargée
+        if (user != null) {
+            if ("admin".equalsIgnoreCase(user.getRole())) {
+                primaryStage.setTitle("Panneau d'administration");
+            } else {
+                primaryStage.setTitle("Espace membre");
+            }
+        } else {
+            primaryStage.setTitle("Connexion");
+        }
+
         primaryStage.show();
     }
 

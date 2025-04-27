@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -819,8 +820,50 @@ public class ChatController {
         closeAnimation.play();
     }
 
-    public void handleKeyPress(javafx.scene.input.KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
+    @FXML
+    public void handleKeyPress(KeyEvent event) {
+        // Si le mode mention est actif et que les suggestions sont visibles
+        if (mentionMode && mentionSuggestionsBox.isVisible()) {
+            switch (event.getCode()) {
+                case UP:
+                    // Déplacer la sélection vers le haut
+                    int currentIndex = mentionSuggestionsList.getSelectionModel().getSelectedIndex();
+                    if (currentIndex > 0) {
+                        mentionSuggestionsList.getSelectionModel().select(currentIndex - 1);
+                        mentionSuggestionsList.scrollTo(currentIndex - 1);
+                        event.consume();
+                    }
+                    break;
+                case DOWN:
+                    // Déplacer la sélection vers le bas
+                    currentIndex = mentionSuggestionsList.getSelectionModel().getSelectedIndex();
+                    if (currentIndex < mentionSuggestionsList.getItems().size() - 1) {
+                        mentionSuggestionsList.getSelectionModel().select(currentIndex + 1);
+                        mentionSuggestionsList.scrollTo(currentIndex + 1);
+                        event.consume();
+                    }
+                    break;
+                case TAB:
+                case ENTER:
+                    // Sélectionner l'utilisateur en surbrillance
+                    HBox selectedItem = mentionSuggestionsList.getSelectionModel().getSelectedItem();
+                    if (selectedItem != null) {
+                        User selectedUser = (User) selectedItem.getUserData();
+                        selectMentionedUser(selectedUser);
+                        event.consume();
+                    }
+                    break;
+                case ESCAPE:
+                    // Fermer les suggestions
+                    mentionMode = false;
+                    hideMentionSuggestions();
+                    event.consume();
+                    break;
+                default:
+                    // Pour les autres touches, continuer l'événement normalement
+                    break;
+            }
+        } else if (event.getCode() == KeyCode.ENTER) {
             if (event.isShiftDown()) {
                 // Permettre une nouvelle ligne avec Shift+Enter
                 return;
@@ -829,42 +872,6 @@ public class ChatController {
                 handleSendMessage();
                 event.consume();
             }
-            if (mentionMode && mentionSuggestionsBox.isVisible()) {
-                switch (event.getCode()) {
-                    case UP:
-                        // Déplacer la sélection vers le haut
-                        int currentIndex = mentionSuggestionsList.getSelectionModel().getSelectedIndex();
-                        if (currentIndex > 0) {
-                            mentionSuggestionsList.getSelectionModel().select(currentIndex - 1);
-                            event.consume();
-                        }
-                        break;
-                    case DOWN:
-                        // Déplacer la sélection vers le bas
-                        currentIndex = mentionSuggestionsList.getSelectionModel().getSelectedIndex();
-                        if (currentIndex < mentionSuggestionsList.getItems().size() - 1) {
-                            mentionSuggestionsList.getSelectionModel().select(currentIndex + 1);
-                            event.consume();
-                        }
-                        break;
-                    case ENTER:
-                        // Sélectionner l'utilisateur en surbrillance
-                        HBox selectedItem = mentionSuggestionsList.getSelectionModel().getSelectedItem();
-                        if (selectedItem != null) {
-                            User selectedUser = (User) selectedItem.getUserData();
-                            selectMentionedUser(selectedUser);
-                            event.consume();
-                        }
-                        break;
-                    case ESCAPE:
-                        // Fermer les suggestions
-                        mentionMode = false;
-                        hideMentionSuggestions();
-                        event.consume();
-                        break;
-                }
-            }
-
         } else if (event.getCode() == KeyCode.ESCAPE) {
             if (messageBeingEdited != null) {
                 // Annuler l'édition avec Escape
@@ -875,10 +882,16 @@ public class ChatController {
                 clearAttachment();
                 event.consume();
             }
+        } else if (event.getCode() == KeyCode.AT) {
+            // Gérer la frappe manuelle du symbole @ pour activer le mode mention
+            // Ceci est techniquement redondant avec le listener de texte, mais offre
+            // une rétroaction plus immédiate
+            Platform.runLater(() -> {
+                mentionMode = true;
+                showMentionSuggestions("");
+            });
         }
-    }
-
-    // Méthode améliorée pour le drag dropped
+    }    // Méthode améliorée pour le drag dropped
     private void handleDragDropped(DragEvent event) {
         boolean success = false;
         Dragboard db = event.getDragboard();
@@ -1982,15 +1995,32 @@ public class ChatController {
 
         // Créer un élément pour chaque utilisateur filtré
         for (User user : filteredUsers) {
-            HBox userBox = createMentionSuggestionItem(user);
+            HBox userBox = createMentionSuggestionItem(user, searchText); // Mise à jour pour highlight
             mentionSuggestionsList.getItems().add(userBox);
         }
 
-        // Afficher la boîte de suggestions
-        mentionSuggestionsBox.setVisible(true);
-        mentionSuggestionsBox.setManaged(true);
+        // Afficher la boîte de suggestions avec animation
+        if (!mentionSuggestionsBox.isVisible()) {
+            // Préparer l'animation
+            mentionSuggestionsBox.setOpacity(0);
+            mentionSuggestionsBox.setScaleY(0.8);
+            mentionSuggestionsBox.setVisible(true);
+            mentionSuggestionsBox.setManaged(true);
 
-        // Positionner la boîte de suggestions au-dessus du champ de texte
+            // Animation de fade in et scale
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(150), mentionSuggestionsBox);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+
+            ScaleTransition scaleUp = new ScaleTransition(Duration.millis(150), mentionSuggestionsBox);
+            scaleUp.setFromY(0.8);
+            scaleUp.setToY(1);
+
+            ParallelTransition animation = new ParallelTransition(fadeIn, scaleUp);
+            animation.play();
+        }
+
+        // Positionner la boîte de suggestions près du curseur
         Platform.runLater(() -> {
             positionMentionSuggestions();
 
@@ -2005,20 +2035,40 @@ public class ChatController {
      * Masque la boîte de suggestions de mentions
      */
     private void hideMentionSuggestions() {
-        mentionSuggestionsBox.setVisible(false);
-        mentionSuggestionsBox.setManaged(false);
+        if (mentionSuggestionsBox.isVisible()) {
+            // Animation de disparition
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(150), mentionSuggestionsBox);
+            fadeOut.setFromValue(1);
+            fadeOut.setToValue(0);
+
+            ScaleTransition scaleDown = new ScaleTransition(Duration.millis(150), mentionSuggestionsBox);
+            scaleDown.setFromY(1);
+            scaleDown.setToY(0.8);
+
+            ParallelTransition animation = new ParallelTransition(fadeOut, scaleDown);
+            animation.setOnFinished(e -> {
+                mentionSuggestionsBox.setVisible(false);
+                mentionSuggestionsBox.setManaged(false);
+            });
+
+            animation.play();
+        } else {
+            mentionSuggestionsBox.setVisible(false);
+            mentionSuggestionsBox.setManaged(false);
+        }
     }
+
 
     /**
      * Crée un élément de suggestion de mention pour un utilisateur
      */
-    private HBox createMentionSuggestionItem(User user) {
+    private HBox createMentionSuggestionItem(User user, String searchText) {
         HBox userBox = new HBox(10);
         userBox.setPadding(new Insets(8));
         userBox.setAlignment(Pos.CENTER_LEFT);
-        userBox.setUserData(user); // Stocker l'objet utilisateur pour référence future
+        userBox.setUserData(user);
 
-        // Avatar de l'utilisateur (cercle avec initiales)
+        // Avatar de l'utilisateur
         Circle avatarCircle = new Circle(15);
         avatarCircle.setFill(Color.web("#3498db"));
         avatarCircle.setStroke(Color.web("#2980b9"));
@@ -2030,53 +2080,101 @@ public class ChatController {
 
         StackPane avatar = new StackPane(avatarCircle, initials);
 
-        // Nom complet de l'utilisateur
+        // Créer un TextFlow pour mettre en surbrillance le texte correspondant
+        TextFlow nameFlow = new TextFlow();
         String fullName = user.getPrenom() + " " + user.getNom();
-        Label nameLabel = new Label(fullName);
-        nameLabel.setStyle("-fx-font-weight: bold;");
 
-        // Email de l'utilisateur (plus petit)
+        if (!searchText.isEmpty()) {
+            // Mettre en surbrillance le texte correspondant
+            int startIndex = fullName.toLowerCase().indexOf(searchText.toLowerCase());
+            if (startIndex >= 0) {
+                int endIndex = startIndex + searchText.length();
+
+                // Texte avant la correspondance
+                if (startIndex > 0) {
+                    Text beforeText = new Text(fullName.substring(0, startIndex));
+                    beforeText.setStyle("-fx-font-weight: bold;");
+                    nameFlow.getChildren().add(beforeText);
+                }
+
+                // Texte correspondant (surbrillance)
+                Text matchText = new Text(fullName.substring(startIndex, endIndex));
+                matchText.setStyle("-fx-font-weight: bold; -fx-fill: #2980b9; -fx-underline: true;");
+                nameFlow.getChildren().add(matchText);
+
+                // Texte après la correspondance
+                if (endIndex < fullName.length()) {
+                    Text afterText = new Text(fullName.substring(endIndex));
+                    afterText.setStyle("-fx-font-weight: bold;");
+                    nameFlow.getChildren().add(afterText);
+                }
+            } else {
+                // Pas de correspondance exacte, afficher normalement
+                Text nameText = new Text(fullName);
+                nameText.setStyle("-fx-font-weight: bold;");
+                nameFlow.getChildren().add(nameText);
+            }
+        } else {
+            // Pas de texte de recherche, afficher normalement
+            Text nameText = new Text(fullName);
+            nameText.setStyle("-fx-font-weight: bold;");
+            nameFlow.getChildren().add(nameText);
+        }
+
+        // Email de l'utilisateur
         Label emailLabel = new Label(user.getEmail());
         emailLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #7f8c8d;");
 
         VBox userInfo = new VBox(2);
-        userInfo.getChildren().addAll(nameLabel, emailLabel);
+        userInfo.getChildren().addAll(nameFlow, emailLabel);
 
         userBox.getChildren().addAll(avatar, userInfo);
 
-        // Effet de survol
+        // Effet de survol et sélection
         userBox.setOnMouseEntered(e -> {
             userBox.setStyle("-fx-background-color: #f0f7fd; -fx-background-radius: 5;");
             mentionSuggestionsList.getSelectionModel().select(userBox);
         });
 
         userBox.setOnMouseExited(e -> {
-            userBox.setStyle("-fx-background-color: transparent;");
+            if (mentionSuggestionsList.getSelectionModel().getSelectedItem() != userBox) {
+                userBox.setStyle("-fx-background-color: transparent;");
+            }
         });
 
-        // Action de clic pour sélectionner un utilisateur
         userBox.setOnMouseClicked(e -> selectMentionedUser(user));
 
         return userBox;
     }
-
     /**
      * Positionne la boîte de suggestions près du curseur
      */
     private void positionMentionSuggestions() {
-        // S'assurer que la boîte est bien positionnée par rapport au champ texte
-        // et qu'elle ne dépasse pas des limites de la fenêtre
-        double textFieldHeight = messageTextField.getHeight();
+        // Positionner la boîte juste en dessous du champ de texte
+        Bounds textFieldBounds = messageTextField.localToScene(messageTextField.getBoundsInLocal());
+        double sceneX = textFieldBounds.getMinX();
+        double sceneY = textFieldBounds.getMaxY();
 
-        // Positionner au-dessus du champ de texte
-        mentionSuggestionsBox.setTranslateY(-textFieldHeight - mentionSuggestionsBox.getHeight() - 10);
+        // Convertir les coordonnées de la scène vers le système de coordonnées du parent
+        Point2D localCoords = mentionSuggestionsBox.getParent().sceneToLocal(sceneX, sceneY);
+
+        mentionSuggestionsBox.setLayoutX(localCoords.getX());
+        mentionSuggestionsBox.setLayoutY(localCoords.getY());
+
+        // Limiter la taille
         mentionSuggestionsBox.setMaxHeight(200);
         mentionSuggestionsBox.setMaxWidth(350);
-    }
 
-    /**
-     * Sélectionne un utilisateur mentionné et l'insère dans le message
-     */
+        // Assurer que la box est visible dans la fenêtre
+        Bounds bounds = mentionSuggestionsBox.localToScene(mentionSuggestionsBox.getBoundsInLocal());
+        double sceneWidth = messageTextField.getScene().getWidth();
+
+        // Ajuster si nécessaire pour éviter de dépasser les bords de la fenêtre
+        if (bounds.getMaxX() > sceneWidth) {
+            double adjustment = bounds.getMaxX() - sceneWidth + 10; // 10px de marge
+            mentionSuggestionsBox.setLayoutX(localCoords.getX() - adjustment);
+        }
+    }
     private void selectMentionedUser(User user) {
         // Obtenir le texte actuel
         String currentText = messageTextField.getText();
@@ -2095,5 +2193,6 @@ public class ChatController {
         mentionMode = false;
         hideMentionSuggestions();
     }
+
 
 }

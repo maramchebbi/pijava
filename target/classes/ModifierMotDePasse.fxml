@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-padding: 40 30 40 30;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModifierMotDePasseController">
+
+    <!-- Icône de sécurité -->
+    <ImageView fitHeight="114.0" fitWidth="150.0">
+        <image>
+            <Image url="@image/logo.png" />
+        </image>
+    </ImageView>
+
+    <!-- Titre -->
+    <Label style="-fx-text-fill: #1e293b; -fx-font-weight: bold;" text="Modifier le mot de passe">
+        <font>
+            <Font name="Segoe UI Semibold" size="20" />
+        </font>
+    </Label>
+
+    <!-- Description -->
+    <Label maxWidth="300" style="-fx-text-fill: #64748b; -fx-font-size: 13; -fx-alignment: CENTER; -fx-wrap-text: true;" text="Veuillez saisir votre mot de passe actuel et votre nouveau mot de passe" />
+
+    <!-- Formulaire -->
+    <VBox spacing="15" style="-fx-padding: 20 0 20 0;">
+        <!-- Ancien mot de passe -->
+        <VBox spacing="5">
+            <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="MOT DE PASSE ACTUEL" />
+            <PasswordField fx:id="ancienMotDePasse" promptText="Entrez votre mot de passe actuel" style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+        </VBox>
+
+        <!-- Nouveau mot de passe -->
+        <VBox spacing="5">
+            <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="NOUVEAU MOT DE PASSE" />
+            <PasswordField fx:id="nouveauMotDePasse" promptText="Entrez votre nouveau mot de passe" style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+            <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11;" text="8 caractères minimum avec chiffres et lettres" />
+        </VBox>
+
+        <!-- Confirmation -->
+        <VBox spacing="5">
+            <Label style="-fx-text-fill: #475569; -fx-font-size: 12; -fx-font-weight: bold;" text="CONFIRMER LE NOUVEAU MOT DE PASSE" />
+            <PasswordField fx:id="confirmationMotDePasse" promptText="Confirmez votre nouveau mot de passe" style="-fx-background-color: #f8fafc; -fx-background-radius: 6; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #e2e8f0;" />
+        </VBox>
+    </VBox>
+
+    <!-- Bouton de validation -->
+    <Button onAction="#modifierMotDePasse" style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 12 30; -fx-cursor: hand; -fx-font-size: 14;" text="Mettre à jour le mot de passe" />
+
+    <!-- Message d'erreur/succès -->
+    <Label fx:id="messageLabel" maxWidth="300" style="-fx-text-fill: #ef4444; -fx-font-size: 13; -fx-alignment: CENTER;" wrapText="true" />
+
+    <!-- Bouton Annuler -->
+    <Button onAction="#annulerAction" style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 8 15; -fx-cursor: hand; -fx-font-size: 13;" text="Annuler" />
+</VBox>

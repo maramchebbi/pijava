@@ -129,17 +129,42 @@ public class LoginController {
     }
 
     private void loadMainView(User user, ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherUser.fxml"));
+        // Choisir la vue en fonction du rôle
+        String fxmlPath;
+        String title;
+
+        if ("admin".equalsIgnoreCase(user.getRole())) {
+            // Si l'utilisateur est un administrateur
+            fxmlPath = "/AfficherUser.fxml";
+            title = "Panneau d'administration";
+        } else {
+            // Si l'utilisateur est un membre normal
+            fxmlPath = "/Home.fxml";
+            title = "Espace membre - " + user.getPrenom();
+        }
+
+        // Charger la vue appropriée
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
 
+        // Si nous chargeons la vue Home, nous devons initialiser les données utilisateur
+        if (!fxmlPath.equals("/AfficherUser.fxml") && loader.getController() instanceof HomeController) {
+            HomeController homeController = loader.getController();
+            homeController.initData(user);
+        }
+
+        // Configurer et afficher la scène
         Stage stage = (Stage) emailField.getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.setTitle("Bienvenue " + user.getPrenom());
+        stage.setTitle(title);
+
+        // Sauvegarder la session et envoyer une notification d'email
         SessionStorage.saveSession(user);
         EmailSender.sendLoginNotification(user.getEmail(), user.getPrenom());
+
+        // Afficher la fenêtre
         stage.show();
     }
-
     @FXML
     private void handleRegisterLinkAction(ActionEvent event) {
         navigateToView("/Register.fxml", "Inscription", event);

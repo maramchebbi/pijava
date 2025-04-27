@@ -51,8 +51,7 @@ public class AfficherUserController {
     @FXML private Button btnHistory;
     @FXML private Button btnNotifications;
     @FXML private StackPane notificationsCenter;
-    @FXML private Circle notificationCountBadge;
-    @FXML private Text notificationCount;
+    //@FXML private Circle notificationCountBadge;
     @FXML private StackPane historyIndicator;
     @FXML private ImageView backgroundImage;
     @FXML private Button customizeButton;
@@ -87,8 +86,6 @@ public class AfficherUserController {
     @FXML
     private Text pageTitle;
     @FXML
-    private Label userNameLabel;
-    @FXML
     private Circle userAvatar;
     @FXML
     private HBox searchContainer;
@@ -112,7 +109,7 @@ public class AfficherUserController {
         });
 
         // Afficher les données utilisateur actuelles
-        displayCurrentUserInfo();
+        //displayCurrentUserInfo();
 
         // Charger et afficher la liste des utilisateurs
         loadUsers();
@@ -215,7 +212,7 @@ public class AfficherUserController {
     private void displayCurrentUserInfo() {
         User currentUser = SessionManager.getCurrentUser();
         if (currentUser != null) {
-            userNameLabel.setText(currentUser.getPrenom() + " " + currentUser.getNom());
+           // userNameLabel.setText(currentUser.getPrenom() + " " + currentUser.getNom());
 
             // Configurez le cercle de l'avatar avec les initiales
             Text initialText = new Text(currentUser.getPrenom().substring(0, 1) + currentUser.getNom().substring(0, 1));
@@ -1741,7 +1738,7 @@ public class AfficherUserController {
     private void enhanceCurrentUserDisplay() {
         User currentUser = SessionManager.getCurrentUser();
         if (currentUser != null) {
-            userNameLabel.setText(currentUser.getPrenom() + " " + currentUser.getNom());
+           // userNameLabel.setText(currentUser.getPrenom() + " " + currentUser.getNom());
 
             // Set user initials for avatar
             Text userInitials = (Text) scrollPane.getScene().lookup("#userInitials");
@@ -1769,8 +1766,8 @@ public class AfficherUserController {
     }
     private void setupNotificationsAndHistory() {
         // S'assurer que les badges et compteurs sont bien initialisés
-        notificationCountBadge.setVisible(false);
-        notificationCount.setVisible(false);
+        //notificationCountBadge.setVisible(false);
+        //notificationCount.setVisible(false);
 
         // Vérifier que les popups sont correctement positionnés
         Platform.runLater(() -> {
@@ -1825,14 +1822,14 @@ public class AfficherUserController {
      */
     private void updateNotificationCount() {
         int count = notifications.size();
-        notificationCount.setText(String.valueOf(count));
+        //notificationCount.setText(String.valueOf(count));
 
         // Afficher/masquer le badge selon s'il y a des notifications
-        notificationCountBadge.setVisible(count > 0);
-        notificationCount.setVisible(count > 0);
+        //notificationCountBadge.setVisible(count > 0);
+     //   notificationCount.setVisible(count > 0);
 
         // Animation si nouvelles notifications
-        if (count > 0) {
+       /* if (count > 0) {
             Timeline pulse = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(notificationCountBadge.scaleXProperty(), 1)),
                     new KeyFrame(Duration.ZERO, new KeyValue(notificationCountBadge.scaleYProperty(), 1)),
@@ -1843,7 +1840,7 @@ public class AfficherUserController {
             );
             pulse.setCycleCount(3);
             pulse.play();
-        }
+        }*/
 
     }
 
@@ -2404,4 +2401,8 @@ public class AfficherUserController {
             return utilisateur;
         }
     }
+
+    @FXML
+    private Button frontButton;
+
 }

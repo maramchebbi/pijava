@@ -44,7 +44,8 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 public class ProfileController {
-
+    @FXML private Label fullNameLabel;
+    @FXML private Label roleLabel;
     @FXML private TextField NomDetailTextField;
     @FXML private TextField PrenomDetailTextField;
     @FXML private TextField GenreDetailTextField;
@@ -138,12 +139,18 @@ public class ProfileController {
         }
     }
 
-    /**
-     * Définit l'utilisateur actuel et remplit les champs avec ses informations
-     * @param user L'utilisateur dont on affiche le profil
-     */
+
     public void setUser(User user) {
         this.currentUser = user;
+
+        // Mettre à jour les labels d'avatar (nom complet et rôle)
+        if (fullNameLabel != null) {
+            fullNameLabel.setText(user.getPrenom() + " " + user.getNom());
+        }
+
+        if (roleLabel != null) {
+            roleLabel.setText(user.getRole());
+        }
 
         // Remplir les champs avec les informations de l'utilisateur
         NomDetailTextField.setText(user.getNom());
@@ -199,13 +206,9 @@ public class ProfileController {
         updateEditableFieldsStyle(editable);
     }
 
-    /**
-     * Met à jour le style des champs en fonction de leur état éditable
-     * @param editable true si les champs sont éditables, false sinon
-     */
     private void updateEditableFieldsStyle(boolean editable) {
-        String editableStyle = "-fx-background-color: white; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #4f46e5; -fx-border-width: 1px;";
-        String nonEditableStyle = "-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-padding: 8; -fx-font-size: 14; -fx-border-color: #e2e8f0;";
+        String editableStyle = "-fx-background-color: #FFFFFF; -fx-background-radius: 4; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #9C7A51; -fx-border-width: 1px; -fx-border-radius: 4;";
+        String nonEditableStyle = "-fx-background-color: #FAF6E9; -fx-background-radius: 4; -fx-padding: 10; -fx-font-size: 14; -fx-border-color: #D7CCA1; -fx-border-radius: 4;";
 
         NomDetailTextField.setStyle(editable ? editableStyle : nonEditableStyle);
         PrenomDetailTextField.setStyle(editable ? editableStyle : nonEditableStyle);

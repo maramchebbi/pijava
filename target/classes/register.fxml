@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+
+    <!-- Background Image with Overlay -->
+    <ImageView fitHeight="800.0" fitWidth="1550.0" preserveRatio="false">
+        <image>
+            <Image url="@image/dd.PNG" />
+        </image>
+    </ImageView>
+
+    <!-- Semi-transparent gradient overlay -->
+    <Rectangle arcHeight="0.0" arcWidth="0.0" fill="#00000080" height="800.0" width="1550.0" />
+
+
+    <!-- Decorative elements -->
+    <Circle centerX="200.0" centerY="200.0" opacity="0.1" radius="150.0" strokeWidth="0.0">
+        <fill>
+            <LinearGradient endX="1.0">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color red="0.13" green="0.58" blue="0.69" />
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color red="0.42" green="0.84" blue="0.93" />
+                        </color>
+                    </Stop>
+                </stops>
+            </LinearGradient>
+        </fill>
+    </Circle>
+
+    <Circle centerX="1350.0" centerY="600.0" opacity="0.1" radius="180.0" strokeWidth="0.0">
+        <fill>
+            <LinearGradient endX="1.0">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color red="0.42" green="0.84" blue="0.93" />
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color red="0.13" green="0.58" blue="0.69" />
+                        </color>
+                    </Stop>
+                </stops>
+            </LinearGradient>
+        </fill>
+    </Circle>
+
+    <!-- Main Container avec taille fixe -->
+    <StackPane AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="475.0" AnchorPane.rightAnchor="475.0" AnchorPane.topAnchor="80.0">
+        <!-- Card background with glass morphism effect -->
+        <Rectangle arcHeight="30.0" arcWidth="30.0" style="-fx-fill: rgba(255, 255, 255, 0.92); -fx-stroke: linear-gradient(to right, #2193b0, #6dd5ed); -fx-stroke-width: 1.2;" />
+
+        <VBox style="-fx-background-color: transparent;">
+            <effect>
+                <DropShadow height="40.0" radius="19.5" spread="0.05" width="40.0">
+                    <color>
+                        <Color opacity="0.35" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </VBox>
+
+        <!-- ScrollPane pour permettre de défiler -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+            <content>
+                <!-- Content -->
+                <VBox alignment="TOP_CENTER" spacing="18" style="-fx-padding: 30 50;">
+                    <!-- Header with icon and title -->
+                    <VBox alignment="CENTER" spacing="8">
+                        <!-- Icon container with gradient -->
+                        <StackPane>
+                            <Circle radius="45">
+                                <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                        <stops>
+                                            <Stop>
+                                                <color>
+                                                    <Color red="0.13" green="0.58" blue="0.69" />
+                                                </color>
+                                            </Stop>
+                                            <Stop offset="1.0">
+                                                <color>
+                                                    <Color red="0.43" green="0.84" blue="0.93" />
+                                                </color>
+                                            </Stop>
+                                        </stops>
+                                    </LinearGradient>
+                                </fill>
+                                <effect>
+                                    <DropShadow height="15.0" radius="7.0" width="15.0">
+                                        <color>
+                                            <Color opacity="0.25" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                            </Circle>
+                            <ImageView fitHeight="28.0" fitWidth="28.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@image/user-icon.png" />
+                                </image>
+                            </ImageView>
+                        </StackPane>
+
+                        <Text style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: #2193b0;" text="Créer Un Compte">
+                            <font>
+                                <Font name="System Bold" size="28.0" />
+                            </font>
+                            <effect>
+                                <DropShadow height="2.0" radius="0.5" width="2.0">
+                                    <color>
+                                        <Color opacity="0.1" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                        </Text>
+
+                        <Text style="-fx-font-size: 14px; -fx-fill: #7f8c8d;" text="Veuillez remplir les informations ci-dessous pour vous inscrire" />
+
+                        <!-- Decorative line -->
+                        <Rectangle height="2.0" width="80.0" arcHeight="2.0" arcWidth="2.0">
+                            <fill>
+                                <LinearGradient endX="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="0.13" green="0.58" blue="0.69" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="0.43" green="0.84" blue="0.93" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </fill>
+                        </Rectangle>
+                    </VBox>
+
+                    <!-- Form fields avec style amélioré -->
+                    <VBox spacing="15" style="-fx-padding: 10 0 0 0;">
+                        <!-- First row - First and Last Name -->
+                        <HBox spacing="15">
+                            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Nom">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="nomField" promptText="Votre nom"
+                                           style="-fx-font-size: 13px; -fx-padding: 10px; -fx-background-color: rgba(255,255,255,0.8); -fx-border-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-border-radius: 8px; -fx-background-radius: 8px;" />
+                                <Label fx:id="nomErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" text="" />
+                            </VBox>
+                            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Prénom">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="prenomField" promptText="Votre prénom"
+                                           style="-fx-font-size: 13px; -fx-padding: 10px; -fx-background-color: rgba(255,255,255,0.8); -fx-border-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-border-radius: 8px; -fx-background-radius: 8px;" />
+                                <Label fx:id="prenomErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" text="" />
+                            </VBox>
+                        </HBox>
+
+                        <!-- Second row - Genre -->
+                        <VBox spacing="6">
+                            <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Genre">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                            </Label>
+                            <ComboBox fx:id="genreComboBox" prefHeight="38.0" prefWidth="700.0" promptText="Sélectionner votre genre"
+                                      style="-fx-font-size: 13px; -fx-background-color: rgba(255,255,255,0.8); -fx-border-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-border-radius: 8px; -fx-background-radius: 8px;" />
+                            <Label fx:id="genreErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" text="" />
+                        </VBox>
+
+                        <!-- Third row - Email -->
+                        <VBox spacing="6">
+                            <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Email">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="emailField" promptText="exemple@email.com"
+                                       style="-fx-font-size: 13px; -fx-padding: 10px; -fx-background-color: rgba(255,255,255,0.8); -fx-border-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-border-radius: 8px; -fx-background-radius: 8px;" />
+                            <Label fx:id="emailErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" text="" />
+                        </VBox>
+
+                        <!-- Fourth row - Password -->
+                        <VBox spacing="6">
+                            <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Mot de passe">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                            </Label>
+                            <HBox alignment="CENTER_LEFT" style="-fx-background-color: rgba(255,255,255,0.8); -fx-border-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-border-radius: 8px; -fx-background-radius: 8px;">
+                                <PasswordField fx:id="passwordField" prefHeight="38.0" HBox.hgrow="ALWAYS"
+                                               promptText="Mot de passe" style="-fx-font-size: 13px; -fx-padding: 10px; -fx-background-color: transparent; -fx-border-color: transparent;" />
+                                <TextField fx:id="VisiblePasswordField" prefHeight="38.0" HBox.hgrow="ALWAYS"
+                                           promptText="Mot de passe" style="-fx-font-size: 13px; -fx-padding: 10px; -fx-background-color: transparent; -fx-border-color: transparent;" visible="false" />
+                                <Button fx:id="toggleVisibilityBtn" onAction="#togglePasswordVisibility"
+                                        style="-fx-background-color: transparent; -fx-font-size: 18px; -fx-cursor: hand; -fx-padding: 5px 15px 5px 5px;" text="👁" />
+                            </HBox>
+                            <Label fx:id="passwordErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" text="" />
+                        </VBox>
+
+                        <!-- Fifth row - Role -->
+                        <VBox spacing="6">
+                            <Label style="-fx-text-fill: #2193b0; -fx-font-weight: bold;" text="Rôle">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                            </Label>
+                            <ComboBox fx:id="roleComboBox" prefHeight="38.0" prefWidth="700.0" promptText="Sélectionner un rôle"
+                                      style="-fx-font-size: 13px; -fx-background-color: rgba(255,255,255,0.8); -fx-border-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-border-radius: 8px; -fx-background-radius: 8px;" />
+                            <Label fx:id="roleErrorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" text="" />
+                        </VBox>
+
+                        <!-- Register Button - Avec style premium -->
+                        <VBox alignment="CENTER" spacing="15" style="-fx-padding: 20 0 8 0;">
+                            <Button onAction="#handleRegisterAction" prefHeight="45.0" prefWidth="200.0"
+                                    style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-background-color: linear-gradient(to right, #2193b0, #6dd5ed); -fx-text-fill: white; -fx-padding: 10px 25px; -fx-background-radius: 30; -fx-cursor: hand;">
+                                <text>✅ S'inscrire</text>
+                                <effect>
+                                    <DropShadow height="20.0" radius="9.5" width="20.0">
+                                        <color>
+                                            <Color red="0.13" green="0.58" blue="0.69" opacity="0.3" />
+                                        </color>
+                                    </DropShadow>
+                                </effect>
+                            </Button>
+
+                            <!-- Message with styled background -->
+                            <HBox fx:id="messageContainer" alignment="CENTER" style="-fx-padding: 8 15; -fx-background-color: rgba(46,204,113,0.2); -fx-background-radius: 20;" visible="false">
+                                <Label fx:id="messageLabel" style="-fx-font-size: 13px; -fx-text-fill: #27ae60; -fx-font-weight: bold;" text="Inscription réussie!" />
+                            </HBox>
+
+                            <!-- Back to login link -->
+                            <HBox alignment="CENTER" spacing="5">
+                                <Text style="-fx-fill: #7f8c8d;" text="Vous avez déjà un compte?" />
+                                <Button onAction="#annulerAction" style="-fx-background-color: transparent; -fx-text-fill: #2193b0; -fx-font-weight: bold; -fx-border-color: transparent; -fx-cursor: hand;">
+                                    <text>Se connecter</text>
+                                </Button>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </StackPane>
+</AnchorPane>

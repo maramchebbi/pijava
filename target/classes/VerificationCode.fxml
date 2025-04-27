@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" spacing="10" alignment="CENTER">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Vérification Requise" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    <Label fx:id="emailLabel" wrapText="true"/>
+
+    <Label text="Entrez le code de vérification:"/>
+    <TextField fx:id="codeField" promptText="Code à 6 chiffres"/>
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+
+    <HBox spacing="10">
+        <Button text="Vérifier">
+            <onAction>#handleVerification</onAction>
+        </Button>
+        <Button text="Renvoyer le code">
+            <onAction>#handleResendCode</onAction>
+        </Button>
+    </HBox>
+</VBox>

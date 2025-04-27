@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSuccess(token) {
+            // Appelle la méthode Java
+            java.setCaptchaToken(token);
+        }
+    </script>
+</head>
+<body>
+<div class="g-recaptcha" data-sitekey="6Lc05x0rAAAAABDd9RVtR73Xq5tr2cL4bLeXf_u-" data-callback="onSuccess"></div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="box" spacing="5" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ItemUserController"
+      style="-fx-background-color: #f0f0f0; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5;">
+    <Text fx:id="nomText"/>
+    <Text fx:id="prenomText"/>
+    <Text fx:id="emailText"/>
+
+</VBox>
+

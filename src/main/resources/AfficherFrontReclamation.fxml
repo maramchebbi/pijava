@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.Region?>
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" style="-fx-background-color: #f5f0e1;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherFrontReclamationController">
+    <children>
+        <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+
+            <center>
+                <VBox spacing="20" style="-fx-padding: 30px;">
+                    <HBox alignment="CENTER_LEFT" spacing="15">
+                        <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #8B4513;" text="Mes Réclamations">
+                            <font>
+                                <Font name="System Bold" size="28.0" />
+                            </font>
+                        </Label>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+
+                        <Button fx:id="addReclamationButton" onAction="#handleAddReclamation" prefHeight="40.0"
+                                style="-fx-background-color: #8B4513; -fx-text-fill: #F5F5DC; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-padding: 0 20px;"
+                                text="+ Nouvelle réclamation">
+                            <effect>
+                                <DropShadow height="8.0" radius="3.5" width="8.0">
+                                    <color>
+                                        <Color opacity="0.15" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                        </Button>
+                    </HBox>
+
+                    <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent; -fx-padding: 10px 0;">
+                        <content>
+                            <GridPane fx:id="reclamationContainer" hgap="20.0" vgap="20.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                                </columnConstraints>
+                                <padding>
+                                    <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+                                </padding>
+                            </GridPane>
+                        </content>
+                    </ScrollPane>
+                </VBox>
+            </center>
+            <bottom>
+                <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #EEE8AA; -fx-padding: 15px 30px; -fx-border-color: #D2B48C; -fx-border-width: 1px 0 0 0;" BorderPane.alignment="CENTER">
+                    <Label style="-fx-text-fill: #8B4513; -fx-font-size: 13px;" text="© 2025 Artisfera - Tous droits réservés" />
+                </HBox>
+            </bottom>
+        </BorderPane>
+    </children>
+</AnchorPane>
