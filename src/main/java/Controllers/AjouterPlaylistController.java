@@ -2,12 +2,18 @@ package Controllers;
 
 import Models.Playlist;
 import Services.PlaylistService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class AjouterPlaylistController {
@@ -77,12 +83,34 @@ public class AjouterPlaylistController {
             Playlist playlist = new Playlist(titre, userId, description, dateCreation);
             PlaylistService service = new PlaylistService();
 
-            try {
-                service.add(playlist);
-                // showAlert("Succès", "Playlist ajoutée avec succès !");
-            } catch (Exception e) {
-                showAlert("Erreur", "Erreur lors de l'ajout: " + e.getMessage());
-            }
+                try {
+                    // Attempt to add the playlist using the service
+                    service.add(playlist);
+
+                    // After adding, reload the playlists and refresh the left pane
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPlaylist.fxml"));
+                    AnchorPane afficherPlaylistsPane = loader.load();
+
+                    // Find the left pane from the current scene
+                    AnchorPane leftPane = (AnchorPane) titreField.getScene().lookup("#leftPane");
+
+                    // Clear the existing content in the left pane
+                    leftPane.getChildren().clear();
+
+                    // Add the newly loaded playlists content to the left pane
+                    leftPane.getChildren().add(afficherPlaylistsPane);
+
+                    AnchorPane.setTopAnchor(afficherPlaylistsPane, 0.0);
+                    AnchorPane.setBottomAnchor(afficherPlaylistsPane, 0.0);
+                    AnchorPane.setLeftAnchor(afficherPlaylistsPane, 0.0);
+                    AnchorPane.setRightAnchor(afficherPlaylistsPane, 0.0);
+
+                } catch (Exception e) {
+                    // Show an error alert if something goes wrong
+                    showAlert("Erreur", "Erreur lors de l'ajout: " + e.getMessage());
+                }
+
+
             showAlert1(Alert.AlertType.INFORMATION, "Succès", "Playlist ajoutée avec succès !");
         } else {
             showAlert1(Alert.AlertType.ERROR, "Erreur", "Veuillez corriger les champs en rouge.");

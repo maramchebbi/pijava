@@ -4,6 +4,11 @@ import Models.Music;
 import Models.Playlist;
 import Utils.DataSource;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,5 +93,75 @@ public class MusicService implements IService<Music> {
         return musicList;
     }
 
+    public List<Music> getMusicsByPlaylistId(int playlistId) throws SQLException {
+        List<Music> musics = new ArrayList<>();
+        String query = "SELECT m.* FROM musique m " +
+                "JOIN musique_playlist pm ON m.id = pm.musique_id " +
+                "WHERE pm.playlist_id = ?";
+
+        PreparedStatement pst = con.prepareStatement(query);
+        pst.setInt(1, playlistId);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            Music music = new Music();
+            music.setId(rs.getInt("id"));
+            music.setTitre(rs.getString("titre"));
+            music.setArtistId(rs.getInt("artist_id"));
+            music.setArtistName(rs.getString("artist_name"));
+            music.setGenre(rs.getString("genre"));
+            music.setDescription(rs.getString("description"));
+            music.setDateSortie(rs.getDate("date_sortie"));
+            music.setCheminFichier(rs.getString("chemin_fichier"));
+            music.setPhoto(rs.getString("photo"));
+
+            musics.add(music);
+        }
+
+        return musics;
+    }
+
+    public List<String> getAllGenres() throws SQLException {
+        List<String> genres = new ArrayList<>();
+        String sql = "SELECT DISTINCT genre FROM musique";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String genre = rs.getString("genre");
+                if (genre != null && !genre.isEmpty()) {
+                    genres.add(genre);
+                }
+            }
+        }
+        return genres;
+    }
+
+    public List<Music> getByGenre(String genre) throws SQLException {
+        List<Music> musics = new ArrayList<>();
+        String sql = "SELECT * FROM musique WHERE genre = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, genre);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Music music = new Music();
+                music.setId(rs.getInt("id"));
+                music.setTitre(rs.getString("titre"));
+                music.setArtistId(rs.getInt("artist_id"));
+                music.setArtistName(rs.getString("artist_Name"));
+                music.setGenre(rs.getString("genre"));
+                music.setDescription(rs.getString("description"));
+                music.setDateSortie(rs.getDate("date_sortie"));
+                music.setCheminFichier(rs.getString("chemin_fichier"));
+                music.setPhoto(rs.getString("photo"));
+                musics.add(music);
+            }
+        }
+
+        return musics;
+    }
 
 }
+

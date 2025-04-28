@@ -9,6 +9,7 @@ import Models.Music;
 import Services.MusicService;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import javax.swing.*;
@@ -117,7 +118,6 @@ public class AjouterMusicController {
     }
     @FXML
     void addMusicButton(ActionEvent event) {
-
         boolean isValid = true;
 
         // Clear previous error messages
@@ -165,100 +165,90 @@ public class AjouterMusicController {
             isValid = false;
         }
 
-        // If all fields are valid, process the submission
         if (isValid) {
+            String titre = titreTextField.getText();
+            String artistName = artistNameTextField.getText();
+            String genre = genreTextField.getText();
+            String description = descriptionTextField.getText();
+            String cheminFichierPath = null;
+            Date dateSortie = new java.util.Date();  // current system date
+            String photoPath = null;
 
-        String titre = titreTextField.getText();
-        String artistName = artistNameTextField.getText();
-        String genre = genreTextField.getText();
-        String description = descriptionTextField.getText();
-        String cheminFichierPath = null;
-        Date dateSortie = new java.util.Date();  // current system date
-        String photoPath = null;
+            // Handle audio file path
+            String originalChemin = cheminFicherTextField.getText();
+            if (originalChemin != null && !originalChemin.isEmpty()) {
+                File sourceAudioFile = new File(originalChemin);
+                if (sourceAudioFile.exists()) {
+                    try {
+                        File destinationDir = new File("uploads");
+                        if (!destinationDir.exists()) {
+                            destinationDir.mkdirs();
+                        }
+                        File destinationAudio = new File(destinationDir, sourceAudioFile.getName());
+                        Files.copy(sourceAudioFile.toPath(), destinationAudio.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        cheminFichierPath = destinationAudio.getAbsolutePath();
+                    } catch (IOException e) {
+                        showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la copie de l'audio : " + e.getMessage());
+                        return;
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Audio manquant", "Veuillez sélectionner un fichier audio via le bouton 'Parcourir'.");
+                    return;
+                }
+            }
 
-        // Handle audio file path (cheminFichier)
-        String originalChemin = cheminFicherTextField.getText();
-        if (originalChemin != null && !originalChemin.isEmpty()) {
-            File sourceAudioFile = new File(originalChemin);
-            if (sourceAudioFile.exists()) {
+            // Handle image file path
+            if (selectedFile != null && selectedFile.exists()) {
                 try {
                     File destinationDir = new File("uploads");
                     if (!destinationDir.exists()) {
                         destinationDir.mkdirs();
                     }
-                    File destinationAudio = new File(destinationDir, sourceAudioFile.getName());
-                    Files.copy(sourceAudioFile.toPath(), destinationAudio.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    cheminFichierPath = destinationAudio.getAbsolutePath();
+                    File destination = new File(destinationDir, selectedFile.getName());
+                    Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    photoPath = destination.getAbsolutePath();
                 } catch (IOException e) {
-                    showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la copie de l'audio : " + e.getMessage());
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'upload de l'image : " + e.getMessage());
                     return;
                 }
             } else {
-                showAlert(Alert.AlertType.WARNING, "Audio manquant", "Veuillez sélectionner un fichier audio via le bouton 'Parcourir'.");
+                showAlert(Alert.AlertType.WARNING, "Image manquante", "Veuillez sélectionner une image via le bouton 'Parcourir'.");
                 return;
             }
-        }
 
-        // Handle image file (photo)
-        if (selectedFile != null && selectedFile.exists()) {
-            try {
-                File destinationDir = new File("uploads");
-                if (!destinationDir.exists()) {
-                    destinationDir.mkdirs();
-                }
-
-                File destination = new File(destinationDir, selectedFile.getName());
-                Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                photoPath = destination.getAbsolutePath();
-
-            } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'upload de l'image : " + e.getMessage());
-                return;
-            }
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Image manquante", "Veuillez sélectionner une image via le bouton 'Parcourir'.");
-            return;
-        }
-            // Créer l'objet Music
+            // Create and save Music
             Music music = new Music(titre, 1, artistName, genre, description, dateSortie, cheminFichierPath, photoPath);
             MusicService musicService = new MusicService();
 
             try {
                 musicService.add(music);
+
                 showAlert(Alert.AlertType.INFORMATION, "Succès", "Musique ajoutée avec succès !");
 
-//                // Charger la vue de détail
-//                try {
-//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailMusic.fxml"));
-//                    Parent root = loader.load();
-//                    DetailMusicController detailMusicController = loader.getController();
-//                    String formattedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(dateSortie);
-//
-//                    detailMusicController.setTitreTextField(titre);
-//                    detailMusicController.setArtistNameTextField(artistName);
-//                    detailMusicController.setGenreTextField(genre);
-//                    detailMusicController.setDescriptionTextField(description);
-//                    detailMusicController.setDateTextField(formattedDate);
-//                    detailMusicController.setCheminFicherTextField(cheminFichierPath);
-//                    detailMusicController.setPhotoTextField(photoPath);
-//
-//                    titreTextField.getScene().setRoot(root);
-//
-//                } catch (IOException e) {
-//                    System.out.println("Erreur lors du chargement du détail: " + e.getMessage());
-//                }
+                // Go back to AfficherMusic.fxml after adding
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherMusic.fxml"));
+                AnchorPane afficherMusicPane = loader.load();
 
-            } catch (SQLException e) {
-                showAlert(Alert.AlertType.ERROR, "Erreur ajout musique", e.getMessage());
+                // Important: find the rightPane from the global scene
+                AnchorPane rightPane = (AnchorPane) titreTextField.getScene().lookup("#rightPane");
+
+                rightPane.getChildren().clear();
+                rightPane.getChildren().add(afficherMusicPane);
+
+                AnchorPane.setTopAnchor(afficherMusicPane, 0.0);
+                AnchorPane.setBottomAnchor(afficherMusicPane, 0.0);
+                AnchorPane.setLeftAnchor(afficherMusicPane, 0.0);
+                AnchorPane.setRightAnchor(afficherMusicPane, 0.0);
+
+            } catch (SQLException | IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
             }
-            showAlert1(Alert.AlertType.INFORMATION, "Succès", "La musique a été ajoutée avec succès.");
-        } else {
-            // Show error alert
-            showAlert1(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs requis.");
+
         }
     }
 
-private void clearErrorMessages() {
+
+    private void clearErrorMessages() {
     titreErrorLabel.setVisible(false);
     artistErrorLabel.setVisible(false);
     genreErrorLabel.setVisible(false);

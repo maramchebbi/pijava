@@ -10,6 +10,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.AfficherMusicController">
@@ -30,11 +32,32 @@
                         <Button fx:id="ajouterButton"
                                 onAction="#handleAddMusicButton"
                                 text="➕ Ajouter une musique"
-                                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
-                        <Button fx:id="afficherPlaylistsButton"
-                                onAction="#handleAfficherPlaylists"
-                                text="🎧 Afficher Playlists"
-                                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
+                                style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
+                        <Button fx:id="lyricsButton" text="Get Lyrics" onAction="#handleGetLyrics"
+                                style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
+                        <Button text="Musics" onAction="#handleRefreshRightSide"
+                                style="-fx-background-color: #8B5E3C;
+                   -fx-text-fill: white;
+                   -fx-font-size: 14px;
+                   -fx-background-radius: 8;
+                   -fx-padding: 6 12;"/>
+
+                        <!-- Champ de recherche -->
+                        <TextField fx:id="searchField"
+                                   promptText="Rechercher par titre ou artist..."
+                                   onKeyReleased="#rechercherMusique"
+                                   prefHeight="25"
+                                   prefWidth="300"
+                                   style="-fx-background-radius: 10;
+                  -fx-padding: 5;
+                  -fx-border-color: #8B5E3C;
+                  -fx-border-radius: 10;
+                  -fx-font-size: 14px;" />
+                        <ComboBox fx:id="genreComboBox"
+                                  promptText="Trier par genre..."
+                                  onAction="#trierParGenre"
+                                  prefHeight="25"
+                                  style="-fx-background-radius: 8; -fx-padding: 6 12; -fx-border-color: #A18E78; -fx-border-radius: 10;" />
                     </children>
                 </HBox>
             </children>
@@ -48,9 +71,9 @@
                     AnchorPane.leftAnchor="20.0"
                     AnchorPane.rightAnchor="20.0"
                     AnchorPane.bottomAnchor="20.0"
-                    style="-fx-background: transparent;">
+                    style="-fx-background: #F9F5F1;">
             <content>
-                <AnchorPane>
+                <AnchorPane >
                     <GridPane fx:id="musicGrid"
                               layoutX="0.0"
                               layoutY="0.0"

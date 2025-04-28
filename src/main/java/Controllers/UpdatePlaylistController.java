@@ -2,11 +2,16 @@ package Controllers;
 
 import Models.Playlist;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import Services.PlaylistService;
+
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -75,11 +80,39 @@ public class UpdatePlaylistController {
             currentPlaylist.setDescription(descriptionField.getText());
             PlaylistService PlaylistService = new PlaylistService();
             try {
+                // Update the playlist object with changes
                 PlaylistService.update(currentPlaylist);
-                ((Stage) titreField.getScene().getWindow()).close(); // Close window
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "Playlist mise à jour avec succès !");
+
+                // Go back to AfficherPlaylist.fxml after updating
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherPlaylist.fxml"));
+                AnchorPane afficherPlaylistPane = loader.load();
+
+                // Important: find the leftPane from the global scene
+                AnchorPane leftPane = (AnchorPane) titreField.getScene().lookup("#leftPane");
+
+                leftPane.getChildren().clear();
+                leftPane.getChildren().add(afficherPlaylistPane);
+
+                AnchorPane.setTopAnchor(afficherPlaylistPane, 0.0);
+                AnchorPane.setBottomAnchor(afficherPlaylistPane, 0.0);
+                AnchorPane.setLeftAnchor(afficherPlaylistPane, 0.0);
+                AnchorPane.setRightAnchor(afficherPlaylistPane, 0.0);
+
+            } catch (SQLException | IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
             }
+
         }
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

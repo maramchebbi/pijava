@@ -1,74 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterMusicController">
-   <children>
-      <VBox layoutX="50.0" layoutY="30.0" spacing="15.0" alignment="TOP_LEFT" style="-fx-background-color: #f0f8ff; -fx-padding: 20;">
+<AnchorPane prefHeight="550.0" prefWidth="600.0"
+            style="-fx-background-color: transparent;"
+        xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="Controllers.AjouterMusicController">
 
-         <!-- Titre -->
-         <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label text="Titre:" prefWidth="100.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-            <TextField fx:id="titreTextField" prefWidth="200.0"
-                       style="-fx-background-color: #d6ecff; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
-         </HBox>
-         <Label fx:id="titreErrorLabel" textFill="red" style="-fx-font-size: 12px;" />
+<children>
+<VBox layoutX="125.0" layoutY="30.0" alignment="TOP_CENTER" spacing="15"
+      style="-fx-padding: 30 50;
+                   -fx-background-color: #e8e1c6; /* Soft beige background */
+                   -fx-background-radius: 18;
+                   -fx-border-color: #d3c4a3; /* Light brown border */
+                   -fx-border-radius: 18;
+                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.3, 0, 6);">
 
-         <!-- Artist Name -->
-         <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label text="Artist Name:" prefWidth="100.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-            <TextField fx:id="artistNameTextField" prefWidth="200.0"
-                       style="-fx-background-color: #d6ecff; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
-         </HBox>
-         <Label fx:id="artistErrorLabel" textFill="red" style="-fx-font-size: 12px;" />
+   <!-- Title -->
+   <Label text="🎼 Ajouter une Musique" style="-fx-font-size: 22px; -fx-text-fill: #8B5E3C;"> <!-- Use the specified color here -->
+      <font>
+         <Font name="Georgia" size="22"/>
+      </font>
+   </Label>
 
-         <!-- Genre -->
-         <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label text="Genre:" prefWidth="100.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-            <TextField fx:id="genreTextField" prefWidth="200.0"
-                       style="-fx-background-color: #d6ecff; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
-         </HBox>
-         <Label fx:id="genreErrorLabel" textFill="red" style="-fx-font-size: 12px;" />
+   <!-- Input Group -->
+   <VBox spacing="10" style="-fx-padding: 10;">
 
-         <!-- Description -->
-         <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label text="Description:" prefWidth="100.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-            <TextField fx:id="descriptionTextField" prefWidth="200.0"
-                       style="-fx-background-color: #d6ecff; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
-         </HBox>
-         <Label fx:id="descriptionErrorLabel" textFill="red" style="-fx-font-size: 12px;" />
+      <!-- Titre -->
+      <TextField fx:id="titreTextField" promptText="Titre de la musique"
+                 style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+      <Label fx:id="titreErrorLabel" textFill="red" />
 
-         <!-- Chemin Fichier -->
-         <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label text="Fichier:" prefWidth="100.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-            <TextField fx:id="cheminFicherTextField" prefWidth="200.0" editable="false"
-                       style="-fx-background-color: #e3f2fd; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
-            <Button fx:id="parcourirAudioButton" text="Parcourir" onAction="#handleParcourirAudio"
-                    style="-fx-background-color: #64b5f6; -fx-text-fill: white; -fx-background-radius: 8px; -fx-padding: 6 15;"/>
-         </HBox>
-         <Label fx:id="cheminErrorLabel" textFill="red" style="-fx-font-size: 12px;" />
+      <!-- Artist Name -->
+      <TextField fx:id="artistNameTextField" promptText="Nom de l'artiste"
+                 style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+      <Label fx:id="artistErrorLabel" textFill="red" />
 
-         <!-- Photo -->
-         <HBox spacing="10.0" alignment="CENTER_LEFT">
-            <Label text="Photo:" prefWidth="100.0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-            <TextField fx:id="photoTextField" prefWidth="200.0" editable="false"
-                       style="-fx-background-color: #e3f2fd; -fx-border-color: #64b5f6; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-border-width: 2px; -fx-padding: 5px;" />
-            <Button fx:id="parcourirButton" text="Parcourir" onAction="#handleParcourir"
-                    style="-fx-background-color: #64b5f6; -fx-text-fill: white; -fx-background-radius: 8px; -fx-padding: 6 15;" />
-         </HBox>
-         <Label fx:id="photoErrorLabel" textFill="red" style="-fx-font-size: 12px;" />
+      <!-- Genre -->
+      <TextField fx:id="genreTextField" promptText="Genre"
+                 style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+      <Label fx:id="genreErrorLabel" textFill="red" />
 
-         <!-- Valider -->
-         <HBox alignment="CENTER">
-            <Button fx:id="validerTextField" text="Valider" onAction="#addMusicButton"
-                    style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10px; -fx-padding: 8 20;" />
-         </HBox>
+      <!-- Description -->
+      <TextField fx:id="descriptionTextField" promptText="Description"
+                 style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+      <Label fx:id="descriptionErrorLabel" textFill="red" />
 
-      </VBox>
-   </children>
-</AnchorPane>
+      <!-- Fichier -->
+      <HBox spacing="10">
+         <TextField fx:id="cheminFicherTextField" promptText="Fichier audio" editable="false"
+                    style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+         <Button fx:id="parcourirAudioButton" text="🎵 parcourir"
+                 onAction="#handleParcourirAudio"
+                 style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 10;" />
+      </HBox>
+      <Label fx:id="cheminErrorLabel" textFill="red" />
+
+      <!-- Photo -->
+      <HBox spacing="10">
+         <TextField fx:id="photoTextField" promptText="Photo" editable="false"
+                    style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+         <Button fx:id="parcourirButton" text="🖼️ parcourir"
+                 onAction="#handleParcourir"
+                 style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 10;" />
+      </HBox>
+      <Label fx:id="photoErrorLabel" textFill="red" />
+   </VBox>
+
+   <!-- Submit -->
+   <Button fx:id="validerTextField" text="Enregistrer"
+           onAction="#addMusicButton"
+           style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 14px; -fx-padding: 8 20;" />
+
+</VBox>
+</children>
+        </AnchorPane>

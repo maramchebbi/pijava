@@ -1,39 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UpdateMusicController">
+<AnchorPane prefHeight="550.0" prefWidth="600.0"
+            style="-fx-background-color: transparent;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.UpdateMusicController">
 
     <children>
-        <Label layoutX="50" layoutY="30" style="-fx-font-size: 24;" text="Modifier la musique" />
+        <VBox layoutX="125.0" layoutY="30.0" alignment="TOP_CENTER" spacing="15"
+              style="-fx-padding: 30 50;
+                     -fx-background-color: #e8e1c6; /* Soft beige background */
+                     -fx-background-radius: 18;
+                     -fx-border-color: #d3c4a3; /* Light brown border */
+                     -fx-border-radius: 18;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.3, 0, 6);">
 
-        <Label layoutX="50" layoutY="80" text="Titre:" />
-        <TextField fx:id="titreField" layoutX="150" layoutY="75" prefWidth="300" />
-        <Label fx:id="titreErrorLabel" layoutX="150" layoutY="100" textFill="red" visible="false"/>
+            <!-- Title -->
+            <Label text="🎵 Modifier une Musique" style="-fx-font-size: 22px; -fx-text-fill: #8B5E3C;">
+                <font>
+                    <Font name="Georgia" size="22"/>
+                </font>
+            </Label>
 
-        <Label layoutX="50" layoutY="120" text="artistName:" />
-        <TextField fx:id="artistField" layoutX="150" layoutY="115" prefWidth="300" />
-        <Label fx:id="artistErrorLabel" layoutX="150" layoutY="140" textFill="red" visible="false"/>
+            <!-- Input Group -->
+            <VBox spacing="10" style="-fx-padding: 10;">
 
-        <Label layoutX="50.0" layoutY="160" text="Genre:" />
-        <TextField fx:id="genreField" layoutX="150.0" layoutY="155.0" prefWidth="300" />
-        <Label fx:id="genreErrorLabel" layoutX="150" layoutY="180" textFill="red" visible="false"/>
+                <!-- Titre -->
+                <TextField fx:id="titreTextField" promptText="Titre de la musique"
+                           style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+                <Label fx:id="titreErrorLabel" textFill="red" />
 
-        <Label layoutX="52.0" layoutY="200.0" text="Description:" />
-        <TextField fx:id="descriptionField" layoutX="150.0" layoutY="196.0" prefWidth="300" />
-        <Label fx:id="descriptionErrorLabel" layoutX="150" layoutY="220" textFill="red" visible="false"/>
+                <!-- Artist Name -->
+                <TextField fx:id="artistTextField" promptText="Nom de l'artiste"
+                           style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+                <Label fx:id="artistErrorLabel" textFill="red" />
 
-        <Label layoutX="50" layoutY="240" text="Chemin fichier:" />
-        <TextField fx:id="cheminFichierField" layoutX="150" layoutY="235" prefWidth="300" />
-        <Label fx:id="cheminErrorLabel" layoutX="150" layoutY="260" textFill="red" visible="false"/>
+                <!-- Genre -->
+                <TextField fx:id="genreTextField" promptText="Genre"
+                           style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+                <Label fx:id="genreErrorLabel" textFill="red" />
 
-        <Label layoutX="50" layoutY="280" text="Photo:" />
-        <TextField fx:id="photoField" layoutX="150" layoutY="275" prefWidth="300" />
-        <Label fx:id="photoErrorLabel" layoutX="150" layoutY="300" textFill="red" visible="false"/>
+                <!-- Description -->
+                <TextField fx:id="descriptionTextField" promptText="Description"
+                           style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+                <Label fx:id="descriptionErrorLabel" textFill="red" />
 
-        <Button fx:id="btnSave" layoutX="250" layoutY="330" onAction="#handleUpdateMusic" text="Enregistrer" />
+                <!-- Fichier -->
+                <HBox spacing="10">
+                    <TextField fx:id="cheminFicherTextField" promptText="Fichier audio" editable="false"
+                               style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+                    <Button fx:id="parcourirAudioButton" text="🎵 parcourir"
+                            onAction="#handleParcourirAudio"
+                            style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 10;" />
+                </HBox>
+                <Label fx:id="cheminErrorLabel" textFill="red" />
+
+                <!-- Photo -->
+                <HBox spacing="10">
+                    <TextField fx:id="photoTextField" promptText="Photo" editable="false"
+                               style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d3c4a3;" />
+                    <Button fx:id="parcourirButton" text="🖼️ parcourir"
+                            onAction="#handleParcourir"
+                            style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 10;" />
+                </HBox>
+                <Label fx:id="photoErrorLabel" textFill="red" />
+            </VBox>
+
+            <!-- Update Button -->
+            <Button fx:id="updateButton" text="Mettre à jour"
+                    onAction="#UpdateMusicButton"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 14px; -fx-padding: 8 20;" />
+        </VBox>
     </children>
 </AnchorPane>

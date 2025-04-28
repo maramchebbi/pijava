@@ -3,14 +3,49 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DetailMusicController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.DetailMusicController"
+            style="-fx-background-color: #f5f5dc; -fx-padding: 20;">
+
    <children>
-      <TextField fx:id="titreTextField" layoutX="252.0" layoutY="34.0" />
-      <TextField fx:id="photoTextField" layoutX="252.0" layoutY="275.0" />
-      <TextField fx:id="cheminFicherTextField" layoutX="252.0" layoutY="238.0" />
-      <TextField fx:id="descriptionTextField" layoutX="252.0" layoutY="158.0" />
-      <TextField fx:id="genreTextField" layoutX="252.0" layoutY="117.0" />
-      <TextField fx:id="artistNameTextField" layoutX="252.0" layoutY="78.0" />
-      <TextField fx:id="dateTextField" layoutX="252.0" layoutY="200.0" />
+      <TextField fx:id="titreTextField" layoutX="252.0" layoutY="34.0"
+                 promptText="Title"
+                 style="-fx-font-size: 14px; -fx-padding: 8 12;
+                          -fx-background-radius: 10; -fx-border-radius: 10;
+                          -fx-background-color: white; -fx-border-color: #d3c4a3;" />
+
+      <TextField fx:id="artistNameTextField" layoutX="252.0" layoutY="78.0"
+                 promptText="Artist Name"
+                 style="-fx-font-size: 14px; -fx-padding: 8 12;
+                          -fx-background-radius: 10; -fx-border-radius: 10;
+                          -fx-background-color: white; -fx-border-color: #d3c4a3;" />
+
+      <TextField fx:id="genreTextField" layoutX="252.0" layoutY="117.0"
+                 promptText="Genre"
+                 style="-fx-font-size: 14px; -fx-padding: 8 12;
+                          -fx-background-radius: 10; -fx-border-radius: 10;
+                          -fx-background-color: white; -fx-border-color: #d3c4a3;" />
+
+      <TextField fx:id="descriptionTextField" layoutX="252.0" layoutY="158.0"
+                 promptText="Description"
+                 style="-fx-font-size: 14px; -fx-padding: 8 12;
+                          -fx-background-radius: 10; -fx-border-radius: 10;
+                          -fx-background-color: white; -fx-border-color: #d3c4a3;" />
+
+      <TextField fx:id="dateTextField" layoutX="252.0" layoutY="200.0"
+                 promptText="Date"
+                 style="-fx-font-size: 14px; -fx-padding: 8 12;
+                          -fx-background-radius: 10; -fx-border-radius: 10;
+                          -fx-background-color: white; -fx-border-color: #d3c4a3;" />
+
+
+
+      <TextField fx:id="photoTextField" layoutX="252.0" layoutY="275.0"
+                 promptText="Image Path"
+                 style="-fx-font-size: 14px; -fx-padding: 8 12;
+                          -fx-background-radius: 10; -fx-border-radius: 10;
+                          -fx-background-color: white; -fx-border-color: #d3c4a3;" />
    </children>
 </AnchorPane>

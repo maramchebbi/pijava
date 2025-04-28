@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="600.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.AfficherPlaylistController">
 
     <children>
@@ -29,11 +29,10 @@
                         <Button fx:id="ajouterButton"
                                 onAction="#handleAjouterPlaylist"
                                 text="➕ Ajouter une Playlist"
-                                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
-                        <Button fx:id="afficherMusicButton"
-                                onAction="#handleRetourMusique"
-                                text="🎵 Afficher Musiques"
-                                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
+                                style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
+
+                        <Button text="Playlists" onAction="#handleRefresh"
+                                style="-fx-background-color: #8B5E3C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;" />
                     </children>
                 </HBox>
             </children>
@@ -47,7 +46,7 @@
                     AnchorPane.leftAnchor="20.0"
                     AnchorPane.rightAnchor="20.0"
                     AnchorPane.bottomAnchor="20.0"
-                    style="-fx-background: transparent;">
+                    style="-fx-background: #F9F5F1;">
             <content>
                 <AnchorPane>
                     <GridPane fx:id="playlistGrid"
@@ -57,11 +56,6 @@
                               style="-fx-padding: 20;"
                               AnchorPane.leftAnchor="0.0"
                               AnchorPane.rightAnchor="0.0">
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="33.3" />
-                            <ColumnConstraints percentWidth="33.3" />
-                            <ColumnConstraints percentWidth="33.3" />
-                        </columnConstraints>
                     </GridPane>
                 </AnchorPane>
             </content>
