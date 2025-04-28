@@ -10,9 +10,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -70,12 +70,13 @@
                                             <children>
                                                 <StackPane>
                                                     <children>
-                                                        <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#f8f8f8" height="420.0" width="550.0" stroke="#d7c3af" strokeWidth="2.0">
+                                                        <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#f8f8f8" height="420.0" stroke="#d7c3af" strokeWidth="2.0" width="550.0">
                                                             <effect>
                                                                 <DropShadow color="#00000040" height="15.0" radius="7.0" width="15.0" />
                                                             </effect>
                                                         </Rectangle>
                                                         <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="530.0" pickOnBounds="true" preserveRatio="true" />
+                                                        
                                                     </children>
                                                 </StackPane>
                                                 <Label fx:id="nomImageLabel" styleClass="image-caption" textAlignment="CENTER">
@@ -83,11 +84,12 @@
                                                         <Font name="Calibri Italic" size="18.0" />
                                                     </font>
                                                 </Label>
+                                    <Button fx:id="editImageButton" mnemonicParsing="false" onAction="#handleEditImage" text="editer" />
                                             </children>
                                         </VBox>
 
                                         <!-- Details Section -->
-                                        <VBox spacing="20.0" maxWidth="500.0">
+                                        <VBox maxWidth="500.0" spacing="20.0">
                                             <children>
                                                 <!-- Title Section -->
                                                 <VBox spacing="5.0">
@@ -96,7 +98,7 @@
                                                             <Font name="Calibri Bold" size="24.0" />
                                                         </font>
                                                     </Label>
-                                                    <Rectangle height="3.0" width="100.0" fill="#be9b7b" />
+                                                    <Rectangle fill="#be9b7b" height="3.0" width="100.0" />
                                                 </VBox>
 
                                                 <!-- Detail Fields in Grid -->

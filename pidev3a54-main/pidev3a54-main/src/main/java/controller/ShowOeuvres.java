@@ -382,8 +382,12 @@ public class ShowOeuvres {
         actionBar.setPadding(new Insets(6, 0, 0, 0));
 
         // Utiliser vos propres icônes depuis le dossier resources/images
+//        Button editBtn = createCustomIconButton("/images/edit.png", "Modifier");
+//        editBtn.setOnAction(e -> handleEdit(oeuvre));
         Button editBtn = createCustomIconButton("/images/edit.png", "Modifier");
-        editBtn.setOnAction(e -> handleEdit(oeuvre));
+        editBtn.setOnAction(event -> {
+            handleEdit(oeuvre, editBtn);  // Pass both the oeuvre and the button
+        });
 
         Button deleteBtn = createCustomIconButton("/images/truc.png", "Supprimer");
         deleteBtn.setOnAction(e -> handleDelete(oeuvre));
@@ -551,20 +555,32 @@ public class ShowOeuvres {
         }
     }
 
-    private void handleEdit(Oeuvre oeuvre) {
+    private void handleEdit(Oeuvre oeuvre, Node sourceNode) {  // Added sourceNode parameter
         try {
+            // Get screen dimensions
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
+            // Load the edit view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit.fxml"));
             Parent root = loader.load();
 
+            // Configure controller
             edit editController = loader.getController();
             editController.setOeuvreDetails(oeuvre);
 
-            Stage stage = new Stage();
+            // Create new scene
+            Scene scene = new Scene(root, screenWidth, screenHeight);
+
+            // Get current stage from the source node
+            Stage stage = (Stage) sourceNode.getScene().getWindow();
+            stage.setScene(scene);
             stage.setTitle("Modifier l'œuvre");
-            stage.setScene(new Scene(root));
             stage.show();
+
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible d'ouvrir l'éditeur");
+            showAlert("Erreur", "Impossible de charger l'interface d'édition");
             e.printStackTrace();
         }
     }
@@ -607,8 +623,11 @@ public class ShowOeuvres {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Add.fxml"));
             Parent root = loader.load();
 
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             // Effet de transition
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
@@ -626,9 +645,11 @@ public class ShowOeuvres {
 
             // Get the controller to set up any needed state
             AddWorkshop controller = loader.getController();
-
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             // Create the scene first
-            Scene scene = new Scene(workshopRoot);
+            Scene scene = new Scene(workshopRoot,screenWidth,screenHeight);
 
             // Create and set up the stage
             Stage stage = new Stage();
@@ -636,11 +657,11 @@ public class ShowOeuvres {
             stage.setScene(scene);
 
             // Make it fullscreen if needed
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            stage.setX(screenBounds.getMinX());
-            stage.setY(screenBounds.getMinY());
-            stage.setWidth(screenBounds.getWidth());
-            stage.setHeight(screenBounds.getHeight());
+//            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+//            stage.setX(screenBounds.getMinX());
+//            stage.setY(screenBounds.getMinY());
+//            stage.setWidth(screenBounds.getWidth());
+//            stage.setHeight(screenBounds.getHeight());
 
             // Now show the stage
             stage.show();
@@ -655,9 +676,11 @@ public class ShowOeuvres {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Collections.fxml"));
             Parent root = loader.load();
-
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             // Transition fluide
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

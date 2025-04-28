@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 
 
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -204,9 +205,11 @@ public class AjouterCollectionController {
             // Charger le fichier FXML pour l'interface d'ajout de collection
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Collections.fxml"));
             Parent root = loader.load();
-
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             // Obtenir la scène actuelle et définir la nouvelle scène avec le formulaire d'ajout
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

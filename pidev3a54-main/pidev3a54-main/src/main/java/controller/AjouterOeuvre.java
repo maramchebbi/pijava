@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -190,10 +191,13 @@ public class AjouterOeuvre {
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Œuvre ajoutée",
                     "L'œuvre a été ajoutée avec succès !");
 
-            // Redirection après l'alerte
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
             Parent root = FXMLLoader.load(getClass().getResource("/show.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root,screenWidth,screenHeight));
             stage.show();
 
         } catch (SQLException | IOException e) {
@@ -220,16 +224,18 @@ public class AjouterOeuvre {
 
             // Get the current stage
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             // Create a new scene with the loaded FXML content
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
 
             // Set the new scene and show the stage
             stage.setScene(scene);
             stage.show();
 
         } catch (IOException e) {
-            // Handle the exception and print the error message
+
             System.out.println("Error loading the FXML file: " + e.getMessage());
         }
     }

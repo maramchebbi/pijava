@@ -9,10 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button; // Added missing import
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality; // Added missing import
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import Models.Oeuvre;
@@ -34,11 +36,45 @@ public class detail implements Initializable {
     @FXML private TextField id_userfield;
     @FXML private TextField categorieField;
 
+    @FXML
+    private Button editImageButton;
+
     private Oeuvre currentOeuvre;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Configuration initiale si nécessaire
+    }
+
+    @FXML
+    private void handleEditImage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ImageEditor.fxml"));
+            Parent root = loader.load();
+
+            ImageEditorController controller = loader.getController();
+            controller.setImageToEdit(currentOeuvre.getImage());
+
+            Stage stage = new Stage();
+            stage.setTitle("Édition d'image - " + currentOeuvre.getNom());
+            stage.setScene(new Scene(root));
+            stage.showAndWait(); // Utiliser showAndWait pour bloquer jusqu'à fermeture
+
+            // Si l'image a été modifiée, vous pourriez la récupérer ici
+            if (controller.isImageModified()) {
+                // Mettre à jour l'image si nécessaire
+                imageView.setImage(new Image("file:" + currentOeuvre.getImage()));
+            }
+        } catch (IOException e) {
+            showAlert(AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'éditeur d'image: " + e.getMessage());
+        }
+    }
+    private void refreshImageDisplay() {
+        // Recharger l'image depuis le disque pour afficher les modifications
+        if (currentOeuvre != null && currentOeuvre.getImage() != null) {
+            Image updatedImage = new Image("file:" + currentOeuvre.getImage());
+            imageView.setImage(updatedImage);
+        }
     }
 
     public void setOeuvreDetails(Oeuvre t) {
@@ -67,13 +103,17 @@ public class detail implements Initializable {
         matiereField.setText(t.getMatiere());
         couleurField.setText(t.getCouleur());
         dimensionField.setText(t.getDimensions());
-     //   id_userfield.setText(String.valueOf(t.getUser_id()));
+        // id_userfield.setText(String.valueOf(t.getUser_id()));
         categorieField.setText(t.getCategorie());
     }
 
     @FXML
     private void handleOK(ActionEvent event) {
         try {
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
             // Load the main view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
             Parent root = loader.load();
@@ -81,7 +121,7 @@ public class detail implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // Configuration pour fullscreen
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             stage.setScene(scene);
 
             // Maximiser la fenêtre pour utiliser tout l'écran
@@ -100,5 +140,10 @@ public class detail implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Simple overload to maintain backward compatibility
+    private void showAlert(String title, String message) {
+        showAlert(AlertType.INFORMATION, title, message);
     }
 }

@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
@@ -223,7 +224,9 @@ public class CollectionsController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
             Parent root = loader.load();
-
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             // Récupérer le contrôleur lié au fichier FXML
             Detailco controller = loader.getController();
 
@@ -231,7 +234,7 @@ public class CollectionsController {
             controller.populateImagesByCollection(collection.getId());
 
             // Afficher la nouvelle scène
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("Œuvres de la Collection: " + collection.getNom_c());
@@ -375,8 +378,11 @@ public class CollectionsController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCollection.fxml"));
             Parent root = loader.load();
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
 
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
@@ -390,8 +396,10 @@ public class CollectionsController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
             Parent root = loader.load();
-
-            Scene scene = new Scene(root);
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

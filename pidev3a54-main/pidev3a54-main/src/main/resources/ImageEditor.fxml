@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.ImageEditorController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" >
+            <Button text="Ouvrir" onAction="#handleOpenImage"/>
+            <Button text="Sauvegarder" onAction="#handleSaveImage"/>
+            <Button text="Auto-Améliorer" onAction="#handleAutoEnhance"/>
+            <Button text="Réinitialiser" onAction="#handleReset"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <ImageView fx:id="imageView" preserveRatio="true"/>
+        </ScrollPane>
+    </center>
+
+    <right>
+        <VBox spacing="10"  prefWidth="250">
+            <Label text="Luminosité" />
+            <Slider fx:id="brightnessSlider" min="-100" max="100" value="0" showTickLabels="true" />
+
+            <Label text="Contraste" />
+            <Slider fx:id="contrastSlider" min="-100" max="100" value="0" showTickLabels="true" />
+
+            <Separator />
+
+            <Label text="Balance des couleurs" />
+            <Label text="Rouge" />
+            <Slider fx:id="redSlider" min="-100" max="100" value="0" />
+            <Label text="Vert" />
+            <Slider fx:id="greenSlider" min="-100" max="100" value="0" />
+            <Label text="Bleu" />
+            <Slider fx:id="blueSlider" min="-100" max="100" value="0" />
+
+            <Separator />
+
+            <Label text="Netteté" />
+            <Slider fx:id="sharpnessSlider" min="0" max="5" value="0" />
+
+            <Button text="Appliquer les changements" onAction="#handleApplyChanges" />
+            <Button text="Détection des bords" onAction="#handleEdgeDetection" />
+
+            <Separator />
+
+            <Label text="Redimensionner" />
+            <HBox spacing="5">
+                <Label text="Largeur:" />
+                <TextField fx:id="widthField" prefWidth="60" />
+                <Label text="Hauteur:" />
+                <TextField fx:id="heightField" prefWidth="60" />
+            </HBox>
+            <Button text="Redimensionner" onAction="#handleResize" />
+        </VBox>
+    </right>
+
+</BorderPane>
