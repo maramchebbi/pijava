@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import Services.OeuvreService;
@@ -437,18 +438,16 @@ public class Detailco {
 
     private void handleAddOeuvre() {
         try {
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
             System.out.println("Ajouter une nouvelle œuvre à la collection ID: " + currentCollectionId);
 
             // Charger le fichier FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Add.fxml"));
             Parent root = loader.load();
 
-            // Obtenir le contrôleur et lui passer l'ID de la collection actuelle
-//            AjouterOeuvre controller = loader.getController();
-//            controller.setCollectionId(currentCollectionId);
-
-            // Créer une nouvelle scène
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root,screenWidth,screenHeight);
             Stage stage = new Stage();
 
             stage.setTitle("Ajouter une œuvre");

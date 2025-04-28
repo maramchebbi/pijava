@@ -30,6 +30,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.effect.DropShadow;
 import javafx.animation.FadeTransition;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -49,6 +50,13 @@ public class WorkshopsController {
 
     @FXML
     private VBox workshopsContainer;
+
+    @FXML
+    private VBox headerBar;
+
+    @FXML
+    private ScrollPane contentScrollPane;
+
     private final WorkshopService workshopService = new WorkshopService();
     private List<MediaPlayer> mediaPlayers = new ArrayList<>();
     private MediaPlayer currentlyPlaying = null;
@@ -68,15 +76,20 @@ public class WorkshopsController {
     @FXML
     public void initialize() {
         try {
-            // Configuration des boutons de navigation
+            // Make sure the ScrollPane position adjusts to the header height
+            headerBar.heightProperty().addListener((obs, oldHeight, newHeight) -> {
+                contentScrollPane.setLayoutY(newHeight.doubleValue());
+                AnchorPane.setTopAnchor(contentScrollPane, newHeight.doubleValue());
+            });
 
+            // Set a fixed initial height for the header to avoid layout issues
+            AnchorPane.setTopAnchor(contentScrollPane, headerBar.getPrefHeight());
 
-            // Code existant pour charger les ateliers
+            // Load workshops
             loadWorkshops();
         } catch (SQLException e) {
             showError("Erreur de base de données : " + e.getMessage());
         }
-
     }
 
 
@@ -608,6 +621,7 @@ public class WorkshopsController {
             e.printStackTrace();
         }
     }
+
 
 
 

@@ -47,7 +47,7 @@ public class CollectionsController {
     private OeuvreService oeuvreService;
 
     // Image par défaut quand aucune œuvre n'est disponible
-    private final String DEFAULT_IMAGE = "/images/default_ceramic.jpg";
+    private final String DEFAULT_IMAGE = "/images/2.jpg";
 
     public CollectionsController() {
         this.collectionService = new CollectionCeramiqueService();
@@ -222,11 +222,13 @@ public class CollectionsController {
     // Afficher les œuvres d'une collection
     private void viewCollectionOeuvres(CeramicCollection collection) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
-            Parent root = loader.load();
             Screen screen = Screen.getPrimary();
             double screenWidth = screen.getVisualBounds().getWidth();
             double screenHeight = screen.getVisualBounds().getHeight();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
+            Parent root = loader.load();
+
             // Récupérer le contrôleur lié au fichier FXML
             Detailco controller = loader.getController();
 

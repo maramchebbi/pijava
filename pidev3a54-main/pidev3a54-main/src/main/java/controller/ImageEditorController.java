@@ -23,7 +23,7 @@ public class ImageEditorController {
     private String currentImagePath;
     private Image originalImage;
     private boolean imageModified = false;
-   // private String oeuvreNom;
+    // private String oeuvreNom;
 
     public void initialize() {
         imageService = new ImageProcessingService();
@@ -111,7 +111,7 @@ public class ImageEditorController {
             // Note: Cette conversion est simplifiée et nécessiterait plus de code
             // pour une implémentation complète
             //Mat mat = imageToMat(imageView.getImage());
-           // imageService.saveImage(mat, outputFile.getAbsolutePath());
+            // imageService.saveImage(mat, outputFile.getAbsolutePath());
 
             showAlert("Information", "Image sauvegardée avec succès!");
         }

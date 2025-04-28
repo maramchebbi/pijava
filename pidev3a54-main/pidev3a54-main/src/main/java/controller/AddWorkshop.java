@@ -13,6 +13,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 import java.io.File;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -30,6 +32,10 @@ public class AddWorkshop implements Initializable {
     @FXML private TextArea descriptionField;
     @FXML private Label videoLabel;
     @FXML private Button backButton;
+    @FXML
+    private Button backgallery;
+
+
 
     private File selectedVideoFile;
     private WorkshopService workshopService = new WorkshopService();
@@ -43,6 +49,39 @@ public class AddWorkshop implements Initializable {
             }
         });
     }
+    @FXML
+    void backgallery(ActionEvent event) {
+        try {
+            // Get screen dimensions
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
+            // Load the gallery view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/show.fxml"));
+            Parent galleryRoot = loader.load();
+
+            // Create new scene
+            Scene scene = new Scene(galleryRoot, screenWidth, screenHeight);
+
+            // Get current stage from the source node
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir la galerie: " + e.getMessage());
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     private void setFullScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -55,16 +94,28 @@ public class AddWorkshop implements Initializable {
 
     @FXML
     void voiraction(ActionEvent event) {
+
         try {
+            // Get screen dimensions
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
+            // Load the gallery view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShowWorkshops.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+
+            // Create new scene
+            Scene scene = new Scene(root, screenWidth, screenHeight);
+
+            // Get current stage from the source node
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
+
         } catch (IOException e) {
-            System.out.println("Error loading the FXML file: " + e.getMessage());
             e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir la galerie: " + e.getMessage());
         }
     }
 
@@ -179,6 +230,10 @@ public class AddWorkshop implements Initializable {
         // Stage stage = (Stage) dialogPane.getScene().getWindow();
         // stage.getScene().getStylesheets().add(getClass().getResource("/styles/alerts.css").toExternalForm());
     }
+
+
+
+
 
 
 }

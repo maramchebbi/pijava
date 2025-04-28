@@ -529,32 +529,29 @@ public class ShowOeuvres {
 
     private void handleDetails(Oeuvre oeuvre) {
         try {
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getVisualBounds().getWidth();
+            double screenHeight = screen.getVisualBounds().getHeight();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
             Parent root = loader.load();
 
             detail detailController = loader.getController();
             detailController.setOeuvreDetails(oeuvre);
 
-            // Style modal Pinterest
+            Scene scene = new Scene(root, screenWidth, screenHeight);
+
+            // Create a new stage instead of using sourceNode
             Stage stage = new Stage();
-            stage.setTitle("Détails de l'œuvre");
-
-            // Effet d'animation pour une ouverture plus fluide
-            Scene scene = new Scene(root);
             stage.setScene(scene);
-
-            // Centrer la fenêtre
-            Stage mainStage = (Stage) scrollPane.getScene().getWindow();
-            stage.setX(mainStage.getX() + (mainStage.getWidth() - root.prefWidth(-1)) / 2);
-            stage.setY(mainStage.getY() + (mainStage.getHeight() - root.prefHeight(-1)) / 2);
-
+            stage.setTitle("Détails de l'œuvre");
             stage.show();
+
         } catch (IOException e) {
             showAlert("Erreur", "Impossible d'ouvrir les détails");
             e.printStackTrace();
         }
     }
-
     private void handleEdit(Oeuvre oeuvre, Node sourceNode) {  // Added sourceNode parameter
         try {
             // Get screen dimensions
@@ -640,37 +637,32 @@ public class ShowOeuvres {
     @FXML
     private void handleWorkshopRedirect(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddWorkshop.fxml"));
-            Parent workshopRoot = loader.load();
-
-            // Get the controller to set up any needed state
-            AddWorkshop controller = loader.getController();
+            // Get screen dimensions
             Screen screen = Screen.getPrimary();
             double screenWidth = screen.getVisualBounds().getWidth();
             double screenHeight = screen.getVisualBounds().getHeight();
-            // Create the scene first
-            Scene scene = new Scene(workshopRoot,screenWidth,screenHeight);
 
-            // Create and set up the stage
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter Workshop");
+            // Load the edit view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddWorkshop.fxml"));
+            Parent workshopRoot = loader.load();
+
+            // Configure controller
+            AddWorkshop controller = loader.getController();
+
+            // Create new scene
+            Scene scene = new Scene(workshopRoot, screenWidth, screenHeight);
+
+            // Get current stage from the source node
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-
-            // Make it fullscreen if needed
-//            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-//            stage.setX(screenBounds.getMinX());
-//            stage.setY(screenBounds.getMinY());
-//            stage.setWidth(screenBounds.getWidth());
-//            stage.setHeight(screenBounds.getHeight());
-
-            // Now show the stage
+            stage.setTitle("Ajouter Workshop");
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir l'interface de workshop: " + e.getMessage());
         }
     }
-
     @FXML
     private void affichercollectionaction(ActionEvent event) {
         try {
