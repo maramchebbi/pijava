@@ -392,4 +392,45 @@ public class ParticipationService {
         }
         return participations;
     }
+
+    /**
+     * Récupère toutes les participations pour un événement spécifique
+     * @param eventId L'identifiant de l'événement
+     * @return Liste des participations pour cet événement
+     * @throws SQLException En cas d'erreur d'accès à la base de données
+     */
+    public List<Participation> getParticipationsByEvent(int eventId) throws SQLException {
+        System.out.println("Récupération des participations pour l'événement: " + eventId);
+        List<Participation> participations = new ArrayList<>();
+
+        String query = "SELECT p.*, u.nom, u.email FROM participation p " +
+                "LEFT JOIN user u ON p.user_id = u.id " +
+                "WHERE p.event_id = ? " +
+                "ORDER BY p.date_participation ASC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, eventId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Participation participation = new Participation();
+                    participation.setId(rs.getInt("p.id"));
+                    participation.setUserId(rs.getInt("p.user_id"));
+                    Event event = new Event();
+                    event.setId(rs.getInt("e.id"));                    participation.setNomUtilisateur(rs.getString("p.nom_utilisateur"));
+                    participation.setEmailUtilisateur(rs.getString("p.email_utilisateur"));
+                    participation.setDateParticipation(rs.getDate("p.date_participation"));
+                    participation.setIsWaiting(rs.getBoolean("p.is_waiting"));
+                    participation.setQrCode(rs.getString("p.qr_code"));
+                    participation.setNumtel(rs.getInt("p.numtel"));
+
+                    participations.add(participation);
+                }
+            }
+        }
+
+        System.out.println("Nombre de participations trouvées pour l'événement " + eventId + ": " + participations.size());
+        return participations;
+    }
 }

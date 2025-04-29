@@ -83,4 +83,24 @@ public class Home extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    @FXML
+    private void openAdminDashboard() {
+        try {
+            System.out.println("Chargement de AdminEvents.fxml...");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AdminEvents.fxml"));
+            AnchorPane dashboardView = loader.load();
+
+            // Remplacer le contenu du contentArea par la vue du dashboard
+            contentArea.getChildren().setAll(dashboardView);
+
+        } catch (IOException e) {
+            System.err.println("Erreur lors du chargement du dashboard: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

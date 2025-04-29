@@ -3,10 +3,13 @@ package Controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-
-import java.io.IOException;
+import javafx.stage.Stage;
 import java.net.URL;
+import java.io.IOException;
+
 
 public class HomeController {
 
@@ -121,4 +124,30 @@ public class HomeController {
             e.printStackTrace();
         }
     }
+
+    public void handleOpenDashboard() {
+        try {
+            // Charge le FXML (ajustez le chemin selon votre structure)
+            URL fxmlUrl = getClass().getResource("/AdminEvents.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("Fichier FXML non trouvé : /Views/EventsDashboard.fxml");
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent root = loader.load();
+
+            // Crée la fenêtre
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Erreur : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+
 }

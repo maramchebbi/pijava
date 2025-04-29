@@ -157,8 +157,12 @@
                                 </VBox>
                             </content>
                         </TitledPane>
+
+
                     </panes>
+
                 </Accordion>
+
 
                 <!-- Statut de connexion en bas du sidebar -->
                 <HBox alignment="CENTER" spacing="10.0" layoutX="25.0" layoutY="620.0" styleClass="connection-status">
@@ -210,6 +214,8 @@
                                 <Label text="📋" styleClass="action-icon"/>
                             </graphic>
                         </Button>
+                        <Button fx:id="btnDashboard" text="Ouvrir le Dashboard" onAction="#handleOpenDashboard" />
+
                     </HBox>
                 </VBox>
             </AnchorPane>

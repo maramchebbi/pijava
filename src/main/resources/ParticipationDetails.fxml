@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
+<?import javafx.scene.control.ScrollPane?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -24,25 +25,25 @@
         <Label text="Mes Participations"
                style="-fx-font-size: 22px; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-family: 'Roboto', sans-serif;" />
         <Region fx:id="spacer" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="refreshButton" text="Rafraîchir" onAction="#refreshParticipations"
-                style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 14px;" >
-            <HBox.margin>
-                <Insets right="20.0" />
-            </HBox.margin>
-        </Button>
+
     </HBox>
 
     <Label layoutX="230" layoutY="70" text="🧾 Liste des Participations"
            style="-fx-font-size: 24px; -fx-text-fill: #2d3436; -fx-font-weight: bold; -fx-font-family: 'Roboto', sans-serif;" />
 
-    <FlowPane fx:id="participationsFlowPane"
-              layoutX="20" layoutY="120"
-              prefWidth="760" prefHeight="420"
-              vgap="20" hgap="20"
-              alignment="CENTER"
-              style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
-        <effect>
-            <DropShadow color="#dfe6e9" radius="15" />
-        </effect>
-    </FlowPane>
+    <ScrollPane layoutX="20" layoutY="120" prefWidth="760" prefHeight="420"
+                style="-fx-background-color:transparent;">
+        <content>
+            <FlowPane fx:id="participationsFlowPane"
+                      prefWidth="1200" prefHeight="700"
+                      vgap="20" hgap="20"
+                      alignment="CENTER"
+                      style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
+                <effect>
+                    <DropShadow color="#dfe6e9" radius="15" />
+                </effect>
+            </FlowPane>
+        </content>
+    </ScrollPane>
+
 </AnchorPane>

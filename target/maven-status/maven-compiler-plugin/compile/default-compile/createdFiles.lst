@@ -2,11 +2,13 @@ Controllers\MapViewer.class
 Services\ReminderService.class
 Controllers\FluxGeneratorController.class
 Controllers\DetailsSponsor.class
+Controllers\EventsDashboardController$4.class
 Utils\SessionStorage.class
 Controllers\MapCoordinatePicker.class
 Controllers\AjouterEvent$1.class
 Controllers\RecommendationController.class
 Utils\HashUtil.class
+Controllers\EventsDashboardController$1.class
 Utils\EmailService$1.class
 Controllers\AjouterSponsor.class
 Main\Test.class
@@ -15,9 +17,11 @@ Utils\EmailService.class
 Controllers\DetailsEvent.class
 Services\EventService.class
 Models\RecommendedEvent.class
+Controllers\EventsDashboardController.class
 Models\User.class
 Services\IService.class
 Controllers\ModifierSponsor.class
+Controllers\EventsDashboardController$2.class
 Models\Event.class
 Controllers\Home.class
 Controllers\ModifierEvent.class
@@ -28,6 +32,7 @@ Controllers\RegisterController.class
 Controllers\LoginController.class
 Controllers\AjouterEvent.class
 Utils\DataSource.class
+Controllers\EventsDashboardController$3.class
 Services\ParticipationService.class
 Models\Sponsor.class
 Controllers\HomeController.class

@@ -1,0 +1,551 @@
+/* admin.css - Styles pour le back-office d'Artisfera */
+
+/* Variables de couleurs */
+{
+
+    -fx-primary-color: #2196F3;
+    -fx-primary-dark: #1976D2;
+    -fx-primary-light: #BBDEFB;
+    -fx-accent-color: #4CAF50;
+    -fx-accent-dark: #388E3C;
+    -fx-danger-color: #F44336;
+    -fx-warning-color: #FFC107;
+    -fx-text-dark: #263238;
+    -fx-text-light: #FFFFFF;
+    -fx-bg-dark: #37474F;
+    -fx-bg-medium: #455A64;
+    -fx-bg-light: #ECEFF1;
+    -fx-divider-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Style général du conteneur admin */
+.admin-container {
+    -fx-background-color: -fx-bg-dark;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ----- Styles de la barre latérale ----- */
+
+.admin-sidebar {
+    -fx-background-color: -fx-bg-medium;
+    -fx-background-radius: 20;
+    -fx-padding: 15 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.3, 4, 4);
+}
+
+.admin-logo-container {
+    -fx-padding: 10 0 20 0;
+}
+
+.admin-logo-circle {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 50%;
+    -fx-min-height: 48;
+    -fx-min-width: 48;
+    -fx-max-height: 48;
+    -fx-max-width: 48;
+    -fx-alignment: center;
+}
+
+.logo-emoji {
+    -fx-font-size: 26px;
+    -fx-text-fill: -fx-text-light;
+}
+
+.admin-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-light;
+}
+
+.admin-section-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(255, 255, 255, 0.6);
+    -fx-padding: 15 0 5 10;
+}
+
+.admin-menu-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -fx-text-light;
+    -fx-font-size: 15px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.admin-menu-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-cursor: hand;
+}
+
+.admin-menu-btn-active {
+    -fx-background-color: rgba(33, 150, 243, 0.3);
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 0 0 0 3;
+    -fx-text-fill: -fx-primary-light;
+    -fx-font-weight: bold;
+}
+
+.admin-separator {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-opacity: 1;
+}
+
+.admin-user-info {
+    -fx-padding: 10;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 8;
+}
+
+.admin-user-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+}
+
+.admin-user-value {
+    -fx-text-fill: -fx-text-light;
+    -fx-font-weight: bold;
+}
+
+.back-btn {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: -fx-text-light;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 1, 2);
+}
+
+.back-btn:hover {
+    -fx-background-color: -fx-primary-dark;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 1, 3);
+}
+
+/* ----- Styles du conteneur principal ----- */
+
+.admin-content-container {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 20;
+    -fx-padding: 20;
+    -fx-spacing: 20;
+}
+
+.admin-header {
+    -fx-padding: 15;
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);
+}
+
+.admin-page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-dark;
+}
+
+.refresh-btn {
+    -fx-background-color: -fx-primary-light;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 15;
+}
+
+.refresh-btn:hover {
+    -fx-background-color: derive(-fx-primary-light, -10%);
+    -fx-cursor: hand;
+}
+
+/* ----- Styles pour les panneaux de contenu ----- */
+
+.admin-content-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 3);
+}
+
+.admin-module {
+    -fx-padding: 20;
+}
+
+/* ----- Styles pour les vues d'erreur ----- */
+
+.admin-error-view {
+    -fx-background-color: white;
+    -fx-padding: 50;
+}
+
+.admin-error-message {
+    -fx-font-size: 16px;
+    -fx-text-fill: -fx-danger-color;
+    -fx-font-weight: bold;
+}
+
+.admin-retry-btn {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+}
+
+/* ----- Styles pour la gestion des peintures ----- */
+
+.admin-filters-bar {
+    -fx-padding: 15;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+}
+
+.admin-search-field {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+    -fx-padding: 8 15;
+}
+
+.admin-filter-label {
+    -fx-text-fill: -fx-text-dark;
+    -fx-font-weight: bold;
+}
+
+.admin-combo-box {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+    -fx-padding: 3 10;
+}
+
+.admin-action-btn {
+    -fx-background-color: -fx-accent-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 15;
+}
+
+.admin-action-btn:hover {
+    -fx-background-color: -fx-accent-dark;
+    -fx-cursor: hand;
+}
+
+.admin-table {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+}
+
+.admin-table .column-header {
+    -fx-background-color: -fx-primary-light;
+    -fx-text-fill: -fx-text-dark;
+    -fx-font-weight: bold;
+}
+
+.admin-table .table-row-cell:odd {
+    -fx-background-color: rgba(187, 222, 251, 0.2);
+}
+
+.admin-table .table-row-cell:selected {
+    -fx-background-color: rgba(33, 150, 243, 0.3);
+}
+
+.admin-edit-btn {
+    -fx-background-color: -fx-primary-light;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-background-radius: 6;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+}
+
+.admin-edit-btn:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.admin-delete-btn {
+    -fx-background-color: rgba(244, 67, 54, 0.2);
+    -fx-text-fill: -fx-danger-color;
+    -fx-background-radius: 6;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+}
+
+.admin-delete-btn:hover {
+    -fx-background-color: -fx-danger-color;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.admin-status-bar {
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+}
+
+.admin-status-label {
+    -fx-text-fill: -fx-text-dark;
+    -fx-font-weight: bold;
+}
+
+.admin-status-value {
+    -fx-text-fill: -fx-primary-dark;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+/* ----- Styles pour le panneau d'édition ----- */
+
+.admin-edit-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -fx-primary-light;
+    -fx-border-radius: 12;
+    -fx-border-width: 2;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);
+}
+
+.admin-edit-header {
+    -fx-padding: 0 0 10 0;
+    -fx-border-color: transparent transparent -fx-divider-color transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.admin-edit-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-dark;
+}
+
+.admin-close-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-danger-color;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 5 10;
+}
+
+.admin-close-btn:hover {
+    -fx-background-color: rgba(244, 67, 54, 0.1);
+    -fx-cursor: hand;
+}
+
+.admin-form-group {
+    -fx-spacing: 5;
+    -fx-padding: 5 0;
+}
+
+.admin-form-label {
+    -fx-text-fill: -fx-text-dark;
+    -fx-font-weight: bold;
+}
+
+.admin-form-field {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+}
+
+.admin-form-field:focused {
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2;
+}
+
+.admin-browse-btn {
+    -fx-background-color: -fx-primary-light;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 15;
+    -fx-min-width: 40;
+}
+
+.admin-browse-btn:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.admin-image-preview-container {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+    -fx-padding: 10;
+    -fx-min-height: 180;
+    -fx-pref-height: 180;
+    -fx-min-width: 220;
+    -fx-alignment: center;
+}
+
+.admin-cancel-btn {
+    -fx-background-color: rgba(244, 67, 54, 0.1);
+    -fx-text-fill: -fx-danger-color;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-min-width: 100;
+}
+
+.admin-cancel-btn:hover {
+    -fx-background-color: rgba(244, 67, 54, 0.2);
+    -fx-cursor: hand;
+}
+
+.admin-save-btn {
+    -fx-background-color: -fx-accent-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-min-width: 120;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 1, 2);
+}
+
+.admin-save-btn:hover {
+    -fx-background-color: -fx-accent-dark;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 1, 3);
+}
+
+/* ----- Styles pour la gestion des styles ----- */
+
+.admin-scrollpane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.admin-scrollpane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.admin-grid {
+    -fx-background-color: white;
+}
+
+.admin-style-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-min-height: 240;
+    -fx-pref-height: 240;
+}
+
+.admin-style-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(33, 150, 243, 0.3), 8, 0, 0, 4);
+    -fx-border-color: -fx-primary-light;
+}
+
+.admin-style-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-dark;
+}
+
+.admin-style-image-container {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-min-height: 120;
+    -fx-pref-height: 120;
+    -fx-alignment: center;
+}
+
+.admin-no-image-label {
+    -fx-text-fill: #78909C;
+    -fx-font-style: italic;
+}
+
+.admin-style-description {
+    -fx-fill: -fx-text-dark;
+    -fx-font-size: 13px;
+}
+
+/* Pour corriger l'affichage du tableau */
+.admin-table {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: -fx-divider-color;
+    -fx-border-radius: 8;
+    -fx-table-cell-border-color: transparent; /* Ajout important */
+}
+
+.admin-table .column-header {
+    -fx-background-color: -fx-primary-light;
+    -fx-text-fill: -fx-text-dark;
+    -fx-font-weight: bold;
+    -fx-padding: 8;  /* Ajout pour l'espacement */
+}
+
+.admin-table .table-row-cell {
+    -fx-background-color: white;  /* Ajout pour l'affichage des lignes */
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 5;  /* Ajout pour l'espacement */
+}
+
+.admin-table .table-row-cell:odd {
+    -fx-background-color: rgba(187, 222, 251, 0.2);
+}
+
+.admin-table .table-row-cell:selected {
+    -fx-background-color: rgba(33, 150, 243, 0.3);
+}
+
+.admin-table .table-cell {
+    -fx-alignment: center-left;  /* Ajout pour l'alignement */
+    -fx-padding: 5;  /* Ajout pour l'espacement */
+}
+
+/* Pour la pagination */
+.pagination {
+    -fx-page-information-visible: false;
+}
+
+.pagination .pagination-control {
+    -fx-background-color: transparent;
+}
+
+.pagination .pagination-control .button {
+    -fx-background-color: -fx-primary-light;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-background-radius: 4;
+}
+
+.pagination .pagination-control .button:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+.pagination .page-number {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-dark;
+}
+
+.pagination .page-number:selected {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}

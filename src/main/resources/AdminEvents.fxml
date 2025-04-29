@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<AnchorPane prefWidth="1000" prefHeight="700"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.EventsDashboardController"
+            styleClass="admin-module">
+
+    <VBox spacing="15" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          style="-fx-padding: 10px;">
+
+        <!-- Filtres et recherche -->
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="admin-filters-bar" style="-fx-background-color: white; -fx-padding: 15px; -fx-spacing: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 3);">
+            <!-- Recherche -->
+            <TextField fx:id="searchField" promptText="Rechercher un événement..." styleClass="admin-search-field" HBox.hgrow="ALWAYS"
+                       style="-fx-background-color: #f7f7f7; -fx-background-radius: 20px; -fx-padding: 8px 15px; -fx-border-color: #e0e0e0; -fx-border-radius: 20px;"/>
+
+            <!-- Filtre par date -->
+            <Label text="Filtrer par date:" styleClass="admin-filter-label" style="-fx-text-fill: #757575; -fx-font-size: 14px;"/>
+            <DatePicker fx:id="dateFilterPicker" promptText="Toutes les dates" styleClass="admin-date-picker"
+                        style="-fx-background-color: #f7f7f7; -fx-background-radius: 5px; -fx-border-color: #e0e0e0; -fx-border-radius: 5px;"/>
+
+            <!-- Filtre par localisation -->
+            <Label text="Localisation:" styleClass="admin-filter-label" style="-fx-text-fill: #757575; -fx-font-size: 14px;"/>
+            <ComboBox fx:id="locationFilterComboBox" promptText="Toutes les localisations" styleClass="admin-combo-box" prefWidth="180"
+                      style="-fx-background-color: #f7f7f7; -fx-background-radius: 5px; -fx-border-color: #e0e0e0; -fx-border-radius: 5px;"/>
+
+            <!-- Bouton d'ajout -->
+            <Button text="➕ Nouvel événement" onAction="#handleAddEvent" styleClass="admin-action-btn"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 15px; -fx-background-radius: 5px;"/>
+        </HBox>
+
+        <!-- TableView -->
+        <TableView fx:id="eventsTable" VBox.vgrow="ALWAYS" styleClass="admin-table"
+                   style="-fx-background-color: white; -fx-border-color: #e0e0e0;
+                   -fx-border-radius: 5px; -fx-background-radius: 5px;
+                   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+                   -fx-margin: 10px 0;">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="60" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="thumbnailColumn" text="Image" prefWidth="100" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="titleColumn" text="Titre" prefWidth="200"/>
+                <TableColumn fx:id="locationColumn" text="Localisation" prefWidth="150"/>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="120" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="timeColumn" text="Heure" prefWidth="80" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="participantsColumn" text="Participants" prefWidth="120" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="200" style="-fx-alignment: CENTER;"/>
+            </columns>
+        </TableView>
+
+        <!-- Barre de statut -->
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="admin-status-bar"
+              style="-fx-background-color: white; -fx-padding: 10px; -fx-border-color: #e0e0e0; -fx-border-width: 1px 0 0 0;">
+            <Label text="Nombre total:" styleClass="admin-status-label" style="-fx-text-fill: #757575; -fx-font-size: 14px;"/>
+            <Label fx:id="totalEventsLabel" text="0" styleClass="admin-status-value" style="-fx-text-fill: #333333; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Pagination -->
+            <Label text="Page:" styleClass="admin-status-label" style="-fx-text-fill: #757575; -fx-font-size: 14px;"/>
+            <Pagination fx:id="eventsPagination" prefHeight="40" maxPageIndicatorCount="5" />
+        </HBox>
+
+        <!-- Panneau d'édition (visible en mode édition) -->
+        <VBox fx:id="editPanelVBox" visible="false" managed="false" styleClass="admin-edit-panel" spacing="15"
+              style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5); -fx-padding: 15px;">
+            <HBox alignment="CENTER_LEFT" styleClass="admin-edit-header" style="-fx-border-color: transparent transparent #e0e0e0 transparent; -fx-padding: 0 0 10px 0;">
+                <Label fx:id="editPanelTitle" text="Modifier l'événement" styleClass="admin-edit-title"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="❌ Fermer" onAction="#closeEditPanel" styleClass="admin-close-btn"
+                        style="-fx-background-color: transparent; -fx-text-fill: #d32f2f; -fx-padding: 5px 10px;"/>
+            </HBox>
+
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <!-- Formulaire d'édition -->
+                <VBox spacing="15" HBox.hgrow="ALWAYS">
+                    <!-- Champ titre -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Titre de l'événement" styleClass="admin-form-label"
+                               style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                        <TextField fx:id="editTitleField" styleClass="admin-form-field"
+                                   style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                    </VBox>
+
+                    <HBox spacing="15">
+                        <!-- Champ date -->
+                        <VBox spacing="5" styleClass="admin-form-group" HBox.hgrow="ALWAYS">
+                            <Label text="Date" styleClass="admin-form-label"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                            <DatePicker fx:id="editDatePicker" styleClass="admin-form-field" prefWidth="200"
+                                        style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px;"/>
+                        </VBox>
+
+                        <!-- Champ heure -->
+                        <VBox spacing="5" styleClass="admin-form-group" HBox.hgrow="ALWAYS">
+                            <Label text="Heure" styleClass="admin-form-label"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                            <TextField fx:id="editTimeField" styleClass="admin-form-field" prefWidth="200" promptText="HH:MM"
+                                       style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="15">
+                        <!-- Champ localisation -->
+                        <VBox spacing="5" styleClass="admin-form-group" HBox.hgrow="ALWAYS">
+                            <Label text="Localisation" styleClass="admin-form-label"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                            <TextField fx:id="editLocationField" styleClass="admin-form-field"
+                                       style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                        </VBox>
+
+                        <!-- Champ nombre participants -->
+                        <VBox spacing="5" styleClass="admin-form-group" HBox.hgrow="ALWAYS">
+                            <Label text="Nombre max de participants" styleClass="admin-form-label"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                            <TextField fx:id="editNbParticipantField" styleClass="admin-form-field"
+                                       style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="15">
+                        <!-- Champ latitude -->
+                        <VBox spacing="5" styleClass="admin-form-group" HBox.hgrow="ALWAYS">
+                            <Label text="Latitude" styleClass="admin-form-label"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                            <TextField fx:id="editLatitudeField" styleClass="admin-form-field"
+                                       style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                        </VBox>
+
+                        <!-- Champ longitude -->
+                        <VBox spacing="5" styleClass="admin-form-group" HBox.hgrow="ALWAYS">
+                            <Label text="Longitude" styleClass="admin-form-label"
+                                   style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                            <TextField fx:id="editLongitudeField" styleClass="admin-form-field"
+                                       style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                        </VBox>
+
+                        <!-- Bouton carte -->
+                        <VBox spacing="5" styleClass="admin-form-group" alignment="BOTTOM_CENTER">
+                            <Button text="🗺️ Voir sur la carte" onAction="#handleShowMap" styleClass="admin-map-btn"
+                                    style="-fx-background-color: #ff9800; -fx-text-fill: white; -fx-padding: 8px 15px; -fx-background-radius: 5px;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Champ image -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Image" styleClass="admin-form-label"
+                               style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                        <HBox spacing="10">
+                            <TextField fx:id="editImagePathField" styleClass="admin-form-field" HBox.hgrow="ALWAYS"
+                                       style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+                            <Button text="📁" onAction="#handleBrowseImage" styleClass="admin-browse-btn"
+                                    style="-fx-background-color: #f7f7f7; -fx-text-fill: #555555; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Boutons d'action -->
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button text="📧 Envoyer rappel" onAction="#handleSendReminder" styleClass="admin-reminder-btn"
+                                style="-fx-background-color: #9c27b0; -fx-text-fill: white; -fx-padding: 8px 15px; -fx-background-radius: 5px;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="❌ Annuler" onAction="#closeEditPanel" styleClass="admin-cancel-btn"
+                                style="-fx-background-color: #f5f5f5; -fx-text-fill: #333333; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px 15px;"/>
+                        <Button text="✅ Enregistrer" onAction="#handleSaveEdits" styleClass="admin-save-btn"
+                                style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 8px 15px;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Prévisualisation image et participants -->
+                <VBox spacing="15" alignment="CENTER" prefWidth="250">
+                    <Label text="Prévisualisation" styleClass="admin-form-label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                    <StackPane styleClass="admin-image-preview-container"
+                               style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-min-height: 200px; -fx-min-width: 200px; -fx-alignment: center;">
+                        <ImageView fx:id="editImagePreview" fitHeight="180" fitWidth="220" preserveRatio="true" />
+                    </StackPane>
+
+                    <Label text="Participants" styleClass="admin-form-label"
+                           style="-fx-font-weight: bold; -fx-text-fill: #37474f;"/>
+                    <TableView fx:id="participantsTable" prefHeight="200" styleClass="admin-small-table"
+                               style="-fx-background-color: #f7f7f7; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px;">
+                        <columns>
+                            <TableColumn fx:id="participantNameColumn" text="Nom" prefWidth="100" />
+                            <TableColumn fx:id="participantEmailColumn" text="Email" prefWidth="150" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Conteneur pour notifications de rappels -->
+        <VBox fx:id="reminderNotificationVBox" visible="false" managed="false" styleClass="reminder-notification"
+              style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 4); -fx-padding: 10px; -fx-spacing: 10px;"/>
+    </VBox>
+</AnchorPane>
