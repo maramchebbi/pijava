@@ -172,6 +172,7 @@ public class edit implements Initializable {
                 couleur,
                 dimensions,
                 imagePath,
+
                 categorie,
                 userId
         );

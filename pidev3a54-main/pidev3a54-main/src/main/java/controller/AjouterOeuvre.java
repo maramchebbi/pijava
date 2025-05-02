@@ -32,6 +32,22 @@ import java.util.Set;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+//new
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Paths;
+import java.util.zip.ZipInputStream;
+
+import java.io.FileInputStream;
 
 public class AjouterOeuvre {
 
@@ -54,6 +70,9 @@ public class AjouterOeuvre {
     private Button nextButton;
     @FXML
     private Button previousButton;
+
+    @FXML private Button uploadFichier3DButton;
+
     @FXML
     private ProgressBar progressBar;
 
@@ -96,6 +115,8 @@ public class AjouterOeuvre {
     @FXML
     private ImageView iconview;
 
+    private String fichier3DPath = "";
+
     @FXML
     void ajouterOeuvre(ActionEvent event) {
         // Récupération des données depuis les champs FXML
@@ -110,6 +131,8 @@ public class AjouterOeuvre {
         int userId;
         int collectionId;
         String imagePath = "";
+        // On utilise la variable de classe fichier3DPath qui a été définie lors de l'upload
+        // Ne pas redéclarer une nouvelle variable locale qui cacherait la variable de classe
 
         // Vérification et conversion des IDs
         CeramicCollection selectedCollection;
@@ -163,11 +186,17 @@ public class AjouterOeuvre {
             return;
         }
 
+        // Debug - afficher le chemin du fichier 3D avant création de l'objet
+        System.out.println("Fichier 3D path avant création de l'objet: " + fichier3DPath);
+
         // Création et validation de l'objet Oeuvre
         Oeuvre oeuvreObj = new Oeuvre(
                 nom, type, description, matiere, couleur, dimensions,
-                imagePath, categorie, userId, selectedCollection
+                imagePath, categorie, fichier3DPath, userId, selectedCollection
         );
+
+        // Debug - vérifier si le chemin est bien assigné à l'objet
+        System.out.println("Fichier 3D dans l'objet: " + oeuvreObj.getFichier3d());
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
@@ -411,5 +440,135 @@ public class AjouterOeuvre {
             return false;
         }
         return true;
+    }
+
+    //zip
+    @FXML
+    public void uploadFichier3D(ActionEvent actionEvent) {
+        // Utiliser FileChooser pour sélectionner un fichier ZIP
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier ZIP contenant des modèles 3D");
+
+        // Ajouter un filtre pour n'afficher que les fichiers ZIP
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Fichiers ZIP", "*.zip")
+        );
+
+        // Ouvrir la boîte de dialogue pour choisir un fichier
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        File selectedZipFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedZipFile != null) {
+            try {
+                // Créer un répertoire temporaire pour extraire le ZIP
+                Path tempDir = Files.createTempDirectory("3dmodels");
+
+                // Extraire le fichier ZIP
+                extractZipFile(selectedZipFile.toPath(), tempDir);
+
+                // Vérifier si le dossier contient des fichiers OBJ/MTL
+                boolean hasObjFile = false;
+                boolean hasMtlFile = false;
+
+                // Explorer le contenu du dossier extrait
+                Map<String, File> directoryContents = new HashMap<>();
+                listFilesRecursively(tempDir.toFile(), "", directoryContents);
+
+                // Vérifier si le dossier contient des fichiers .obj et .mtl
+                for (File file : directoryContents.values()) {
+                    if (file.isFile()) {
+                        String fileName = file.getName().toLowerCase();
+                        if (fileName.endsWith(".obj")) hasObjFile = true;
+                        if (fileName.endsWith(".mtl")) hasMtlFile = true;
+                    }
+                }
+
+                if (hasObjFile) {
+                    // Stocker le chemin du dossier extrait
+                    fichier3DPath = tempDir.toAbsolutePath().toString();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Fichier ZIP sélectionné");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Modèles 3D extraits avec succès dans: " + fichier3DPath);
+                    alert.showAndWait();
+
+                    System.out.println("Modèles 3D extraits dans: " + fichier3DPath);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Contenu invalide");
+                    alert.setHeaderText("Le fichier ZIP ne contient pas de fichier .obj");
+                    alert.setContentText("Veuillez sélectionner un fichier ZIP contenant au moins un fichier .obj");
+                    alert.showAndWait();
+
+                    // Supprimer le répertoire temporaire
+                    deleteDirectory(tempDir.toFile());
+                    fichier3DPath = "";
+                }
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur lors de l'extraction du fichier ZIP");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Méthode pour extraire un fichier ZIP
+    private void extractZipFile(Path zipFilePath, Path destDir) throws IOException {
+        try (ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath.toFile()))) {
+            ZipEntry entry = zipIn.getNextEntry();
+
+            while (entry != null) {
+                Path filePath = destDir.resolve(entry.getName());
+
+                if (!entry.isDirectory()) {
+                    // Créer les répertoires parents si nécessaire
+                    Files.createDirectories(filePath.getParent());
+
+                    // Extraire le fichier
+                    Files.copy(zipIn, filePath, StandardCopyOption.REPLACE_EXISTING);
+                } else {
+                    // Créer le répertoire
+                    Files.createDirectories(filePath);
+                }
+
+                zipIn.closeEntry();
+                entry = zipIn.getNextEntry();
+            }
+        }
+    }
+
+    // Méthode pour supprimer un répertoire et son contenu
+    private void deleteDirectory(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file);
+                } else {
+                    file.delete();
+                }
+            }
+        }
+        directory.delete();
+    }
+
+    // Méthode pour explorer récursivement un dossier (inchangée)
+    private void listFilesRecursively(File directory, String basePath, Map<String, File> result) {
+        File[] files = directory.listFiles();
+        if (files == null) return;
+
+        for (File file : files) {
+            String currentPath = basePath.isEmpty() ? file.getName() : basePath + "/" + file.getName();
+            result.put(currentPath, file);
+
+            if (file.isDirectory()) {
+                listFilesRecursively(file, currentPath, result);
+            }
+        }
     }
 }

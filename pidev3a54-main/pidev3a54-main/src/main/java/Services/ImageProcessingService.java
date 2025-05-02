@@ -1,12 +1,12 @@
 package controller;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -18,222 +18,224 @@ import org.opencv.imgproc.Imgproc;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 public class ImageProcessingService {
+
+    // Cache pour stocker l'image originale chargée pour optimiser les performances
+    private Mat cachedSourceImage;
+    private String cachedImagePath;
 
     static {
         // Chargement de la bibliothèque native OpenCV
-        nu.pattern.OpenCV.loadLocally();
-        // Ou pour JavaCV: System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        try {
+            nu.pattern.OpenCV.loadLocally();
+            System.out.println("OpenCV chargé avec succès");
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement d'OpenCV: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
-     * Ajuste la luminosité et le contraste d'une image
+     * Charge une image à partir du chemin spécifié
+     * @param imagePath Chemin de l'image
+     * @return Mat OpenCV contenant l'image
+     */
+    private Mat loadImage(String imagePath) {
+        // Utiliser l'image en cache si le chemin correspond
+        if (cachedImagePath != null && cachedImagePath.equals(imagePath) && cachedSourceImage != null) {
+            return cachedSourceImage.clone(); // Clone pour éviter de modifier l'original
+        }
+
+        // Charger une nouvelle image
+        Mat source = Imgcodecs.imread(imagePath);
+        if (source.empty()) {
+            throw new RuntimeException("Impossible de charger l'image: " + imagePath);
+        }
+
+        // Mettre à jour le cache
+        cachedSourceImage = source.clone();
+        cachedImagePath = imagePath;
+
+        return source;
+    }
+
+    /**
+     * Convertit un Mat OpenCV en Image JavaFX
+     * @param mat Mat OpenCV
+     * @return Image JavaFX
+     */
+    private Image matToJavaFXImage(Mat mat) {
+        MatOfByte buffer = new MatOfByte();
+        Imgcodecs.imencode(".png", mat, buffer);
+        return new Image(new ByteArrayInputStream(buffer.toArray()));
+    }
+
+    /**
+     * Applique tous les ajustements à l'image en une seule opération
      * @param imagePath Chemin de l'image
      * @param brightness Valeur de luminosité (-100 à 100)
      * @param contrast Valeur de contraste (-100 à 100)
-     * @return Image JavaFX modifiée
+     * @param sharpness Valeur de netteté (0 à 5)
+     * @return Image JavaFX ajustée
      */
-    public Image adjustBrightnessContrast(String imagePath, double brightness, double contrast) {
-        // Charger l'image avec OpenCV
-        Mat source = Imgcodecs.imread(imagePath);
-        if (source.empty()) {
-            throw new IllegalArgumentException("Impossible de charger l'image: " + imagePath);
-        }
+    public Image applyAdjustments(String imagePath, double brightness, double contrast, double sharpness) {
+        Mat source = loadImage(imagePath);
 
-        // Normaliser les valeurs de contraste et luminosité
+        // Appliquer luminosité et contraste
+        Mat adjusted = new Mat();
         brightness = brightness * 2.55; // Convertir de -100,100 à -255,255
         contrast = (100 + contrast) / 100.0; // Convertir en facteur (0,2)
+        source.convertTo(adjusted, -1, contrast, brightness);
 
-        // Créer une nouvelle matrice pour le résultat
-        Mat destination = new Mat(source.size(), source.type());
+        // Appliquer la netteté si nécessaire
+        if (sharpness > 0) {
+            Mat blurred = new Mat();
+            Mat sharpened = new Mat();
 
-        // Appliquer la transformation: nouveauPixel = contraste * pixel + luminosité
-        source.convertTo(destination, -1, contrast, brightness);
+            // Créer un effet de netteté en soustrayant une version floue de l'image
+            Imgproc.GaussianBlur(adjusted, blurred, new Size(0, 0), 3);
+            Core.addWeighted(adjusted, 1 + sharpness, blurred, -sharpness, 0, sharpened);
 
-        // Convertir le résultat en Image JavaFX
-        return matToJavaFXImage(destination);
+            adjusted = sharpened;
+        }
+
+        return matToJavaFXImage(adjusted);
     }
 
     /**
-     * Améliore automatiquement une image en ajustant les niveaux et le contraste
+     * Version légère pour la prévisualisation en temps réel
+     */
+    public Image previewAdjustments(String imagePath, double brightness, double contrast, double sharpness) {
+        return applyAdjustments(imagePath, brightness, contrast, sharpness);
+    }
+
+    /**
+     * Amélioration automatique de l'image (égalisation d'histogramme)
      * @param imagePath Chemin de l'image
      * @return Image JavaFX améliorée
      */
     public Image autoEnhance(String imagePath) {
-        Mat source = Imgcodecs.imread(imagePath);
-        if (source.empty()) {
-            throw new IllegalArgumentException("Impossible de charger l'image: " + imagePath);
-        }
+        Mat source = loadImage(imagePath);
+        Mat enhanced = new Mat();
 
-        // Convertir en LAB pour séparer la luminance des couleurs
-        Mat labImage = new Mat();
-        Imgproc.cvtColor(source, labImage, Imgproc.COLOR_BGR2Lab);
+        // Convertir en YCrCb pour séparer la luminance de la chrominance
+        Imgproc.cvtColor(source, enhanced, Imgproc.COLOR_BGR2YCrCb);
 
         // Séparer les canaux
-        List<Mat> labChannels = new ArrayList<>(3);
-        Core.split(labImage, labChannels);
+        List<Mat> channels = new ArrayList<>();
+        Core.split(enhanced, channels);
 
-        // Appliquer CLAHE (Contrast Limited Adaptive Histogram Equalization) au canal L
-        Mat enhancedL = new Mat();
-        Imgproc.equalizeHist(labChannels.get(0), enhancedL);
-
-        // Remplacer le canal L
-        labChannels.set(0, enhancedL);
+        // Appliquer l'égalisation d'histogramme uniquement au canal Y (luminance)
+        Imgproc.equalizeHist(channels.get(0), channels.get(0));
 
         // Fusionner les canaux
-        Mat enhancedLab = new Mat();
-        Core.merge(labChannels, enhancedLab);
+        Core.merge(channels, enhanced);
 
-        // Convertir en BGR puis RGB
-        Mat result = new Mat();
-        Imgproc.cvtColor(enhancedLab, result, Imgproc.COLOR_Lab2BGR);
-        Imgproc.cvtColor(result, result, Imgproc.COLOR_BGR2RGB);
+        // Reconvertir en BGR
+        Imgproc.cvtColor(enhanced, enhanced, Imgproc.COLOR_YCrCb2BGR);
 
-        return matToJavaFXImage(result);
+        // Appliquer un léger rehaussement des détails
+        Mat sharpened = new Mat();
+        Imgproc.GaussianBlur(enhanced, sharpened, new Size(0, 0), 3);
+        Core.addWeighted(enhanced, 1.2, sharpened, -0.2, 0, enhanced);
+
+        return matToJavaFXImage(enhanced);
     }
 
     /**
-     * Ajuste la balance des couleurs d'une image
+     * Détection des bords dans l'image
      * @param imagePath Chemin de l'image
-     * @param redOffset Ajustement pour le rouge (-100 à 100)
-     * @param greenOffset Ajustement pour le vert (-100 à 100)
-     * @param blueOffset Ajustement pour le bleu (-100 à 100)
-     * @return Image JavaFX modifiée
+     * @return Image JavaFX avec les bords détectés
      */
-    public Image adjustColorBalance(String imagePath, double redOffset, double greenOffset, double blueOffset) {
-        Mat source = Imgcodecs.imread(imagePath);
-        if (source.empty()) {
-            throw new IllegalArgumentException("Impossible de charger l'image: " + imagePath);
-        }
+    public Image detectEdges(String imagePath) {
+        Mat source = loadImage(imagePath);
+        Mat edges = new Mat();
 
-        // Normaliser les offsets
-        redOffset = redOffset * 2.55;
-        greenOffset = greenOffset * 2.55;
-        blueOffset = blueOffset * 2.55;
+        // Convertir en niveaux de gris
+        Imgproc.cvtColor(source, edges, Imgproc.COLOR_BGR2GRAY);
 
-        // Séparer les canaux
-        List<Mat> bgrChannels = new ArrayList<>(3);
-        Core.split(source, bgrChannels);
+        // Réduire le bruit avec un flou gaussien
+        Imgproc.GaussianBlur(edges, edges, new Size(5, 5), 1.4);
 
-        // Ajuster chaque canal
-        Mat blueChannel = bgrChannels.get(0);
-        Mat greenChannel = bgrChannels.get(1);
-        Mat redChannel = bgrChannels.get(2);
+        // Détecter les bords avec Canny
+        Imgproc.Canny(edges, edges, 50, 150);
 
-        Core.add(blueChannel, new Scalar(blueOffset), blueChannel);
-        Core.add(greenChannel, new Scalar(greenOffset), greenChannel);
-        Core.add(redChannel, new Scalar(redOffset), redChannel);
+        // Convertir les bords en image en noir et blanc
+        Imgproc.cvtColor(edges, edges, Imgproc.COLOR_GRAY2BGR);
 
-        // Fusionner les canaux
-        Mat result = new Mat();
-        Core.merge(bgrChannels, result);
-
-        // Convertir en RGB pour JavaFX
-        Imgproc.cvtColor(result, result, Imgproc.COLOR_BGR2RGB);
-
-        return matToJavaFXImage(result);
+        return matToJavaFXImage(edges);
     }
 
     /**
-     * Applique un filtre de netteté à l'image
+     * Convertit l'image en noir et blanc
      * @param imagePath Chemin de l'image
-     * @param amount Intensité du filtre (0-5)
-     * @return Image JavaFX avec netteté améliorée
+     * @return Image JavaFX en noir et blanc
      */
-    public Image sharpenImage(String imagePath, double amount) {
-        Mat source = Imgcodecs.imread(imagePath);
-        if (source.empty()) {
-            throw new IllegalArgumentException("Impossible de charger l'image: " + imagePath);
-        }
+    public Image convertToBlackAndWhite(String imagePath) {
+        Mat source = loadImage(imagePath);
+        Mat bwImage = new Mat();
 
-        // Créer un noyau de netteté
+        // Convertir en niveaux de gris
+        Imgproc.cvtColor(source, bwImage, Imgproc.COLOR_BGR2GRAY);
+
+        // Reconvertir en BGR pour l'affichage
+        Imgproc.cvtColor(bwImage, bwImage, Imgproc.COLOR_GRAY2BGR);
+
+        return matToJavaFXImage(bwImage);
+    }
+
+    /**
+     * Applique un filtre sépia à l'image
+     * @param imagePath Chemin de l'image
+     * @return Image JavaFX avec effet sépia
+     */
+    public Image applySepiaFilter(String imagePath) {
+        Mat source = loadImage(imagePath);
+        Mat sepia = new Mat();
+
+        // Matrice de transformation pour l'effet sépia
         Mat kernel = new Mat(3, 3, CvType.CV_32F);
-        kernel.put(0, 0, 0, -amount, 0, -amount, 1 + 4 * amount, -amount, 0, -amount, 0);
+        kernel.put(0, 0,
+                0.272, 0.534, 0.131,
+                0.349, 0.686, 0.168,
+                0.393, 0.769, 0.189
+        );
 
-        // Appliquer le filtre
-        Mat destination = new Mat();
-        Imgproc.filter2D(source, destination, -1, kernel);
+        // Appliquer la transformation
+        Core.transform(source, sepia, kernel);
 
-        // Convertir en RGB pour JavaFX
-        Imgproc.cvtColor(destination, destination, Imgproc.COLOR_BGR2RGB);
-
-        return matToJavaFXImage(destination);
+        return matToJavaFXImage(sepia);
     }
 
     /**
-     * Sauvegarde une image modifiée
-     * @param image Image JavaFX à sauvegarder
-     * @param outputPath Chemin de sauvegarde
+     * Applique un filtre de flou à l'image
+     * @param imagePath Chemin de l'image
+     * @return Image JavaFX floutée
      */
-    public void saveImage(Mat image, String outputPath) {
-        Imgcodecs.imwrite(outputPath, image);
+    public Image applyBlurFilter(String imagePath) {
+        Mat source = loadImage(imagePath);
+        Mat blurred = new Mat();
+
+        // Appliquer un flou gaussien
+        Imgproc.GaussianBlur(source, blurred, new Size(15, 15), 0);
+
+        return matToJavaFXImage(blurred);
     }
 
     /**
-     * Redimensionne une image
+     * Redimensionne l'image aux dimensions spécifiées
      * @param imagePath Chemin de l'image
      * @param width Nouvelle largeur
      * @param height Nouvelle hauteur
      * @return Image JavaFX redimensionnée
      */
     public Image resizeImage(String imagePath, int width, int height) {
-        Mat source = Imgcodecs.imread(imagePath);
-        if (source.empty()) {
-            throw new IllegalArgumentException("Impossible de charger l'image: " + imagePath);
-        }
-
+        Mat source = loadImage(imagePath);
         Mat resized = new Mat();
-        Size size = new Size(width, height);
-        Imgproc.resize(source, resized, size, 0, 0, Imgproc.INTER_AREA);
 
-        // Convertir en RGB pour JavaFX
-        Imgproc.cvtColor(resized, resized, Imgproc.COLOR_BGR2RGB);
+        // Redimensionner l'image avec interpolation
+        Imgproc.resize(source, resized, new Size(width, height), 0, 0, Imgproc.INTER_AREA);
 
         return matToJavaFXImage(resized);
-    }
-
-    /**
-     * Détecte les bords dans une image
-     * @param imagePath Chemin de l'image
-     * @return Image JavaFX avec détection de bords
-     */
-    public Image detectEdges(String imagePath) {
-        Mat source = Imgcodecs.imread(imagePath);
-        if (source.empty()) {
-            throw new IllegalArgumentException("Impossible de charger l'image: " + imagePath);
-        }
-
-        // Convertir en niveaux de gris
-        Mat grayImage = new Mat();
-        Imgproc.cvtColor(source, grayImage, Imgproc.COLOR_BGR2GRAY);
-
-        // Appliquer le détecteur de bords Canny
-        Mat edges = new Mat();
-        Imgproc.Canny(grayImage, edges, 50, 150);
-
-        // Convertir en image à 3 canaux pour JavaFX
-        Mat edgesColored = new Mat();
-        Imgproc.cvtColor(edges, edgesColored, Imgproc.COLOR_GRAY2RGB);
-
-        return matToJavaFXImage(edgesColored);
-    }
-
-    /**
-     * Convertit une matrice OpenCV en image JavaFX
-     * @param mat Matrice OpenCV (RGB)
-     * @return Image JavaFX
-     */
-    private Image matToJavaFXImage(Mat mat) {
-        // Créer un tampon pour l'image
-        MatOfByte buffer = new MatOfByte();
-        Imgcodecs.imencode(".png", mat, buffer);
-
-        // Convertir en InputStream
-        byte[] byteArray = buffer.toArray();
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
-
-        // Créer l'image JavaFX
-        return new Image(inputStream);
     }
 }

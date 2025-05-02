@@ -15,9 +15,39 @@ public class OeuvreService implements IService<Oeuvre> {
         con = DataSource.getDataSource().getConnection();
     }
 
+//    @Override
+//    public void add(Oeuvre oeuvre) throws SQLException {
+//        String query = "INSERT INTO oeuvre (nom, type, description, matiere, couleur, dimensions, image, categorie, user_id, ceramic_collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//        PreparedStatement stmt = con.prepareStatement(query);
+//
+//        // Set values from the oeuvre object
+//        stmt.setString(1, oeuvre.getNom());
+//        stmt.setString(2, oeuvre.getType());
+//        stmt.setString(3, oeuvre.getDescription());
+//        stmt.setString(4, oeuvre.getMatiere());
+//        stmt.setString(5, oeuvre.getCouleur());
+//        stmt.setString(6, oeuvre.getDimensions());
+//        stmt.setString(7, oeuvre.getImage());
+//        stmt.setString(8, oeuvre.getCategorie());
+//        stmt.setInt(9, oeuvre.getUser_id());
+//
+//        // Check if collection is not null before accessing its ID
+//        if (oeuvre.getCollection() != null) {
+//            stmt.setInt(10, oeuvre.getCollection().getId());  // Set the collection ID from the linked CeramicCollection
+//        } else {
+//            // If there's no collection associated, set the value to null or handle it based on your logic
+//            stmt.setNull(10, java.sql.Types.INTEGER);  // You can adjust this depending on your use case
+//        }
+//
+//        // Execute the update
+//        int rows = stmt.executeUpdate();
+//
+//        System.out.println("Rows inserted: " + rows); // For debugging purposes
+//    }
+
     @Override
     public void add(Oeuvre oeuvre) throws SQLException {
-        String query = "INSERT INTO oeuvre (nom, type, description, matiere, couleur, dimensions, image, categorie, user_id, ceramic_collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO oeuvre (nom, type, description, matiere, couleur, dimensions, image, fichier3d, categorie, user_id, ceramic_collection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(query);
 
         // Set values from the oeuvre object
@@ -28,22 +58,25 @@ public class OeuvreService implements IService<Oeuvre> {
         stmt.setString(5, oeuvre.getCouleur());
         stmt.setString(6, oeuvre.getDimensions());
         stmt.setString(7, oeuvre.getImage());
-        stmt.setString(8, oeuvre.getCategorie());
-        stmt.setInt(9, oeuvre.getUser_id());
+
+        // 🆕 fichier3d
+        stmt.setString(8, oeuvre.getFichier3d());
+
+        stmt.setString(9, oeuvre.getCategorie());
+        stmt.setInt(10, oeuvre.getUser_id());
 
         // Check if collection is not null before accessing its ID
         if (oeuvre.getCollection() != null) {
-            stmt.setInt(10, oeuvre.getCollection().getId());  // Set the collection ID from the linked CeramicCollection
+            stmt.setInt(11, oeuvre.getCollection().getId());
         } else {
-            // If there's no collection associated, set the value to null or handle it based on your logic
-            stmt.setNull(10, java.sql.Types.INTEGER);  // You can adjust this depending on your use case
+            stmt.setNull(11, java.sql.Types.INTEGER);
         }
 
         // Execute the update
         int rows = stmt.executeUpdate();
-
-        System.out.println("Rows inserted: " + rows); // For debugging purposes
+        System.out.println("Rows inserted: " + rows);
     }
+
 
 
 

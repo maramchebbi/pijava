@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
 public class Oeuvre {
     private int id;
 
@@ -38,28 +37,23 @@ public class Oeuvre {
     @NotBlank(message = "La catégorie est obligatoire")
     private String categorie;
 
+    // Aucune validation sur fichier3d pour permettre des valeurs null
+    private String fichier3d;
 
     private int user_id;
-    //private int ceramic_collection_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ceramic_collection_id")
-
     private CeramicCollection collection;
 
+    // Constructeur par défaut
     public Oeuvre() {
+        this.fichier3d = null; // Valeur par défaut explicite
     }
 
-    public CeramicCollection getCollection() {
-        return collection;
-    }
-
-    public void setCollection(CeramicCollection collection) {
-        this.collection = collection;
-    }
-
-    // Constructeur avec tous les champs sauf l'id (utilisé pour l'insertion)
-    public Oeuvre(String nom, String type, String description, String matiere, String couleur, String dimensions, String image, String categorie, int user_id, CeramicCollection collection) {
+    // Constructeur complet avec le champ fichier3d
+    public Oeuvre(String nom, String type, String description, String matiere, String couleur, String dimensions,
+                  String image, String categorie, String fichier3d, int user_id, CeramicCollection collection) {
         this.nom = nom;
         this.type = type;
         this.description = description;
@@ -68,13 +62,20 @@ public class Oeuvre {
         this.dimensions = dimensions;
         this.image = image;
         this.categorie = categorie;
+        this.fichier3d = fichier3d;
         this.user_id = user_id;
         this.collection = collection;
-
-        // this.ceramic_collection_id = ceramic_collection_id;
     }
 
-    public Oeuvre(int id, String nom, String type, String description, String matiere, String couleur, String dimensions, String image, String categorie, int user_id) {
+    // Constructeur sans le champ fichier3d pour la rétrocompatibilité
+    public Oeuvre(String nom, String type, String description, String matiere, String couleur, String dimensions,
+                  String image, String categorie, int user_id, CeramicCollection collection) {
+        this(nom, type, description, matiere, couleur, dimensions, image, categorie, null, user_id, collection);
+    }
+
+    // Constructeur avec id et tous les champs
+    public Oeuvre(int id, String nom, String type, String description, String matiere, String couleur,
+                  String dimensions, String image, String categorie, String fichier3d, int user_id) {
         this.id = id;
         this.nom = nom;
         this.type = type;
@@ -84,15 +85,23 @@ public class Oeuvre {
         this.dimensions = dimensions;
         this.image = image;
         this.categorie = categorie;
+        this.fichier3d = fichier3d;
         this.user_id = user_id;
-        this.collection = collection;
-        //  this.ceramic_collection_id = ceramic_collection_id;
     }
 
-    public Oeuvre(String nom, String type, String description, String matiere, String couleur, String dimension, String idUser, String image, String categorie, int userId) {
+    // Constructeur sans le champ fichier3d avec id pour la rétrocompatibilité
+    public Oeuvre(int id, String nom, String type, String description, String matiere, String couleur,
+                  String dimensions, String image, String categorie, int user_id) {
+        this(id, nom, type, description, matiere, couleur, dimensions, image, categorie, null, user_id);
     }
 
 
+
+    public boolean hasFichier3D() {
+        return fichier3d != null && !fichier3d.isEmpty();
+    }
+
+    // Getters et Setters
     public int getId() {
         return id;
     }
@@ -173,6 +182,22 @@ public class Oeuvre {
         this.user_id = user_id;
     }
 
+    public String getFichier3d() {
+        return fichier3d;
+    }
+
+    public void setFichier3d(String fichier3d) {
+        System.out.println("Setting fichier3d to: " + fichier3d);
+        this.fichier3d = fichier3d;
+    }
+
+    public CeramicCollection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(CeramicCollection collection) {
+        this.collection = collection;
+    }
 
     @Override
     public String toString() {
@@ -186,9 +211,9 @@ public class Oeuvre {
                 ", dimensions='" + dimensions + '\'' +
                 ", image='" + image + '\'' +
                 ", categorie='" + categorie + '\'' +
+                ", fichier3d='" + (hasFichier3D() ? fichier3d : "Non disponible") + '\'' +
                 ", user_id=" + user_id +
                 ", collection=" + collection +
-
                 '}';
     }
 }

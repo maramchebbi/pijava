@@ -1,66 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.ImageEditorController"
-            prefHeight="600.0" prefWidth="800.0">
+<BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@/styles/editor-style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ImageEditorController">
 
     <top>
-        <HBox spacing="10" alignment="CENTER_LEFT" >
-            <Button text="Ouvrir" onAction="#handleOpenImage"/>
-            <Button text="Sauvegarder" onAction="#handleSaveImage"/>
-            <Button text="Auto-Améliorer" onAction="#handleAutoEnhance"/>
-            <Button text="Réinitialiser" onAction="#handleReset"/>
-        </HBox>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="15" styleClass="toolbar">
+                <padding><Insets bottom="10" left="15" right="15" top="10" /></padding>
+                <Button onAction="#handleOpenImage" styleClass="tool-button" text="Ouvrir">
+                    <tooltip><Tooltip text="Ouvrir une image à éditer" /></tooltip>
+                </Button>
+                <Button onAction="#handleSaveImage" styleClass="tool-button" text="Enregistrer">
+                    <tooltip><Tooltip text="Enregistrer l'image éditée" /></tooltip>
+                </Button>
+                <Separator orientation="VERTICAL" />
+                <Button onAction="#handleAutoEnhance" styleClass="tool-button" text="Auto-Améliorer">
+                    <tooltip><Tooltip text="Améliorer automatiquement la luminosité et le contraste" /></tooltip>
+                </Button>
+                <Button onAction="#handleReset" styleClass="tool-button" text="Réinitialiser">
+                    <tooltip><Tooltip text="Réinitialiser tous les ajustements" /></tooltip>
+                </Button>
+                <Separator orientation="VERTICAL" />
+                <Button onAction="#handleApplyChanges" styleClass="tool-button" text="Appliquer">
+                    <tooltip><Tooltip text="Appliquer les modifications à l'image" /></tooltip>
+                </Button>
+                <Button onAction="#handleEdgeDetection" styleClass="tool-button" text="Détection des bords">
+                    <tooltip><Tooltip text="Appliquer un filtre de détection des bords" /></tooltip>
+                </Button>
+            <Button fx:id="retourbutton" mnemonicParsing="false" onAction="#handleReturn" text="Retour" />
+            </HBox>
+            <Separator />
+        </VBox>
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true" fitToHeight="true">
-            <ImageView fx:id="imageView" preserveRatio="true"/>
-        </ScrollPane>
+        <StackPane style="-fx-background-color: #303030;">
+            <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" styleClass="image-container">
+                <ImageView fx:id="imageView" preserveRatio="true" smooth="true" />
+            </ScrollPane>
+        </StackPane>
     </center>
 
     <right>
-        <VBox spacing="10"  prefWidth="250">
-            <Label text="Luminosité" />
-            <Slider fx:id="brightnessSlider" min="-100" max="100" value="0" showTickLabels="true" />
+        <VBox prefWidth="250" spacing="10" styleClass="controls-panel">
+            <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
 
-            <Label text="Contraste" />
-            <Slider fx:id="contrastSlider" min="-100" max="100" value="0" showTickLabels="true" />
+            <TitledPane expanded="true" text="Ajustements de base">
+                <VBox spacing="10">
+                    <Label styleClass="control-label" text="Luminosité" />
+                    <HBox alignment="CENTER_LEFT" spacing="5">
+                        <Label styleClass="slider-label" text="-100" />
+                        <Slider fx:id="brightnessSlider" majorTickUnit="50" max="100" min="-100" minorTickCount="5" showTickMarks="true" value="0" HBox.hgrow="ALWAYS" />
+                        <Label styleClass="slider-label" text="100" />
+                    </HBox>
 
-            <Separator />
+                    <Label styleClass="control-label" text="Contraste" />
+                    <HBox alignment="CENTER_LEFT" spacing="5">
+                        <Label styleClass="slider-label" text="-100" />
+                        <Slider fx:id="contrastSlider" majorTickUnit="50" max="100" min="-100" minorTickCount="5" showTickMarks="true" value="0" HBox.hgrow="ALWAYS" />
+                        <Label styleClass="slider-label" text="100" />
+                    </HBox>
 
-            <Label text="Balance des couleurs" />
-            <Label text="Rouge" />
-            <Slider fx:id="redSlider" min="-100" max="100" value="0" />
-            <Label text="Vert" />
-            <Slider fx:id="greenSlider" min="-100" max="100" value="0" />
-            <Label text="Bleu" />
-            <Slider fx:id="blueSlider" min="-100" max="100" value="0" />
+                    <Label styleClass="control-label" text="Netteté" />
+                    <HBox alignment="CENTER_LEFT" spacing="5">
+                        <Label styleClass="slider-label" text="0" />
+                        <Slider fx:id="sharpnessSlider" majorTickUnit="1" max="5" min="0" showTickMarks="true" value="0" HBox.hgrow="ALWAYS" />
+                        <Label styleClass="slider-label" text="5" />
+                    </HBox>
+                </VBox>
+            </TitledPane>
 
-            <Separator />
+            <TitledPane expanded="false" text="Redimensionnement">
+                <VBox spacing="10">
+                    <GridPane hgap="10" vgap="10">
+                        <Label text="Largeur:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="widthField" prefWidth="80" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <Label text="Netteté" />
-            <Slider fx:id="sharpnessSlider" min="0" max="5" value="0" />
+                        <Label text="Hauteur:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="heightField" prefWidth="80" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <columnConstraints>
+                     <ColumnConstraints />
+                     <ColumnConstraints />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
+                    <Button maxWidth="Infinity" onAction="#handleResize" text="Redimensionner" />
+                </VBox>
+            </TitledPane>
 
-            <Button text="Appliquer les changements" onAction="#handleApplyChanges" />
-            <Button text="Détection des bords" onAction="#handleEdgeDetection" />
+            <TitledPane expanded="false" text="Filtres avancés">
+                <VBox spacing="10">
+                    <Button maxWidth="Infinity" onAction="#handleBlackAndWhite" text="Noir et blanc" />
+                    <Button maxWidth="Infinity" onAction="#handleSepia" text="Sépia" />
+                    <Button maxWidth="Infinity" onAction="#handleBlur" text="Flou artistique" />
+                </VBox>
+            </TitledPane>
 
-            <Separator />
+            <Region VBox.vgrow="ALWAYS" />
 
-            <Label text="Redimensionner" />
-            <HBox spacing="5">
-                <Label text="Largeur:" />
-                <TextField fx:id="widthField" prefWidth="60" />
-                <Label text="Hauteur:" />
-                <TextField fx:id="heightField" prefWidth="60" />
+            <HBox alignment="CENTER">
+                <Button maxWidth="Infinity" onAction="#handleSaveAndDownload" styleClass="primary-button" text="Sauvegarder et télécharger" />
             </HBox>
-            <Button text="Redimensionner" onAction="#handleResize" />
         </VBox>
     </right>
 

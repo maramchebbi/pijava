@@ -152,7 +152,7 @@ public class CollectionsController {
         Button viewButton = new Button("Voir les œuvres");
         viewButton.setStyle("-fx-background-color: #D2B48C; -fx-text-fill: #6B4226; " +
                 "-fx-background-radius: 3;");
-        viewButton.setOnAction(e -> viewCollectionOeuvres(collection));
+       // viewButton.setOnAction(e -> viewCollectionOeuvres(collection));
 
         // Zone pour les actions (modifier/supprimer)
         HBox actionsBox = new HBox(10);
@@ -220,34 +220,34 @@ public class CollectionsController {
     }
 
     // Afficher les œuvres d'une collection
-    private void viewCollectionOeuvres(CeramicCollection collection) {
-        try {
-            Screen screen = Screen.getPrimary();
-            double screenWidth = screen.getVisualBounds().getWidth();
-            double screenHeight = screen.getVisualBounds().getHeight();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
-            Parent root = loader.load();
-
-            // Récupérer le contrôleur lié au fichier FXML
-            Detailco controller = loader.getController();
-
-            // Charger les images de la collection sélectionnée
-            controller.populateImagesByCollection(collection.getId());
-
-            // Afficher la nouvelle scène
-            Scene scene = new Scene(root,screenWidth,screenHeight);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Œuvres de la Collection: " + collection.getNom_c());
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert(AlertType.ERROR, "Erreur",
-                    "Impossible d'afficher les œuvres de cette collection.");
-        }
-    }
+//    private void viewCollectionOeuvres(CeramicCollection collection) {
+//        try {
+//            Screen screen = Screen.getPrimary();
+//            double screenWidth = screen.getVisualBounds().getWidth();
+//            double screenHeight = screen.getVisualBounds().getHeight();
+//
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailco.fxml"));
+//            Parent root = loader.load();
+//
+//            // Récupérer le contrôleur lié au fichier FXML
+//            Detailco controller = loader.getController();
+//
+//            // Charger les images de la collection sélectionnée
+//            controller.populateImagesByCollection(collection.getId());
+//
+//            // Afficher la nouvelle scène
+//            Scene scene = new Scene(root,screenWidth,screenHeight);
+//            Stage stage = new Stage();
+//            stage.setScene(scene);
+//            stage.setTitle("Œuvres de la Collection: " + collection.getNom_c());
+//            stage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            showAlert(AlertType.ERROR, "Erreur",
+//                    "Impossible d'afficher les œuvres de cette collection.");
+//        }
+//    }
 
     // Modifier une collection
     private void modifyCollection(CeramicCollection collection) {

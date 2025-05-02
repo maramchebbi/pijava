@@ -9,12 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button; // Added missing import
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality; // Added missing import
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import Models.Oeuvre;
@@ -25,19 +24,36 @@ import java.util.ResourceBundle;
 
 public class detail implements Initializable {
 
-    @FXML private ImageView imageView;
-    @FXML private Label nomImageLabel;
-    @FXML private TextField nomField;
-    @FXML private TextField typeField;
-    @FXML private TextField descriptionField;
-    @FXML private TextField matiereField;
-    @FXML private TextField couleurField;
-    @FXML private TextField dimensionField;
-    @FXML private TextField id_userfield;
-    @FXML private TextField categorieField;
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private Label nomImageLabel;
+
+    // Labels remplaçant les TextField
+    @FXML
+    private Label nomLabel;
+    @FXML
+    private Label typeLabel;
+    @FXML
+    private Label descriptionLabel;
+    @FXML
+    private Label matiereLabel;
+    @FXML
+    private Label couleurLabel;
+    @FXML
+    private Label dimensionLabel;
+    @FXML
+    private Label categorieLabel;
 
     @FXML
     private Button editImageButton;
+
+    @FXML
+    private Button btnView3D;
+
+    @FXML
+    private Button backButton;
 
     private Oeuvre currentOeuvre;
 
@@ -46,29 +62,69 @@ public class detail implements Initializable {
         // Configuration initiale si nécessaire
     }
 
-    @FXML
-    private void handleEditImage() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ImageEditor.fxml"));
-            Parent root = loader.load();
+//    @FXML
+//    private void handleEditImage() {
+//        try {
+//            Screen screen = Screen.getPrimary();
+//            double screenWidth = screen.getVisualBounds().getWidth();
+//            double screenHeight = screen.getVisualBounds().getHeight();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ImageEditor.fxml"));
+//            Parent root = loader.load();
+//
+//
+//            ImageEditorController controller = loader.getController();
+//            controller.setImageToEdit(currentOeuvre.getImage());
+//
+//        Stage stage = new Stage();
+//        stage.setTitle("Édition d'image - " + currentOeuvre.getNom());
+//            stage.setScene(new Scene(root,screenWidth,screenHeight));
+//            stage.showAndWait(); // Utiliser showAndWait pour bloquer jusqu'à fermeture
+//
+//            // Si l'image a été modifiée, vous pourriez la récupérer ici
+//            if (controller.isImageModified()) {
+//                // Mettre à jour l'image si nécessaire
+//                refreshImageDisplay();
+//            }
+//        } catch (IOException e) {
+//            showAlert(AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'éditeur d'image: " + e.getMessage());
+//        }
+//    }
+@FXML
+private void handleEditImage(ActionEvent event) { // Ajoutez ActionEvent en paramètre
+    try {
+        // Charger la nouvelle interface
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ImageEditor.fxml"));
+        Parent root = loader.load();
 
-            ImageEditorController controller = loader.getController();
-            controller.setImageToEdit(currentOeuvre.getImage());
+        // Configurer le contrôleur
+        ImageEditorController controller = loader.getController();
+        controller.setImageToEdit(currentOeuvre.getImage());
 
-            Stage stage = new Stage();
-            stage.setTitle("Édition d'image - " + currentOeuvre.getNom());
-            stage.setScene(new Scene(root));
-            stage.showAndWait(); // Utiliser showAndWait pour bloquer jusqu'à fermeture
+        // Récupérer la scène et le stage actuels
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // Si l'image a été modifiée, vous pourriez la récupérer ici
+        // Sauvegarder la taille actuelle
+        double currentWidth = stage.getWidth();
+        double currentHeight = stage.getHeight();
+
+        // Changer la scène du stage existant
+        Scene newScene = new Scene(root, currentWidth, currentHeight);
+        stage.setScene(newScene);
+        stage.setTitle("Édition d'image - " + currentOeuvre.getNom());
+
+        // Configurer le retour (vous devrez implémenter cette méthode dans ImageEditorController)
+        controller.setReturnCallback(() -> {
             if (controller.isImageModified()) {
-                // Mettre à jour l'image si nécessaire
-                imageView.setImage(new Image("file:" + currentOeuvre.getImage()));
+                refreshImageDisplay();
             }
-        } catch (IOException e) {
-            showAlert(AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'éditeur d'image: " + e.getMessage());
-        }
+            // Pour revenir à la vue précédente, vous pourriez réutiliser le même mécanisme
+        });
+
+    } catch (IOException e) {
+        showAlert(AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'éditeur d'image: " + e.getMessage());
     }
+}
+
     private void refreshImageDisplay() {
         // Recharger l'image depuis le disque pour afficher les modifications
         if (currentOeuvre != null && currentOeuvre.getImage() != null) {
@@ -96,15 +152,14 @@ public class detail implements Initializable {
             }
         }
 
-        // Set other artwork details
-        nomField.setText(t.getNom());
-        typeField.setText(t.getType());
-        descriptionField.setText(t.getDescription());
-        matiereField.setText(t.getMatiere());
-        couleurField.setText(t.getCouleur());
-        dimensionField.setText(t.getDimensions());
-        // id_userfield.setText(String.valueOf(t.getUser_id()));
-        categorieField.setText(t.getCategorie());
+        // Set other artwork details using Labels instead of TextFields
+        nomLabel.setText(t.getNom());
+        typeLabel.setText(t.getType());
+        descriptionLabel.setText(t.getDescription());
+        matiereLabel.setText(t.getMatiere());
+        couleurLabel.setText(t.getCouleur());
+        dimensionLabel.setText(t.getDimensions());
+        categorieLabel.setText(t.getCategorie());
     }
 
     @FXML
@@ -121,7 +176,7 @@ public class detail implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // Configuration pour fullscreen
-            Scene scene = new Scene(root,screenWidth,screenHeight);
+            Scene scene = new Scene(root, screenWidth, screenHeight);
             stage.setScene(scene);
 
             // Maximiser la fenêtre pour utiliser tout l'écran
@@ -145,5 +200,33 @@ public class detail implements Initializable {
     // Simple overload to maintain backward compatibility
     private void showAlert(String title, String message) {
         showAlert(AlertType.INFORMATION, title, message);
+    }
+
+    @FXML
+    public void afficherViewer3D() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PotteryViewer.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le contrôleur et lui transmettre l'oeuvre actuelle
+            PotteryViewerController controller = loader.getController();
+            if (controller != null && currentOeuvre != null) {
+                controller.setOeuvre(currentOeuvre);
+            }
+
+            // Créer une nouvelle scène
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Visualiseur 3D - " + (currentOeuvre != null ? currentOeuvre.getNom() : ""));
+
+            // Configurez la modalité pour rendre la fenêtre modale
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(AlertType.ERROR, "Erreur", "Impossible de charger le visualiseur 3D: " + e.getMessage());
+        }
     }
 }

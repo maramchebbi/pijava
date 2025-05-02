@@ -25,6 +25,7 @@ public class Test {
                     "Rouge",
                     "100x100",
                     "image.jpg",
+                    "fichier.zip",
                     "Art Moderne",
                     1, // user_id
                     collection1
@@ -44,6 +45,7 @@ public class Test {
                     "Couleur",
                     "Dimensions",
                     "Image",
+                    "fichier3d",
                     "Categorie",
                     1
             );

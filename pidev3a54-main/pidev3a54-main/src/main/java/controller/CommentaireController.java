@@ -1,17 +1,21 @@
 package controller;
 
 import Models.Commentaire;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import Models.Oeuvre;
+import java.util.Map;
+import java.util.Optional;
 import Services.CommentaireService;
 import Services.BadWordFilterService;
+import Services.TranslationService;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -25,7 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class CommentaireController {
 
@@ -130,27 +134,60 @@ public class CommentaireController {
         commentField.setWrapText(true);
         commentField.setStyle("-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #dddddd;");
 
+        // Options de langue pour la traduction
+        HBox languageOptions = new HBox(10);
+        languageOptions.setAlignment(Pos.CENTER_LEFT);
+
+        Label langLabel = new Label("Langue d'écriture:");
+        ComboBox<String> languageSelector = new ComboBox<>();
+        languageSelector.getItems().addAll("Français", "Anglais", "Espagnol", "Allemand", "Italien");
+        languageSelector.setValue("Français");
+        languageSelector.setStyle("-fx-background-radius: 4; -fx-border-radius: 4;");
+
+        languageOptions.getChildren().addAll(langLabel, languageSelector);
+
         Button submitButton = new Button("Publier");
         submitButton.setStyle("-fx-background-color: " + ACCENT_COLOR + "; -fx-text-fill: white; " +
                 "-fx-background-radius: 8; -fx-font-weight: bold; -fx-padding: 10 20;");
 
-        HBox buttonBox = new HBox();
-        buttonBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonBox.getChildren().add(submitButton);
-
         submitButton.setOnAction(e -> {
             String content = commentField.getText().trim();
             if (!content.isEmpty()) {
-                addComment(oeuvre, content, commentsContainer);
-                commentField.clear();
+                String selectedLanguage = languageSelector.getValue();
+                String langCode = getLanguageCode(selectedLanguage);
+
+                if (!"fr".equals(langCode)) {
+                    submitButton.setDisable(true);
+                    submitButton.setText("Traduction...");
+
+                    CompletableFuture.supplyAsync(() -> {
+                        try {
+                            return TranslationService.translate(content, langCode, "fr");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            return content;
+                        }
+                    }).thenAccept(translatedContent -> {
+                        Platform.runLater(() -> {
+                            addComment(oeuvre, translatedContent, commentsContainer);
+                            commentField.clear();
+                            submitButton.setDisable(false);
+                            submitButton.setText("Publier");
+                        });
+                    });
+                } else {
+                    addComment(oeuvre, content, commentsContainer);
+                    commentField.clear();
+                }
             } else {
                 showAlert("Attention", "Le commentaire ne peut pas être vide");
             }
         });
 
-        addCommentBox.getChildren().addAll(commentField, buttonBox);
+        addCommentBox.getChildren().addAll(commentField, languageOptions, submitButton);
         return addCommentBox;
     }
+
 
     // Méthode pour créer un label de section
     private HBox createSectionLabel(String text) {
@@ -163,6 +200,7 @@ public class CommentaireController {
         box.getChildren().add(label);
         return box;
     }
+
 
     // Méthode pour créer un séparateur de section
     private HBox createSectionDivider() {
@@ -281,11 +319,15 @@ public class CommentaireController {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem editItem = new MenuItem("Modifier");
         MenuItem deleteItem = new MenuItem("Supprimer");
+        MenuItem translateItem = new MenuItem("Traduire");
 
         editItem.setOnAction(e -> showEditDialog(commentaire, container, oeuvre));
         deleteItem.setOnAction(e -> deleteComment(commentaire, container, oeuvre));
+      //  translateItem.setOnAction(e -> showTranslateDialog(commentaire.getContenu()));
+        translateItem.setOnAction(e -> showTranslateDialog(commentaire, container, oeuvre));
 
-        contextMenu.getItems().addAll(editItem, deleteItem);
+
+        contextMenu.getItems().addAll(editItem, deleteItem, translateItem);
         menuButton.setOnAction(e -> contextMenu.show(menuButton, javafx.geometry.Side.BOTTOM, 0, 0));
 
         // Créer un spacer pour pousser le menu à droite
@@ -304,6 +346,197 @@ public class CommentaireController {
         return commentBox;
     }
 
+    // Afficher la boîte de dialogue de traduction
+    // 1. Correction de la méthode showTranslateDialog
+    private void showTranslateDialog(Commentaire commentaire, VBox commentsContainer, Oeuvre oeuvre) {
+        Stage translateStage = new Stage();
+        translateStage.initModality(Modality.APPLICATION_MODAL);
+        translateStage.initStyle(StageStyle.UNDECORATED);
+
+        VBox root = new VBox(15);
+        root.setPadding(new Insets(20));
+        root.setStyle("-fx-background-color: white; -fx-background-radius: 10; " +
+                "-fx-effect: dropshadow(gaussian, #00000066, 10, 0, 0, 0);");
+
+        Label titleLabel = new Label("Traduire le commentaire");
+        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
+
+        // Sélecteur de langue cible
+        HBox langBox = new HBox(10);
+        langBox.setAlignment(Pos.CENTER_LEFT);
+
+        Label targetLangLabel = new Label("Traduire vers:");
+        ComboBox<String> targetLangSelector = new ComboBox<>();
+        targetLangSelector.getItems().addAll("Anglais", "Espagnol", "Allemand", "Italien", "Portugais", "Russe", "Chinois");
+        targetLangSelector.setValue("Anglais");
+
+        langBox.getChildren().addAll(targetLangLabel, targetLangSelector);
+
+        // Texte original
+        Label originalLabel = new Label("Texte original (Français):");
+        originalLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+
+        TextArea originalArea = new TextArea(commentaire.getContenu());
+        originalArea.setEditable(false);
+        originalArea.setWrapText(true);
+        originalArea.setPrefHeight(80);
+        originalArea.setStyle("-fx-background-color: #f8f8f8;");
+
+        // Texte traduit
+        Label translatedLabel = new Label("Traduction:");
+        translatedLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+
+        TextArea translatedArea = new TextArea("");
+        translatedArea.setPromptText("La traduction apparaîtra ici...");
+        translatedArea.setEditable(false);
+        translatedArea.setWrapText(true);
+        translatedArea.setPrefHeight(80);
+
+        // Boutons
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+        Button cancelButton = new Button("Fermer");
+        cancelButton.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #333333; " +
+                "-fx-background-radius: 5; -fx-padding: 8 15;");
+
+        Button saveButton = new Button("Sauvegarder comme nouveau");
+        saveButton.setDisable(true);
+        saveButton.setStyle("-fx-background-color: " + ACCENT_COLOR + "; -fx-text-fill: white; " +
+                "-fx-background-radius: 5; -fx-padding: 8 15; -fx-font-weight: bold;");
+
+        Button translateButton = new Button("Traduire");
+        translateButton.setStyle("-fx-background-color: " + ACCENT_COLOR + "; -fx-text-fill: white; " +
+                "-fx-background-radius: 5; -fx-padding: 8 15; -fx-font-weight: bold;");
+
+        // Indicateur de progression
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setVisible(false);
+        progressIndicator.setMaxSize(24, 24);
+
+        HBox progressBox = new HBox(10, progressIndicator);
+        progressBox.setAlignment(Pos.CENTER_LEFT);
+
+        buttonBox.getChildren().addAll(progressBox, cancelButton, saveButton, translateButton);
+
+        // Ajout des composants à la racine
+        root.getChildren().addAll(
+                titleLabel,
+                langBox,
+                originalLabel, originalArea,
+                translatedLabel, translatedArea,
+                buttonBox
+        );
+
+        // Variable pour stocker la traduction
+        String[] currentTranslation = {""};
+
+        // Action du bouton Traduire
+        translateButton.setOnAction(e -> {
+            String targetLang = getLanguageCode(targetLangSelector.getValue());
+            translateButton.setDisable(true);
+            progressIndicator.setVisible(true);
+            translatedArea.setText("Traduction en cours...");
+
+            CompletableFuture.supplyAsync(() -> {
+                try {
+                    // Utiliser la source "fr" plutôt qu'auto-détection
+                    String translated = TranslationService.translate(commentaire.getContenu(), "fr", targetLang);
+                    if (translated == null || translated.isEmpty()) {
+                        throw new Exception("Réponse vide du service de traduction");
+                    }
+                    return translated;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Platform.runLater(() -> {
+                        showAlert("Erreur", "Échec de la traduction: " + ex.getMessage());
+                    });
+                    return null;
+                }
+            }).thenAccept(translatedText -> {
+                Platform.runLater(() -> {
+                    progressIndicator.setVisible(false);
+                    if (translatedText != null) {
+                        currentTranslation[0] = translatedText;
+                        translatedArea.setText(translatedText);
+                        saveButton.setDisable(false);
+
+                        // Effet visuel
+                        translatedArea.setStyle("-fx-background-color: #f0fff0;");
+                        new Timeline(new KeyFrame(Duration.seconds(2),
+                                ev -> translatedArea.setStyle("-fx-background-color: white;")))
+                                .play();
+                    } else {
+                        translatedArea.setText("Échec de la traduction. Veuillez réessayer.");
+                    }
+                    translateButton.setDisable(false);
+                });
+            });
+        });
+
+        // Action du bouton Sauvegarder
+        saveButton.setOnAction(e -> {
+            if (!currentTranslation[0].isEmpty()) {
+                try {
+                    // Créer un nouveau commentaire avec la traduction plutôt que de modifier l'original
+                    Commentaire newComment = new Commentaire(
+                            currentTranslation[0],
+                            commentaire.getUserId(),
+                            oeuvre
+                    );
+
+                    // Ajouter un indicateur que c'est une traduction
+                    String langueName = targetLangSelector.getValue();
+                    newComment.setContenu("[" + langueName + "] " + currentTranslation[0]);
+
+                    // Ajouter comme nouveau commentaire
+                    commentaireService.add(newComment);
+
+                    // Recharger les commentaires
+                    loadComments(oeuvre, commentsContainer);
+                    showAlert("Succès", "Traduction ajoutée comme nouveau commentaire");
+                    translateStage.close();
+                } catch (SQLException ex) {
+                    showAlert("Erreur", "Échec de la sauvegarde: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        // Action du bouton Fermer
+        cancelButton.setOnAction(e -> {
+            if (!saveButton.isDisabled() && !currentTranslation[0].isEmpty()) {
+                Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmDialog.setTitle("Traduction non sauvegardée");
+                confirmDialog.setHeaderText("Voulez-vous vraiment fermer sans sauvegarder?");
+                confirmDialog.setContentText("La traduction sera perdue.");
+
+                Optional<ButtonType> result = confirmDialog.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    translateStage.close();
+                }
+            } else {
+                translateStage.close();
+            }
+        });
+
+        Scene scene = new Scene(root, 500, 450);
+        translateStage.setScene(scene);
+        translateStage.showAndWait();
+    }
+    // Nouvelle méthode helper pour les codes langue
+    private String getLanguageCode(String languageName) {
+        return switch (languageName) {
+            case "Anglais" -> "en";
+            case "Espagnol" -> "es";
+            case "Allemand" -> "de";
+            case "Italien" -> "it";
+            case "Portugais" -> "pt";
+            case "Russe" -> "ru";
+            case "Chinois" -> "zh";
+            default -> "fr"; // Par défaut français
+        };
+    }
     // Créer un avatar pour l'utilisateur
     private StackPane createUserAvatar(String userName) {
         StackPane avatar = new StackPane();
