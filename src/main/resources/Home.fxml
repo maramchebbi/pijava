@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1550.0" stylesheets="@styles/dashboardDesign.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+
+    <!-- Top navigation bar inspirée de Freshy -->
+    <top>
+        <HBox alignment="CENTER" styleClass="top-bar-freshy">
+            <!-- Logo à gauche -->
+            <HBox alignment="CENTER_LEFT" styleClass="logo-area" HBox.hgrow="ALWAYS">
+                <Label styleClass="freshy-logo-text" text="EventPro" />
+            </HBox>
+
+            <!-- Menu principal au centre -->
+            <HBox alignment="CENTER" spacing="35" styleClass="freshy-menu">
+                <MenuButton styleClass="freshy-menu-item, freshy-menu-active" text="Événements">
+                    <items>
+                        <MenuItem onAction="#handleAfficherEvent" text="Afficher événements" />
+                        <MenuItem onAction="#handleAjouterEvent" text="Ajouter événement" />
+                        <MenuItem onAction="#handleModifierEvent" text="Modifier événement" />
+                    </items>
+                </MenuButton>
+                <MenuButton styleClass="freshy-menu-item" text="Sponsors">
+                    <items>
+                        <MenuItem onAction="#handleAfficherSponsor" text="Afficher sponsors" />
+                        <MenuItem onAction="#handleAjouterSponsor" text="Ajouter sponsor" />
+                        <MenuItem onAction="#handleModifierSponsor" text="Modifier sponsor" />
+                    </items>
+                </MenuButton>
+                <MenuButton styleClass="freshy-menu-item" text="Participants">
+                    <items>
+                        <MenuItem onAction="#handleParticipations" text="Afficher participations" />
+                    </items>
+                </MenuButton>
+                <MenuButton styleClass="freshy-menu-item" text="Recommandations">
+                    <items>
+                        <MenuItem onAction="#handleAfficherRecommendations" text="Afficher recommandations" />
+                    </items>
+                </MenuButton>
+                <MenuButton styleClass="freshy-menu-item" text="Textile">
+                    <items>
+                        <MenuItem onAction="#handleAfficherTextile" text="Textiles" />
+                        <MenuItem onAction="#handleAfficherCollection" text="Collections" />
+                    </items>
+                </MenuButton>
+                <MenuButton styleClass="freshy-menu-item" text="Ceramique">
+                    <items>
+                        <MenuItem onAction="#handleAfficherCeramique" text="Afficher céramique" />
+                    </items>
+                </MenuButton>
+            </HBox>
+
+            <!-- Buttons area à droite (style inspiré de navbar.fxml) -->
+            <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-padding: 0 20 0 0;" HBox.hgrow="ALWAYS">
+
+                <!-- Buttons cachés (contrôles par le popup settings) -->
+                <Button fx:id="reclamationButton" onAction="#handleAfficherFrontReclamation" style="-fx-background-color: white; -fx-text-fill: #e67e22; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" styleClass="nav-button" text="Réclamations" visible="false">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <Image url="@image/claim_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="profileButton" onAction="#handleAfficherProfile" style="-fx-background-color: white; -fx-text-fill: #8e44ad; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" styleClass="nav-button" text="Profile" visible="false">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <Image url="@image/profile_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <!-- Dashboard Button (visible for admin only) -->
+                <Button fx:id="dashboardButton" onAction="#handleShowUsers" style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" styleClass="nav-button" text="Dashboard">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <Image url="@image/dashboard_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <!-- Settings Button -->
+                <Button fx:id="settingsButton" onAction="#handleShowSettings" style="-fx-background-color: white; -fx-text-fill: #27ae60; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" styleClass="nav-button" text="Paramètres">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                            <Image url="@image/settings_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </HBox>
+    </top>
+
+
+    <!-- Contenu principal avec layout inspiré de Freshy -->
+    <center>
+
+        <StackPane styleClass="freshy-content-area">
+            <HBox>
+                <!-- Zone de contenu principale (à gauche) -->
+                <VBox styleClass="freshy-main-content" HBox.hgrow="ALWAYS">
+
+                    <!-- Zone de contenu dynamique -->
+                    <AnchorPane fx:id="contentArea" styleClass="freshy-dynamic-content" VBox.vgrow="ALWAYS">
+                        <!-- Contenu par défaut (image centrale comme dans Freshy) -->
+                        <VBox fx:id="welcomeContent" alignment="CENTER" styleClass="freshy-default-content" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <StackPane styleClass="freshy-featured-image-container">
+                                <Circle radius="150" styleClass="freshy-plate-circle" />
+                                <!-- Ici, on remplacerait par une image d'événement -->
+                                <Label styleClass="freshy-featured-icon" text="📅">
+                                    <font>
+                                        <Font size="80.0" />
+                                    </font>
+                                </Label>
+                            </StackPane>
+                        </VBox>
+                    </AnchorPane>
+                </VBox>
+            </HBox>
+            <!-- Deuxième couche: Le bouton chat (flottant) -->
+            <AnchorPane pickOnBounds="false" prefHeight="686.0" prefWidth="1548.0">
+                <Button fx:id="chatButton" layoutX="1488.0" layoutY="34.0" style="-fx-background-color: linear-gradient(to bottom right, #cdb513, #6e3d38);                            -fx-background-radius: 50%; -fx-min-width: 60px; -fx-min-height: 60px;                            -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);">
+                    <graphic>
+                        <ImageView fitHeight="28" fitWidth="28" preserveRatio="true">
+                            <image>
+                                <Image url="@image/chat_icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </AnchorPane>
+            <!-- Loading indicator overlay -->
+            <StackPane fx:id="loadingIndicator" styleClass="loading-container" visible="false">
+                <StackPane styleClass="loading-background" />
+                <VBox alignment="CENTER" spacing="15" styleClass="loading-content">
+                    <ProgressIndicator styleClass="loading-spinner" />
+                    <Label styleClass="loading-text" text="Chargement..." />
+                </VBox>
+            </StackPane>
+        </StackPane>
+    </center>
+
+</BorderPane>

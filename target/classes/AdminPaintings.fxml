@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefWidth="900" prefHeight="640"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AdminPaintingsController"
+            styleClass="admin-module">
+
+    <VBox spacing="15" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+
+        <!-- Filtres et recherche -->
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="admin-filters-bar">
+            <!-- Recherche -->
+            <TextField fx:id="searchField" promptText="Rechercher une peinture..." styleClass="admin-search-field" HBox.hgrow="ALWAYS" />
+
+            <!-- Filtre par style -->
+            <Label text="Filtrer par style:" styleClass="admin-filter-label" />
+            <ComboBox fx:id="styleFilterComboBox" promptText="Tous les styles" styleClass="admin-combo-box" prefWidth="180" />
+
+            <!-- Filtre par date -->
+            <Label text="Trier par:" styleClass="admin-filter-label" />
+            <ComboBox fx:id="sortComboBox" promptText="Date (récent)" styleClass="admin-combo-box" prefWidth="140" />
+
+            <!-- Bouton d'ajout -->
+            <Button text="➕ Nouvelle peinture" onAction="#handleAddPainting" styleClass="admin-action-btn" />
+        </HBox>
+
+        <!-- Tableau des peintures -->
+        <TableView fx:id="paintingsTable" VBox.vgrow="ALWAYS" styleClass="admin-table">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="60" />
+                <TableColumn fx:id="thumbnailColumn" text="Aperçu" prefWidth="100" />
+                <TableColumn fx:id="titleColumn" text="Titre" prefWidth="200" />
+                <TableColumn fx:id="styleColumn" text="Style" prefWidth="150" />
+                <TableColumn fx:id="dateColumn" text="Date de création" prefWidth="150" />
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="200" />
+            </columns>
+        </TableView>
+
+        <!-- Barre de statut -->
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="admin-status-bar">
+            <Label text="Nombre total:" styleClass="admin-status-label" />
+            <Label fx:id="totalPaintingsLabel" text="0" styleClass="admin-status-value" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Pagination -->
+            <Label text="Page:" styleClass="admin-status-label" />
+            <Pagination fx:id="paintingsPagination" prefHeight="40" maxPageIndicatorCount="5" />
+        </HBox>
+
+        <!-- Panneau d'édition (visible en mode édition) -->
+        <VBox fx:id="editPanelVBox" visible="false" managed="false" styleClass="admin-edit-panel" spacing="15">
+            <HBox alignment="CENTER_LEFT" styleClass="admin-edit-header">
+                <Label fx:id="editPanelTitle" text="Modifier la peinture" styleClass="admin-edit-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="❌ Fermer" onAction="#closeEditPanel" styleClass="admin-close-btn" />
+            </HBox>
+
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <!-- Formulaire d'édition -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <!-- Champ titre -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Titre de la peinture" styleClass="admin-form-label" />
+                        <TextField fx:id="editTitleField" styleClass="admin-form-field" />
+                    </VBox>
+
+                    <!-- Champ style -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Style artistique" styleClass="admin-form-label" />
+                        <ComboBox fx:id="editStyleComboBox" styleClass="admin-combo-box" prefWidth="300" />
+                    </VBox>
+
+                    <!-- Champ date -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Date de création" styleClass="admin-form-label" />
+                        <DatePicker fx:id="editDatePicker" styleClass="admin-form-field" prefWidth="300" />
+                    </VBox>
+
+                    <!-- Champ image -->
+                    <VBox spacing="5" styleClass="admin-form-group">
+                        <Label text="Image" styleClass="admin-form-label" />
+                        <HBox spacing="10">
+                            <TextField fx:id="editImagePathField" styleClass="admin-form-field" HBox.hgrow="ALWAYS" />
+                            <Button text="📁" onAction="#handleBrowseImage" styleClass="admin-browse-btn" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Boutons d'action -->
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button text="❌ Annuler" onAction="#closeEditPanel" styleClass="admin-cancel-btn" />
+                        <Button text="✅ Enregistrer" onAction="#handleSaveEdits" styleClass="admin-save-btn" />
+                    </HBox>
+                </VBox>
+
+                <!-- Prévisualisation image -->
+                <VBox spacing="10" alignment="CENTER" prefWidth="250">
+                    <Label text="Prévisualisation" styleClass="admin-form-label" />
+                    <StackPane styleClass="admin-image-preview-container">
+                        <ImageView fx:id="editImagePreview" fitHeight="180" fitWidth="220" preserveRatio="true" />
+                    </StackPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </VBox>
+</AnchorPane>

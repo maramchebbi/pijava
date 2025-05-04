@@ -1,0 +1,380 @@
+/* menu.css - Styles améliorés pour l'application Artisfera */
+
+/* Variables de couleurs */
+* {
+    -primary-color: #512da8;
+    -primary-light: #9575cd;
+    -primary-dark: #311b92;
+    -accent-color: #43a047;
+    -accent-dark: #2e7d32;
+    -error-color: #e53935;
+    -background-gradient-start: #2c5877;
+    -background-gradient-end: #356d75;
+    -white-transparent: rgba(255,255,255,0.93);
+    -menu-hover: rgba(149, 117, 205, 0.1);
+    -menu-active: rgba(149, 117, 205, 0.2);
+}
+
+/* Style global de l'application */
+.main-container {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, -background-gradient-start, -background-gradient-end);
+}
+
+/* Style du conteneur menu latéral */
+.sidebar {
+    -fx-background-color: -white-transparent;
+    -fx-background-radius: 0 20 20 0;
+    -fx-padding: 25 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);
+    -fx-spacing: 18;
+}
+
+/* Style du conteneur de logo */
+.logo-container {
+    -fx-padding: 5 0 20 0;
+}
+
+/* Cercle autour du logo */
+.logo-circle {
+    -fx-background-color: -primary-light;
+    -fx-background-radius: 50%;
+    -fx-min-height: 48;
+    -fx-min-width: 48;
+    -fx-max-height: 48;
+    -fx-max-width: 48;
+    -fx-alignment: center;
+}
+
+/* Style de l'emoji logo */
+.logo-emoji {
+    -fx-font-size: 26px;
+    -fx-text-fill: white;
+}
+
+/* Style du titre du menu */
+.menu-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-color;
+}
+
+/* Titre des sections du menu */
+.menu-section-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #78909c;
+    -fx-padding: 10 0 0 5;
+}
+
+/* Style des boutons du menu */
+.menu-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -primary-color;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-pref-width: 240;
+}
+
+/* Style du bouton actif */
+.menu-btn-active {
+    -fx-background-color: -menu-active;
+    -fx-border-color: -primary-light;
+    -fx-border-width: 0 0 0 3;
+    -fx-text-fill: -primary-dark;
+}
+
+/* Effet hover sur les boutons */
+.menu-btn:hover {
+    -fx-background-color: -menu-hover;
+    -fx-cursor: hand;
+}
+
+/* Style pour le conteneur de profil utilisateur */
+.user-profile-container {
+    -fx-background-color: rgba(149, 117, 205, 0.1);
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+    -fx-margin: 0 0 10 0;
+}
+
+/* Avatar utilisateur */
+.user-avatar {
+    -fx-background-color: -primary-light;
+    -fx-background-radius: 50%;
+    -fx-min-height: 36;
+    -fx-min-width: 36;
+    -fx-max-height: 36;
+    -fx-max-width: 36;
+    -fx-alignment: center;
+}
+
+.user-avatar Label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+}
+
+/* Nom d'utilisateur */
+.user-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-dark;
+}
+
+/* Rôle utilisateur */
+.user-role {
+    -fx-font-size: 12px;
+    -fx-text-fill: #757575;
+}
+
+/* Style du bouton déconnexion */
+.logout-btn {
+    -fx-background-color: -error-color;
+    -fx-background-radius: 12;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 15;
+    -fx-pref-width: 200;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.1, 0, 2);
+}
+
+.logout-btn:hover {
+    -fx-background-color: derive(-error-color, -10%);
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.1, 0, 2);
+}
+
+/* Style pour les séparateurs */
+.menu-separator {
+    -fx-background-color: -primary-light;
+    -fx-opacity: 0.6;
+}
+
+/* Style du conteneur de contenu principal */
+.main-content-container {
+    -fx-spacing: 15;
+    -fx-padding: 20;
+}
+
+/* Container pour le titre de la page */
+.page-title-container {
+    -fx-background-color: -white-transparent;
+    -fx-background-radius: 15;
+    -fx-padding: 15 25;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.2, 0, 3);
+}
+
+/* Titre de la page courante */
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-dark;
+}
+
+/* Wrapper pour le contenu */
+.content-wrapper {
+    -fx-background-color: transparent;
+}
+
+/* Style du contenu principal */
+.content-pane {
+    -fx-background-color: transparent;
+}
+
+/* Styles pour les formulaires */
+.form-container {
+    -fx-background-color: -white-transparent;
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);
+}
+
+.form-title {
+    -fx-fill: -primary-color;
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+}
+
+.form-field {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -primary-light;
+    -fx-padding: 10;
+}
+
+.form-button {
+    -fx-background-color: -accent-color;
+    -fx-background-radius: 12;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.1, 0, 2);
+}
+
+.form-button:hover {
+    -fx-background-color: -accent-dark;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.1, 0, 2);
+}
+
+.error-message {
+    -fx-text-fill: -error-color;
+    -fx-font-size: 11px;
+}
+
+.success-message {
+    -fx-text-fill: -accent-color;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Variables de couleurs */
+* {
+    -primary-color: #512da8;
+    -primary-light: #9575cd;
+    -primary-dark: #311b92;
+    -accent-color: #43a047;
+    -accent-dark: #2e7d32;
+    -error-color: #e53935;
+    -background-gradient-start: #2c5877;
+    -background-gradient-end: #356d75;
+    -white-transparent: rgba(255,255,255,0.93);
+    -menu-hover: rgba(149, 117, 205, 0.1);
+    -menu-active: rgba(149, 117, 205, 0.2);
+}
+
+/* Style global de l'application */
+.main-container {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, -background-gradient-start, -background-gradient-end);
+}
+
+/* Style du conteneur menu latéral */
+.sidebar {
+    -fx-background-color: -white-transparent;
+    -fx-background-radius: 20;
+    -fx-padding: 0 20 0 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);
+    -fx-spacing: 18;
+}
+
+/* Style du conteneur de logo */
+.logo-container {
+    -fx-padding: 5 0 20 0;
+}
+
+/* Cercle autour du logo */
+.logo-circle {
+    -fx-background-color: -primary-light;
+    -fx-background-radius: 50%;
+    -fx-min-height: 48;
+    -fx-min-width: 48;
+    -fx-max-height: 48;
+    -fx-max-width: 48;
+    -fx-alignment: center;
+}
+
+/* Style de l'emoji logo */
+.logo-emoji {
+    -fx-font-size: 26px;
+    -fx-text-fill: white;
+}
+
+/* Style du titre du menu */
+.menu-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-color;
+}
+
+/* Titre des sections du menu */
+.menu-section-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #78909c;
+    -fx-padding: 10 0 0 5;
+}
+
+/* Style des boutons du menu */
+.menu-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -primary-color;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-pref-width: 240;
+}
+
+/* Style du bouton actif */
+.menu-btn-active {
+    -fx-background-color: -menu-active;
+    -fx-border-color: -primary-light;
+    -fx-border-width: 0 0 0 3;
+    -fx-text-fill: -primary-dark;
+}
+
+/* Effet hover sur les boutons */
+.menu-btn:hover {
+    -fx-background-color: -menu-hover;
+    -fx-cursor: hand;
+}
+
+/* Style du bouton déconnexion */
+.logout-btn {
+    -fx-background-color: -error-color;
+    -fx-background-radius: 12;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 15;
+    -fx-pref-width: 200;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0.1, 0, 2);
+}
+
+.logout-btn:hover {
+    -fx-background-color: derive(-error-color, -10%);
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.1, 0, 2);
+}
+
+/* Style pour les séparateurs */
+.menu-separator {
+    -fx-background-color: -primary-light;
+    -fx-opacity: 0.6;
+}
+
+/* Style du conteneur de contenu principal */
+.main-content-container {
+    -fx-spacing: 15;
+    -fx-padding: 20;
+}
+
+/* Titre de la page courante */
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-dark;
+}
+
+/* Style du contenu principal */
+.content-pane {
+    -fx-background-color: transparent;
+}
+
+.sidebar {
+    -fx-background-color: rgba(255,255,255,0.93);
+    -fx-background-radius: 20; /* Tous les coins sont arrondis à 20px */
+    -fx-padding: 15 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 4, 4);
+}

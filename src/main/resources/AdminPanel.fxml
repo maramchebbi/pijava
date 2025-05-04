@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<BorderPane fx:id="adminRoot" prefWidth="1200" prefHeight="700"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AdminPanelController"
+            styleClass="admin-container">
+
+    <stylesheets>
+        <URL value="@/admin.css" />
+    </stylesheets>
+    <top>
+        <fx:include source="Navbar.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+    </top>
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <!-- Barre latérale -->
+    <left>
+        <StackPane>
+            <VBox fx:id="adminSidebarVBox" spacing="15" alignment="TOP_CENTER"
+                  prefWidth="250" minHeight="640" maxHeight="640"
+                  styleClass="admin-sidebar">
+
+                <!-- En-tête admin -->
+                <HBox alignment="CENTER" spacing="12" styleClass="admin-logo-container">
+                    <StackPane styleClass="admin-logo-circle">
+                        <Label text="⚙️" styleClass="logo-emoji" />
+                    </StackPane>
+                    <Label text="Administration" styleClass="admin-title" />
+                </HBox>
+
+                <Separator styleClass="admin-separator" />
+
+                <!-- Section Dashboard -->
+                <Button text="📊 Dashboard" onAction="#goToDashboard" styleClass="admin-menu-btn"/>
+
+                <!-- Section Contenu -->
+                <Label text="GESTION CONTENU" styleClass="admin-section-title" />
+                <Button text="🖼 Gérer peintures" onAction="#goToPaintingsAdmin" styleClass="admin-menu-btn, admin-menu-btn-active"/>
+                <Button text="🎨 Gérer styles" onAction="#goToStylesAdmin" styleClass="admin-menu-btn"/>
+
+                <!-- Espace pour pousser vers le bas -->
+                <Region VBox.vgrow="ALWAYS" />
+
+                <!-- Footer du menu -->
+                <HBox alignment="CENTER" styleClass="admin-user-info">
+                    <Label text="Admin: " styleClass="admin-user-label" />
+                    <Label fx:id="adminNameLabel" text="Utilisateur" styleClass="admin-user-value" />
+                </HBox>
+
+                <!-- Retour à l'application normale -->
+                <Button text="🔙 Retour à l'application" onAction="#goToMainApp" styleClass="back-btn"/>
+            </VBox>
+        </StackPane>
+    </left>
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox spacing="15" styleClass="admin-content-container">
+            <!-- En-tête du contenu -->
+            <HBox alignment="CENTER_LEFT" styleClass="admin-header">
+                <Label fx:id="pageTitleLabel" text="Gestion des peintures" styleClass="admin-page-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="🔄 Actualiser" onAction="#refreshContent" styleClass="refresh-btn" />
+            </HBox>
+
+            <!-- Zone de contenu -->
+            <StackPane VBox.vgrow="ALWAYS" styleClass="admin-content-pane">
+                <AnchorPane fx:id="adminContentPane" />
+            </StackPane>
+        </VBox>
+    </center>
+
+</BorderPane>

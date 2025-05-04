@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox fx:id="navbarContainer" alignment="CENTER_LEFT" prefHeight="90.0" spacing="15.0" style="-fx-background-color: linear-gradient(to right, #2980b9, #3498db); -fx-padding: 0 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NavbarController">
+    <children>
+        <!-- Logo avec effet verre -->
+        <StackPane prefWidth="97.0">
+            <children>
+                <ImageView fx:id="logoImage" fitHeight="64.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@image/logo.png" />
+                    </image>
+                </ImageView>
+                <Circle radius="36.0" stroke="WHITE" style="-fx-fill: rgba(255,255,255,0.2);" />
+               <Button fx:id="frontButton" onAction="#handleGoToFront" prefHeight="82.0" prefWidth="80.0" style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 50%; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);">
+                   <graphic>
+                       <VBox alignment="CENTER" spacing="3">
+                           <ImageView fitHeight="50.0" fitWidth="59.0" preserveRatio="true">
+                               <image>
+                                   <Image url="@image/home_icon.png" />
+                               </image>
+                           </ImageView>
+                           <Text style="-fx-fill: #2c3e50; -fx-font-weight: bold; -fx-font-size: 10px;" text="ACCUEIL" />
+                       </VBox>
+                   </graphic>
+               </Button>
+            </children>
+        </StackPane>
+
+        <!-- Nouveau bouton Front avec design amélioré - NOUVEAU PLACEMENT après le logo -->
+        <StackPane />
+
+        <!-- Titre de l'application avec meilleure typographie -->
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-weight: bold;" text="User Management System">
+            <font>
+                <Font name="Segoe UI Semibold" size="22.0" />
+            </font>
+            <effect>
+                <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+            </effect>
+        </Text>
+
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="usersButton" onAction="#navigateToUsers" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                    <image>
+                        <Image url="@image/user-icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <text>Utilisateurs</text>
+        </Button>
+
+        <!-- Bouton de redirection vers la page des réclamations -->
+        <Button fx:id="claimsButton" onAction="#navigateToReclamations" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #e67e22; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                    <image>
+                        <Image url="@image/2253934.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <text>Réclamations</text>
+        </Button>
+
+        <!-- Bouton de redirection vers la page de peinture (AdminPanel) -->
+        <Button fx:id="paintButton" onAction="#navigateToPeinture" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: #8e44ad; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                    <image>
+                        <Image url="@image/paint-icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <text>Peinture</text>
+        </Button>
+
+        <!-- Nom d'utilisateur avec meilleur style -->
+        <Label fx:id="userNameLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="John Doe">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+            <effect>
+                <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+            </effect>
+        </Label>
+
+        <!-- Avatar de l'utilisateur avec design moderne -->
+        <StackPane>
+            <children>
+                <Circle fx:id="userAvatar" radius="27.0" style="-fx-fill: rgba(255,255,255,0.2); -fx-stroke: white; -fx-stroke-width: 2; -fx-cursor: hand;" />
+                <Text fx:id="userInitials" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="JD">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                    <effect>
+                        <DropShadow color="rgba(0,0,0,0.3)" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Text>
+                <Button fx:id="btnMonProfil" onAction="#handleVoirMonProfil" prefHeight="58.0" prefWidth="63.0" style="-fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-font-size: 13px; -fx-background-radius: 20; -fx-padding: 8 15; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);" text="" />
+            </children>
+        </StackPane>
+        <Button fx:id="btnLogout" onAction="#handleLogout" style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 50%; -fx-min-width: 40px; -fx-min-height: 40px; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);">
+            <graphic>
+                <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                    <image>
+                        <Image url="@image/4400828.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
+    <effect>
+        <DropShadow color="rgba(0,0,0,0.3)" height="10.0" radius="4.5" width="10.0" />
+    </effect>
+</HBox>
